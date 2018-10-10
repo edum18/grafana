@@ -14,7 +14,7 @@
 		<i class="fa fa-chevron-right"></i>
 	</button>
 
-  <button class="btn navbar-button navbar-button--zoom" bs-tooltip="'Time range zoom out <br> CTRL+Z'" data-placement="bottom" ng-click='ctrl.zoom(2)'>
+  <button class="btn navbar-button navbar-button--zoom" bs-tooltip="'Zoom out no período de tempo <br> CTRL+Z'" data-placement="bottom" ng-click='ctrl.zoom(2)'>
 		<i class="fa fa-search-minus"></i>
 	</button>
 
@@ -25,9 +25,9 @@
 
 <div ng-if="ctrl.isOpen" class="gf-timepicker-dropdown">
   <form name="timeForm" class="gf-timepicker-absolute-section">
-    <h3 class="section-heading">Custom range</h3>
+    <h3 class="section-heading">Datas personalizadas</h3>
 
-    <label class="small">From:</label>
+    <label class="small">Desde:</label>
     <div class="gf-form-inline">
       <div class="gf-form max-width-28">
         <input type="text" class="gf-form-input input-large" ng-model="ctrl.editTimeRaw.from" input-datetime>
@@ -44,7 +44,7 @@
     </div>
 
 
-    <label class="small">To:</label>
+    <label class="small">Até:</label>
     <div class="gf-form-inline">
       <div class="gf-form max-width-28">
         <input type="text" class="gf-form-input input-large" ng-model="ctrl.editTimeRaw.to" input-datetime>
@@ -60,19 +60,19 @@
       <datepicker ng-model="ctrl.absolute.toJs" class="gf-timepicker-component" show-weeks="false" starting-day="ctrl.firstDayOfWeek" ng-change="ctrl.absoluteToChanged()"></datepicker>
     </div>
 
-    <label class="small">Refreshing every:</label>
+    <label class="small">Atualizar a cada:</label>
     <div class="gf-form-inline">
       <div class="gf-form max-width-28">
         <select ng-model="ctrl.refresh.value" class="gf-form-input input-medium" ng-options="f.value as f.text for f in ctrl.refresh.options"></select>
       </div>
       <div class="gf-form">
-        <button type="submit" class="btn gf-form-btn btn-secondary" ng-click="ctrl.applyCustom();" ng-disabled="!timeForm.$valid">Apply</button>
+        <button type="submit" class="btn gf-form-btn btn-secondary" ng-click="ctrl.applyCustom();" ng-disabled="!timeForm.$valid">Aplicar</button>
       </div>
     </div>
   </form>
 
   <div class="gf-timepicker-relative-section">
-    <h3 class="section-heading">Quick ranges</h3>
+    <h3 class="section-heading">Datas rápidas</h3>
     <ul ng-repeat="group in ctrl.timeOptions">
       <li bindonce ng-repeat='option in group' ng-class="{active: option.active}">
         <a ng-click="ctrl.setRelativeFilter(option)" bo-text="option.display"></a>

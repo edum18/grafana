@@ -161,9 +161,9 @@ export default class TimePicker extends PureComponent<any, any> {
     return (
       <div ref={this.dropdownRef} className="gf-timepicker-dropdown">
         <div className="gf-timepicker-absolute-section">
-          <h3 className="section-heading">Custom range</h3>
+          <h3 className="section-heading">Datas personalizadas</h3>
 
-          <label className="small">From:</label>
+          <label className="small">Desde:</label>
           <div className="gf-form-inline">
             <div className="gf-form max-width-28">
               <input
@@ -175,7 +175,7 @@ export default class TimePicker extends PureComponent<any, any> {
             </div>
           </div>
 
-          <label className="small">To:</label>
+          <label className="small">Até:</label>
           <div className="gf-form-inline">
             <div className="gf-form max-width-28">
               <input
@@ -201,7 +201,7 @@ export default class TimePicker extends PureComponent<any, any> {
         </div>
 
         <div className="gf-timepicker-relative-section">
-          <h3 className="section-heading">Quick ranges</h3>
+          <h3 className="section-heading">Datas rápidas</h3>
           {Object.keys(timeOptions).map(section => {
             const group = timeOptions[section];
             return (

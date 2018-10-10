@@ -178,7 +178,7 @@ export function grafanaAppDirective(playlistSrv, contextSrv, $timeout, $rootScop
         switch (search.kiosk) {
           case 'tv': {
             search.kiosk = 1;
-            appEvents.emit('alert-success', ['Press ESC to exit Kiosk mode']);
+            appEvents.emit('alert-success', ['Pressione ESC para sair do modo de visualização Kiosk']);
             break;
           }
           case 1:
