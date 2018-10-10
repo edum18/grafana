@@ -1,5 +1,6 @@
 import angular from 'angular';
 import coreModule from 'app/core/core_module';
+import { contextSrv } from '../../../core/core';
 
 export interface AttachedPanel {
   destroy();
@@ -17,7 +18,10 @@ export class PanelLoader {
 
     const compiledElem = this.$compile(template)(panelScope);
     const rootNode = angular.element(elem);
-    rootNode.append(compiledElem);
+    console.log(panel.type + ' ' + contextSrv.user.orgRole);
+    if (!(panel.type === 'pluginlist' && contextSrv.user.orgRole === 'Viewer')) {
+      rootNode.append(compiledElem);
+    }
 
     return {
       destroy: () => {

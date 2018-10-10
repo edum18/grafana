@@ -140,7 +140,7 @@ export class PanelCtrl {
   getMenu() {
     const menu = [];
     menu.push({
-      text: 'View',
+      text: 'Visualizar',
       click: 'ctrl.viewPanel();',
       icon: 'fa fa-fw fa-eye',
       shortcut: 'v',
@@ -148,7 +148,7 @@ export class PanelCtrl {
 
     if (this.dashboard.meta.canEdit) {
       menu.push({
-        text: 'Edit',
+        text: 'Editar',
         click: 'ctrl.editPanel();',
         role: 'Editor',
         icon: 'fa fa-fw fa-edit',
@@ -157,7 +157,7 @@ export class PanelCtrl {
     }
 
     menu.push({
-      text: 'Share',
+      text: 'Partilhar',
       click: 'ctrl.sharePanel();',
       icon: 'fa fa-fw fa-share',
       shortcut: 'p s',
@@ -168,7 +168,7 @@ export class PanelCtrl {
 
     const extendedMenu = this.getExtendedMenu();
     menu.push({
-      text: 'More ...',
+      text: 'Mais ...',
       click: '',
       icon: 'fa fa-fw fa-cube',
       submenu: extendedMenu,
@@ -177,7 +177,7 @@ export class PanelCtrl {
     if (this.dashboard.meta.canEdit) {
       menu.push({ divider: true, role: 'Editor' });
       menu.push({
-        text: 'Remove',
+        text: 'Remover',
         click: 'ctrl.removePanel();',
         role: 'Editor',
         icon: 'fa fa-fw fa-trash',
@@ -192,21 +192,21 @@ export class PanelCtrl {
     const menu = [];
     if (!this.fullscreen && this.dashboard.meta.canEdit) {
       menu.push({
-        text: 'Duplicate',
+        text: 'Duplicar',
         click: 'ctrl.duplicate()',
         role: 'Editor',
         shortcut: 'p d',
       });
 
       menu.push({
-        text: 'Copy',
+        text: 'Copiar',
         click: 'ctrl.copyPanel()',
         role: 'Editor',
       });
     }
 
     menu.push({
-      text: 'Panel JSON',
+      text: 'Painel em JSON',
       click: 'ctrl.editPanelJson(); dismiss();',
     });
 
@@ -272,7 +272,7 @@ export class PanelCtrl {
 
   copyPanel() {
     store.set(LS_PANEL_COPY_KEY, JSON.stringify(this.panel.getSaveModel()));
-    appEvents.emit('alert-success', ['Panel copied. Open Add Panel to paste']);
+    appEvents.emit('alert-success', ['Painel copiado. Abra "Abrir Painel" para colar']);
   }
 
   replacePanel(newPanel, oldPanel) {
