@@ -13,16 +13,16 @@ export class ShareSnapshotCtrl {
     $scope.step = 1;
 
     $scope.expireOptions = [
-      { text: '1 Hour', value: 60 * 60 },
-      { text: '1 Day', value: 60 * 60 * 24 },
-      { text: '7 Days', value: 60 * 60 * 24 * 7 },
-      { text: 'Never', value: 0 },
+      { text: '1 Hora', value: 60 * 60 },
+      { text: '1 Dia', value: 60 * 60 * 24 },
+      { text: '7 Dias', value: 60 * 60 * 24 * 7 },
+      { text: 'Nunca', value: 0 },
     ];
 
     $scope.accessOptions = [
-      { text: 'Anyone with the link', value: 1 },
-      { text: 'Organization users', value: 2 },
-      { text: 'Public on the web', value: 3 },
+      { text: 'Todos com o link', value: 1 },
+      { text: 'Utilizadores da organização', value: 2 },
+      { text: 'Público na web', value: 3 },
     ];
 
     $scope.init = () => {
