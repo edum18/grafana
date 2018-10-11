@@ -163,7 +163,7 @@ export default class TimePicker extends PureComponent<any, any> {
         <div className="gf-timepicker-absolute-section">
           <h3 className="section-heading">Datas personalizadas</h3>
 
-          <label className="small">Desde:</label>
+          <label className="">Desde:</label>
           <div className="gf-form-inline">
             <div className="gf-form max-width-28">
               <input
@@ -175,7 +175,7 @@ export default class TimePicker extends PureComponent<any, any> {
             </div>
           </div>
 
-          <label className="small">Até:</label>
+          <label className="">Até:</label>
           <div className="gf-form-inline">
             <div className="gf-form max-width-28">
               <input
@@ -195,7 +195,7 @@ export default class TimePicker extends PureComponent<any, any> {
           </div> */}
           <div className="gf-form">
             <button className="btn gf-form-btn btn-secondary" onClick={this.handleClickApply}>
-              Apply
+              Aplicar
             </button>
           </div>
         </div>

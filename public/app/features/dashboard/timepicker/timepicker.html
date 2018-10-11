@@ -27,7 +27,7 @@
   <form name="timeForm" class="gf-timepicker-absolute-section">
     <h3 class="section-heading">Datas personalizadas</h3>
 
-    <label class="small">Desde:</label>
+    <label class="">Desde:</label>
     <div class="gf-form-inline">
       <div class="gf-form max-width-28">
         <input type="text" class="gf-form-input input-large" ng-model="ctrl.editTimeRaw.from" input-datetime>
@@ -44,7 +44,7 @@
     </div>
 
 
-    <label class="small">Até:</label>
+    <label class="">Até:</label>
     <div class="gf-form-inline">
       <div class="gf-form max-width-28">
         <input type="text" class="gf-form-input input-large" ng-model="ctrl.editTimeRaw.to" input-datetime>
@@ -60,7 +60,7 @@
       <datepicker ng-model="ctrl.absolute.toJs" class="gf-timepicker-component" show-weeks="false" starting-day="ctrl.firstDayOfWeek" ng-change="ctrl.absoluteToChanged()"></datepicker>
     </div>
 
-    <label class="small">Atualizar a cada:</label>
+    <label class="">Atualizar a cada:</label>
     <div class="gf-form-inline">
       <div class="gf-form max-width-28">
         <select ng-model="ctrl.refresh.value" class="gf-form-input input-medium" ng-options="f.value as f.text for f in ctrl.refresh.options"></select>
