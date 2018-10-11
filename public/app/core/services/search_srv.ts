@@ -18,7 +18,7 @@ export class SearchSrv {
     return this.queryForRecentDashboards().then(result => {
       if (result.length > 0) {
         sections['recent'] = {
-          title: 'Recent',
+          title: 'Recentes',
           icon: 'fa fa-clock-o',
           score: -1,
           removable: true,
@@ -73,7 +73,7 @@ export class SearchSrv {
     return this.backendSrv.search({ starred: true, limit: 5 }).then(result => {
       if (result.length > 0) {
         sections['starred'] = {
-          title: 'Starred',
+          title: 'Favoritos',
           icon: 'fa fa-star-o',
           score: -2,
           expanded: this.starredIsOpen,
@@ -161,7 +161,7 @@ export class SearchSrv {
         } else {
           section = {
             id: 0,
-            title: 'General',
+            title: 'Geral',
             items: [],
             icon: 'fa fa-folder-open',
             toggle: this.toggleFolder.bind(this),

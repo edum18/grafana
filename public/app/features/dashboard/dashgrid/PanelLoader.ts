@@ -18,7 +18,6 @@ export class PanelLoader {
 
     const compiledElem = this.$compile(template)(panelScope);
     const rootNode = angular.element(elem);
-    console.log(panel.type + ' ' + contextSrv.user.orgRole);
     if (!(panel.type === 'pluginlist' && contextSrv.user.orgRole === 'Viewer')) {
       rootNode.append(compiledElem);
     }
