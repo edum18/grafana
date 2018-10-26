@@ -7,28 +7,47 @@
     <div class="login-outer-box">
       <div class="login-inner-box" id="login-view">
         <form name="loginForm" class="login-form-group gf-form-group" ng-hide="disableLoginForm">
-          <div class="login-form">
-            <input type="text" name="username" class="gf-form-input login-form-input" required ng-model='formModel.user' placeholder={{loginHint}}
-              autofocus>
+          <div>
+            <i class="fa fa-spinner fa-spin" style="font-size:24px"/>
           </div>
-          <div class="login-form">
-            <input type="password" name="password" class="gf-form-input login-form-input" required ng-model="formModel.password" id="inputPassword"
-              placeholder="password">
-          </div>
-          <div class="login-button-group">
-            <button type="submit" class="btn btn-large p-x-2" ng-if="!loggingIn" ng-click="submit();" ng-class="{'btn-inverse': !loginForm.$valid, 'btn-primary': loginForm.$valid}">
-              Log In
-            </button>
-            <button type="submit" class="btn btn-large p-x-2 btn-inverse btn-loading" ng-if="loggingIn">
-              Logging In<span>.</span><span>.</span><span>.</span>
-            </button>
-            <div class="small login-button-forgot-password">
-              <a href="user/password/send-reset-email">
-                Forgot your password?
-              </a>
+          <div style="display: none">
+            <div class="login-form">
+              <input type="text" name="username" id="inputUsername" class="gf-form-input login-form-input" required ng-model='formModel.user' placeholder={{loginHint}}
+                >
+            </div>
+            <div class="login-form">
+              <input type="password" name="password" class="gf-form-input login-form-input" required ng-model="formModel.password" id="inputPassword"
+                placeholder="password">
+            </div>
+            <div class="login-button-group">
+              <button type="submit" id="submitButton" class="btn btn-large p-x-2" ng-if="!loggingIn" ng-click="autoLogin();" ng-class="{'btn-inverse': !loginForm.$valid, 'btn-primary': loginForm.$valid}">
+                Log In
+              </button>
+              <button type="submit" class="btn btn-large p-x-2 btn-inverse btn-loading" ng-if="loggingIn">
+                Logging In<span>.</span><span>.</span><span>.</span>
+              </button>
+              <div class="small login-button-forgot-password">
+                <a href="user/password/send-reset-email">
+                  Forgot your password?
+                </a>
+              </div>
             </div>
           </div>
+
         </form>
+
+        <script type="text/javascript"> // AUTO LOGIN
+          /*setTimeout(function(){
+            angular.element('#submitButton').trigger('click');
+          }, 3000);*/
+
+          window.onload = function() {
+            // executes when complete page is fully loaded, including all frames, objects and images
+            angular.element('#submitButton').trigger('click');
+          };
+
+        </script>
+
         <div class="text-center login-divider" ng-show="oauthEnabled">
           <div>
             <div class="login-divider-line">
