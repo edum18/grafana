@@ -141,6 +141,44 @@ class GraphElement {
   }
 
   onPlotClick(event, pos, item) {
+    // mudado / adicionado
+    if (item && this.panel.redirectLink) {
+      // se item nao for null e houver link definido, entao pode haver redirect.
+      console.log(item);
+      console.log(this.panel.xaxis);
+      console.log('Link definido: ' + this.panel.redirectLink);
+      const redirectLink = this.panel.redirectLink; // exemplo: 'd/BGcqmH0iz/new-dashboard-copy3';
+
+      if (this.panel.xaxis.mode === 'time') {
+        // se for um grafico de tempo
+
+        const dateFormatOptions = { day: '2-digit', month: '2-digit', year: 'numeric' };
+        const timeFormatOptions = { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' };
+        const fullDate =
+          new Date(item.datapoint[0]).toLocaleDateString('fr-CA', dateFormatOptions) +
+          ' ' +
+          new Date(item.datapoint[0]).toLocaleTimeString('pt-PT', timeFormatOptions);
+        //console.log("data final: " + fullDate);
+        // https://stackoverflow.com/questions/2388115/get-locale-short-date-format-using-javascript
+
+        const redirectX = fullDate; // exemplo: '2018-10-22 01:00:00';
+        const redirectY = item.datapoint[1]; // exemplo: 6739
+
+        window.location.href = redirectLink + '?var-eixox=' + redirectX + '&var-eixoy=' + redirectY; // &orgId=1';
+        console.log('redirect to:' + redirectLink + '?var-eixox=' + redirectX + '&var-eixoy=' + redirectY);
+      } else if (this.panel.xaxis.mode === 'series') {
+        // se for um grafico de series (eixo x é strings)
+
+        const redirectX = item.series.alias; // exemplo: 'RCE%20-%20Fatiados';
+        const redirectY = item.datapoint[1]; // exemplo: 6739
+
+        window.location.href = redirectLink + '?var-eixox=' + redirectX + '&var-eixoy=' + redirectY; // &orgId=1';
+        console.log('redirect to:' + redirectLink + '?var-eixox=' + redirectX + '&var-eixoy=' + redirectY);
+      } else {
+        console.log('Tipo de gráfico não encontrado. Contactar suporte.');
+      }
+    }
+
     if (this.panel.xaxis.mode !== 'time') {
       // Skip if panel in histogram or series mode
       return;
