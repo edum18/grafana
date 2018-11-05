@@ -127,7 +127,7 @@ func LoginPost(c *m.ReqContext, cmd dtos.LoginCommand) Response {
 	loginUserWithUser(user, c)
 
 	result := map[string]interface{}{
-		"message": "Logged in",
+		"message": "Autenticado como " + cmd.User,
 	}
 
 	if redirectTo, _ := url.QueryUnescape(c.GetCookie("redirect_to")); len(redirectTo) > 0 {
