@@ -11,7 +11,7 @@ export class TextPanelCtrl extends PanelCtrl {
   // Set and populate defaults
   panelDefaults = {
     mode: 'markdown', // 'html', 'markdown', 'text'
-    content: '# title',
+    content: '# Título',
   };
 
   /** @ngInject */

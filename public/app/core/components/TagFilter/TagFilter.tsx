@@ -50,8 +50,8 @@ export class TagFilter extends React.Component<Props, any> {
       multi: true,
       className: 'gf-form-input gf-form-input--form-dropdown',
       placeholder: 'Tags',
-      loadingPlaceholder: 'Loading...',
-      noResultsText: 'No tags found',
+      loadingPlaceholder: 'Carregando...',
+      noResultsText: 'Sem resultados',
       optionComponent: TagOption,
     };
 

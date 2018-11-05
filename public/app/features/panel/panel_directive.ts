@@ -14,7 +14,7 @@ const panelTemplate = `
       </span>
 
       <span class="panel-loading" ng-show="ctrl.loading">
-        <i class="fa fa-spinner fa-spin"></i>
+        <i class="fa fa-spinner fa-spin" style="color: #9fb614; font-size: 29px; margin-top: 4px; margin-right: 2px;"></i>
       </span>
 
       <panel-header class="panel-title-container" panel-ctrl="ctrl"></panel-header>

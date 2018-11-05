@@ -152,12 +152,12 @@ export class DashboardCtrl implements PanelContainer {
       }
 
       this.$scope.appEvent('confirm-modal', {
-        title: 'Remove Panel',
-        text: 'Are you sure you want to remove this panel?',
+        title: 'Remover Painel',
+        text: 'Tem a certeza que quer remover este painel?',
         text2: text2,
         icon: 'fa-trash',
         confirmText: confirmText,
-        yesText: 'Remove',
+        yesText: 'Remover',
         onConfirm: () => {
           this.removePanel(panel, false);
         },

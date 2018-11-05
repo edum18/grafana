@@ -63,7 +63,7 @@ export class TimePickerCtrl {
 
     this.rangeString = rangeUtil.describeTimeRange(timeRaw);
     this.absolute = { fromJs: time.from.toDate(), toJs: time.to.toDate() };
-    this.tooltip = this.dashboard.formatDate(time.from) + ' <br>to<br>';
+    this.tooltip = this.dashboard.formatDate(time.from) + ' <br>para<br>';
     this.tooltip += this.dashboard.formatDate(time.to);
     this.timeRaw = timeRaw;
     this.isAbsolute = moment.isMoment(this.timeRaw.to);
@@ -112,7 +112,7 @@ export class TimePickerCtrl {
       }),
     };
 
-    this.refresh.options.unshift({ text: 'off' });
+    this.refresh.options.unshift({ text: 'desligado' });
     this.isOpen = true;
     this.$rootScope.appEvent('timepickerOpen');
   }
