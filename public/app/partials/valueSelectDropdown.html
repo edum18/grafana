@@ -1,6 +1,6 @@
 <div class="variable-link-wrapper">
 	<a ng-click="vm.show()" class="variable-value-link">
-		{{vm.linkText}}
+		{{vm.linkText === 'All' ? 'Todos' : vm.linkText }}
 		<span ng-repeat="tag in vm.selectedTags" bs-tooltip='tag.valuesText' data-placement="bottom">
 			<span class="label-tag"tag-color-from-name="tag.text">
 				&nbsp;&nbsp;<i class="fa fa-tag"></i>&nbsp;
@@ -15,13 +15,13 @@
 	<div class="variable-value-dropdown" ng-if="vm.dropdownVisible" ng-class="{'multi': vm.variable.multi, 'single': !vm.variable.multi}">
 		<div class="variable-options-wrapper">
 			<div class="variable-options-column">
-				<a class="variable-options-column-header" ng-if="vm.variable.multi" ng-class="{'many-selected': vm.selectedValues.length > 1}" bs-tooltip="'Clear selections'" data-placement="top" ng-click="vm.clearSelections()">
+				<a class="variable-options-column-header" ng-if="vm.variable.multi" ng-class="{'many-selected': vm.selectedValues.length > 1}" bs-tooltip="'Limpar seleções'" data-placement="top" ng-click="vm.clearSelections()">
 					<span class="variable-option-icon"></span>
-					Selected ({{vm.selectedValues.length}})
+					Selecionados ({{vm.selectedValues.length}})
 				</a>
 				<a class="variable-option pointer" ng-repeat="option in vm.search.options" ng-class="{'selected': option.selected, 'highlighted': $index === vm.highlightIndex}" ng-click="vm.selectValue(option, $event)">
 					<span class="variable-option-icon"></span>
-					<span>{{option.text}}</span>
+					<span>{{ option.text === 'All' ? 'Todos' : option.text }}</span>
 				</a>
 			</div>
 			<div class="variable-options-column" ng-if="vm.tags.length">

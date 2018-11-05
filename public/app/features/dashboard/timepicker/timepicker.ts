@@ -63,7 +63,7 @@ export class TimePickerCtrl {
 
     this.rangeString = rangeUtil.describeTimeRange(timeRaw);
     this.absolute = { fromJs: time.from.toDate(), toJs: time.to.toDate() };
-    this.tooltip = this.dashboard.formatDate(time.from) + ' <br>para<br>';
+    this.tooltip = this.dashboard.formatDate(time.from) + ' <br>até<br>';
     this.tooltip += this.dashboard.formatDate(time.to);
     this.timeRaw = timeRaw;
     this.isAbsolute = moment.isMoment(this.timeRaw.to);

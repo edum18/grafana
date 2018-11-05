@@ -62,7 +62,7 @@ const absoluteFormat = 'MMM D, YYYY HH:mm:ss';
 
 const rangeIndex = {};
 _.each(rangeOptions, frame => {
-  rangeIndex[frame.from + ' to ' + frame.to] = frame;
+  rangeIndex[frame.from + ' até ' + frame.to] = frame;
 });
 
 export function getRelativeTimesList(timepickerSettings, currentDisplay) {
@@ -122,7 +122,7 @@ export function describeTextRange(expr: any) {
       }
     }
   } else {
-    opt.display = opt.from + ' to ' + opt.to;
+    opt.display = opt.from + ' até ' + opt.to;
     opt.invalid = true;
   }
 
@@ -130,23 +130,23 @@ export function describeTextRange(expr: any) {
 }
 
 export function describeTimeRange(range) {
-  const option = rangeIndex[range.from.toString() + ' to ' + range.to.toString()];
+  const option = rangeIndex[range.from.toString() + ' até ' + range.to.toString()];
   if (option) {
     return option.display;
   }
 
   if (moment.isMoment(range.from) && moment.isMoment(range.to)) {
-    return formatDate(range.from) + ' to ' + formatDate(range.to);
+    return formatDate(range.from) + ' até ' + formatDate(range.to);
   }
 
   if (moment.isMoment(range.from)) {
     const toMoment = dateMath.parse(range.to, true);
-    return formatDate(range.from) + ' to ' + toMoment.fromNow();
+    return formatDate(range.from) + ' até ' + toMoment.fromNow();
   }
 
   if (moment.isMoment(range.to)) {
     const from = dateMath.parse(range.from, false);
-    return from.fromNow() + ' to ' + formatDate(range.to);
+    return from.fromNow() + ' até ' + formatDate(range.to);
   }
 
   if (range.to.toString() === 'now') {
@@ -154,5 +154,5 @@ export function describeTimeRange(range) {
     return res.display;
   }
 
-  return range.from.toString() + ' to ' + range.to.toString();
+  return range.from.toString() + ' até ' + range.to.toString();
 }
