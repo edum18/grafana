@@ -14,6 +14,8 @@ export class LoginCtrl {
     $scope.command = {};
     $scope.result = '';
     $scope.loggingIn = false;
+    $scope.logando = true; // se true, ta a mostrar o loading no inicio.
+    $scope.dadosEmFalta = false; // se true, ta a mostrar o loading no inicio.
 
     contextSrv.sidemenu = false;
 
@@ -149,18 +151,25 @@ export class LoginCtrl {
       const mm = today.getMonth() + 1; //January is 0!
       const yyyy = today.getFullYear();
       const todayString = (dd < 10 ? '0' + dd : dd) + '.' + (mm < 10 ? '0' + mm : mm) + '.' + yyyy;
+      console.log('Grafana: data de hoje: ' + todayString);
 
+      if (!user || !pass) {
+        // se o url nao tiver preenchido totalmente...
+        $scope.appEvent('alert-warning', ['Username ou password errada', '']);
+        console.log('Faltam dados de login, user ou pass estao a null: ', user, pass);
+        $scope.dadosEmFalta = true;
+      }
       // inserir os dados de utilizador no modelo de user tirados do url
       $scope.formModel.user = user;
       $scope.formModel.password = XORCipher.decode('acceptgrafana' + todayString, pass);
 
       $timeout(() => {
         $scope.submit();
-      }, 2000);
+      }, 1000);
     };
 
     $scope.submit = () => {
-      console.log('submit'); // funçao mudada
+      console.log('Grafana: Login submitted.'); // funçao mudada
       /*
         const usernameInput = document.getElementById('inputUsername') as HTMLInputElement;
         const inputPassword = document.getElementById('inputPassword') as HTMLInputElement;
@@ -281,6 +290,7 @@ export class LoginCtrl {
         })
         .catch(() => {
           $scope.loggingIn = false;
+          $scope.logando = false;
         });
     };
 

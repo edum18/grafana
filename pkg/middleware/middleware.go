@@ -165,7 +165,7 @@ func initContextWithBasicAuth(ctx *m.ReqContext, orgId int64) bool {
 
 	loginUserQuery := m.LoginUserQuery{Username: username, Password: password, User: user}
 	if err := bus.Dispatch(&loginUserQuery); err != nil {
-		ctx.JsonApiErr(401, "Invalid username or password", err)
+		ctx.JsonApiErr(401, "Username ou password errada", err)
 		return true
 	}
 

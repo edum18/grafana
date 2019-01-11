@@ -308,7 +308,12 @@ func GetHomeDashboard(c *m.ReqContext) Response {
 		log.Warn("Failed to get slug from database, %s", err.Error())
 	}
 
-	filePath := path.Join(setting.StaticRootPath, "dashboards/home.json")
+	var filePath string
+	if c.IsGrafanaAdmin == true {
+		filePath = path.Join(setting.StaticRootPath, "dashboards/homeAdmin.json")
+	} else {
+		filePath = path.Join(setting.StaticRootPath, "dashboards/home.json")
+	}
 	file, err := os.Open(filePath)
 	if err != nil {
 		return Error(500, "Failed to load home dashboard", err)

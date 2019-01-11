@@ -43,7 +43,7 @@
       "type": "dashlist",
       "gridPos": {
         "h": 18,
-        "w": 12,
+        "w": 8,
         "x": 0,
         "y": 2
       }
@@ -53,8 +53,8 @@
       "title": "Todos os dashboards",
       "gridPos": {
         "h": 18,
-        "w": 12,
-        "x": 12,
+        "w": 8,
+        "x": 8,
         "y": 2
       },
       "id": 4,
@@ -66,6 +66,21 @@
       "starred": false,
       "headings": false,
       "folderId": null
+    },
+    {
+      "editable": true,
+      "error": false,
+      "id": 5,
+      "links": [],
+      "title": "",
+      "transparent": false,
+      "type": "pluginlist",
+      "gridPos": {
+        "h": 18,
+        "w": 8,
+        "x": 16,
+        "y": 2
+      }
     }
   ],
   "rows": [],

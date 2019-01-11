@@ -8,7 +8,7 @@ import (
 
 var (
 	ErrEmailNotAllowed       = errors.New("Required email domain not fulfilled")
-	ErrInvalidCredentials    = errors.New("Invalid Username or Password")
+	ErrInvalidCredentials    = errors.New("Username ou password errada")
 	ErrNoEmail               = errors.New("Login provider didn't return an email address")
 	ErrProviderDeniedRequest = errors.New("Login provider denied login request")
 	ErrSignUpNotAllowed      = errors.New("Signup is not allowed for this adapter")

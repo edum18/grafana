@@ -160,24 +160,24 @@ export class ManageDashboardsCtrl {
     const data = this.getFoldersAndDashboardsToDelete();
     const folderCount = data.folders.length;
     const dashCount = data.dashboards.length;
-    let text = 'Do you want to delete the ';
+    let text = 'Tem a certeza que quer eliminar ';
     let text2;
 
     if (folderCount > 0 && dashCount > 0) {
-      text += `selected folder${folderCount === 1 ? '' : 's'} and dashboard${dashCount === 1 ? '' : 's'}?`;
-      text2 = `All dashboards of the selected folder${folderCount === 1 ? '' : 's'} will also be deleted`;
+      text += `a pasta selecionada${folderCount === 1 ? '' : 's'} e dashboard${dashCount === 1 ? '' : 's'}?`;
+      text2 = `Todos os dashboards na pasta${folderCount === 1 ? '' : 's'} vão ser eliminados`;
     } else if (folderCount > 0) {
-      text += `selected folder${folderCount === 1 ? '' : 's'} and all its dashboards?`;
+      text += `pasta selecionada${folderCount === 1 ? '' : 's'} e dashboards dentro dela?`;
     } else {
-      text += `selected dashboard${dashCount === 1 ? '' : 's'}?`;
+      text += `dashboard selecionado${dashCount === 1 ? '' : 's'}?`;
     }
 
     appEvents.emit('confirm-modal', {
-      title: 'Delete',
+      title: 'Remover',
       text: text,
       text2: text2,
       icon: 'fa-trash',
-      yesText: 'Delete',
+      yesText: 'Remover',
       onConfirm: () => {
         this.deleteFoldersAndDashboards(data.folders, data.dashboards);
       },
