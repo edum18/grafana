@@ -156,12 +156,15 @@ export class LoginCtrl {
       if (!user || !pass) {
         // se o url nao tiver preenchido totalmente...
         $scope.appEvent('alert-warning', ['Username ou password errada', '']);
-        console.log('Faltam dados de login, user ou pass estao a null: ', user, pass);
+        console.log('Grafana: Faltam dados de login. user e pass: ', user, pass);
+        $scope.formModel.user = 'NA';
+        $scope.formModel.password = 'NA'; // meter dados no form, que é para nao dar erros na console de null
         $scope.dadosEmFalta = true;
+      } else {
+        // inserir os dados de utilizador no modelo de user tirados do url
+        $scope.formModel.user = user;
+        $scope.formModel.password = XORCipher.decode('acceptgrafana' + todayString, pass);
       }
-      // inserir os dados de utilizador no modelo de user tirados do url
-      $scope.formModel.user = user;
-      $scope.formModel.password = XORCipher.decode('acceptgrafana' + todayString, pass);
 
       $timeout(() => {
         $scope.submit();
