@@ -3,6 +3,7 @@ import _ from 'lodash';
 import coreModule from 'app/core/core_module';
 import { variableTypes } from './variable';
 import { Graph } from 'app/core/utils/dag';
+import config from 'app/core/config';
 
 export class VariableSrv {
   dashboard: any;
@@ -58,6 +59,10 @@ export class VariableSrv {
   }
 
   processVariable(variable, queryParams) {
+    if (variable.type === 'thisuser') {
+      // meter o username na variavel sempre que se abre um dashboard
+      variable.query = config.bootData.user.login === 'admin' ? 'administrador' : config.bootData.user.login;
+    }
     const dependencies = [];
 
     for (const otherVariable of this.variables) {

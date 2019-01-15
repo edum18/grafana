@@ -155,6 +155,26 @@
 			</div>
 		</div>
 
+		<div ng-if="current.type === 'thisuser'" class="gf-form-group">
+			<h5 class="section-heading">Name recomendado: "LoggedUsername". Hide tem de estar "Variable".</h5>
+			<h5 class="section-heading">Não mudar as seguintes opções, a não ser que seja para testes.</h5>
+			<div class="gf-form">
+				<span class="gf-form-label">Username</span>
+				<input type="text" class="gf-form-input" ng-model='current.query' ng-blur="runQuery()" placeholder="nome"></input>
+			</div>
+			<div class="gf-form max-width-22">
+					<span class="gf-form-label width-7">
+						Refresh
+						<info-popover mode="right-normal">
+							When to update the values of this variable.
+						</info-popover>
+					</span>
+				<div class="gf-form-select-wrapper width-15">
+					<select class="gf-form-input" disabled ng-model="current.refresh" ng-options="f.value as f.text for f in refreshOptions"></select>
+				</div>
+			</div>
+		</div>
+
 		<div ng-if="current.type === 'textbox'" class="gf-form-group">
 			<h5 class="section-heading">Text options</h5>
 			<div class="gf-form">
