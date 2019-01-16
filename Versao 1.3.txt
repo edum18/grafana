@@ -1,3 +1,6 @@
+v1.3.1:
+Remoção do logger para tirar os logs desnecessários "update location".
+
 v1.3:
 Já leva uma base de dados criada e limpa.
 Nova página de entrada.
