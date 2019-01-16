@@ -1,0 +1,5 @@
+v1.3:
+Já leva uma base de dados criada e limpa.
+Nova página de entrada.
+Nova variavel de nome de utilizador. Agora depende que os metodos da api e consultas considerem nome de utilizador.
+
