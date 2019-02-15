@@ -1,3 +1,6 @@
+v1.3.2:
+username e password ja nao sao guardados no browser!
+
 v1.3.1:
 Remoção do logger para tirar os logs desnecessários "update location".
 
