@@ -23,6 +23,7 @@ const (
 	DS_ACCESS_DIRECT = "direct"
 	DS_ACCESS_PROXY  = "proxy"
 	DS_STACKDRIVER   = "stackdriver"
+	DS_AZURE_MONITOR = "grafana-azure-monitor-datasource"
 )
 
 var (
@@ -72,6 +73,7 @@ var knownDatasourcePlugins = map[string]bool{
 	DS_MYSQL:                              true,
 	DS_MSSQL:                              true,
 	DS_STACKDRIVER:                        true,
+	DS_AZURE_MONITOR:                      true,
 	"opennms":                             true,
 	"abhisant-druid-datasource":           true,
 	"dalmatinerdb-datasource":             true,
@@ -187,6 +189,26 @@ type GetDataSourceByNameQuery struct {
 }
 
 // ---------------------
-// EVENTS
-type DataSourceCreatedEvent struct {
+//  Permissions
+// ---------------------
+
+type DsPermissionType int
+
+const (
+	DsPermissionNoAccess DsPermissionType = iota
+	DsPermissionQuery
+)
+
+func (p DsPermissionType) String() string {
+	names := map[int]string{
+		int(DsPermissionQuery):    "Query",
+		int(DsPermissionNoAccess): "No Access",
+	}
+	return names[int(p)]
+}
+
+type DatasourcesPermissionFilterQuery struct {
+	User        *SignedInUser
+	Datasources []*DataSource
+	Result      []*DataSource
 }

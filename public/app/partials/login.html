@@ -2,42 +2,30 @@
   <div class="login-content">
     <div class="login-branding" style="text-shadow: none; border-right: 1px solid #243746;">
       <img class="logo-icon" src="public/img/grafana_icon.svg" alt="Grafana" />
-      <i class="icon-gf icon-gf-grafana_wordmark" style="color: #243746; text-shadow: none;"></i>
+      <div class="logo-wordmark" />
     </div>
     <div class="login-outer-box">
       <div class="login-inner-box" id="login-view">
         <form name="loginForm" class="login-form-group gf-form-group" ng-hide="disableLoginForm">
-          <div ng-if="logando && !dadosEmFalta">
-            <i class="fa fa-spinner fa-spin" style="font-size:24px; color: #a4bc15;"/>
-            <span style="color: #243746; position: relative; bottom: 4px; margin-left: 5px;">
-              Carregando analytics powered by Grafana...</span>
+          <div class="login-form">
+            <input type="text" name="username" class="gf-form-input login-form-input" required ng-model='formModel.user' placeholder={{loginHint}}
+              autofocus autofill-event-fix>
           </div>
-          <div ng-if="!logando || dadosEmFalta">
-            <i class="fa fa-warning" style="font-size:24px; color: red;"/>
-            <span style="color: #243746; position: relative; bottom: 4px; margin-left: 5px;">
-              Erro a carregar o analytics. Contacte o suporte.</span>
-            <!--<span ng-if="dadosEmFalta"></span>-->
+          <div class="login-form">
+            <input type="password" name="password" class="gf-form-input login-form-input" required ng-model="formModel.password" id="inputPassword"
+              placeholder="{{passwordHint}}">
           </div>
-          <div style="display: none">
-            <div class="login-form">
-              <!--<input type="text" name="username" id="inputUsername" class="gf-form-input login-form-input" required ng-model='formModel.user' placeholder={{loginHint}}>-->
-            </div>
-            <div class="login-form">
-              <!--<input type="password" name="password" class="gf-form-input login-form-input" required ng-model="formModel.password" id="inputPassword"-->
-                <!--placeholder="password">-->
-            </div>
-            <div class="login-button-group">
-              <button type="submit" id="submitButton" class="btn btn-large p-x-2" ng-if="!loggingIn" ng-click="autoLogin()" ng-class="{'btn-inverse': !loginForm.$valid, 'btn-primary': loginForm.$valid}">
-                Log In
-              </button>
-              <button type="submit" class="btn btn-large p-x-2 btn-inverse btn-loading" ng-if="loggingIn">
-                Logging In<span>.</span><span>.</span><span>.</span>
-              </button>
-              <div class="small login-button-forgot-password">
-                <a href="user/password/send-reset-email">
-                  Forgot your password?
-                </a>
-              </div>
+          <div class="login-button-group">
+            <button type="submit" class="btn btn-large p-x-2" ng-if="!loggingIn" ng-click="submit();" ng-class="{'btn-inverse': !loginForm.$valid, 'btn-primary': loginForm.$valid}">
+              Log In
+            </button>
+            <button type="submit" class="btn btn-large p-x-2 btn-inverse btn-loading" ng-if="loggingIn">
+              Logging In<span>.</span><span>.</span><span>.</span>
+            </button>
+            <div class="small login-button-forgot-password" ng-hide="ldapEnabled || authProxyEnabled">
+              <a href="user/password/send-reset-email">
+                Forgot your password?
+              </a>
             </div>
           </div>
 
@@ -125,7 +113,7 @@
                 If you skip you will be prompted to change password next time you login.
               </info-popover>
             </a>
-            <button type="submit" class="btn btn-large p-x-2" ng-click="changePassword();" ng-class="{'btn-inverse': !loginForm.$valid, 'btn-success': loginForm.$valid}">
+            <button type="submit" class="btn btn-large p-x-2" ng-click="changePassword();" ng-class="{'btn-inverse': !loginForm.$valid, 'btn-primary': loginForm.$valid}">
               Save
             </button>
           </div>

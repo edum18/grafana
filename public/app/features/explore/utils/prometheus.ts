@@ -27,8 +27,8 @@ export function processLabels(labels, withName = false) {
 export const cleanText = s => s.replace(/[{}[\]="(),!~+\-*/^%]/g, '').trim();
 
 // const cleanSelectorRegexp = /\{(\w+="[^"\n]*?")(,\w+="[^"\n]*?")*\}/;
-const selectorRegexp = /\{[^}]*?\}/;
-const labelRegexp = /\b\w+="[^"\n]*?"/g;
+export const selectorRegexp = /\{[^}]*?\}/;
+export const labelRegexp = /\b(\w+)(!?=~?)("[^"\n]*?")/g;
 export function parseSelector(query: string, cursorOffset = 1): { labelKeys: any[]; selector: string } {
   if (!query.match(selectorRegexp)) {
     // Special matcher for metrics
@@ -88,4 +88,10 @@ export function parseSelector(query: string, cursorOffset = 1): { labelKeys: any
   const selectorString = ['{', cleanSelector, '}'].join('');
 
   return { labelKeys, selector: selectorString };
+}
+
+export function expandRecordingRules(query: string, mapping: { [name: string]: string }): string {
+  const ruleNames = Object.keys(mapping);
+  const rulesRegex = new RegExp(`(\\s|^)(${ruleNames.join('|')})(\\s|$|\\(|\\[|\\{)`, 'ig');
+  return query.replace(rulesRegex, (match, pre, name, post) => `${pre}${mapping[name]}${post}`);
 }

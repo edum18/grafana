@@ -1,6 +1,7 @@
 import config from 'app/core/config';
 import 'app/features/plugins/datasource_srv';
 import { DatasourceSrv } from 'app/features/plugins/datasource_srv';
+import { PluginMeta } from '@grafana/ui/src/types';
 
 // Datasource variable $datasource with current value 'BBB'
 const templateSrv = {
@@ -18,29 +19,35 @@ const templateSrv = {
 describe('datasource_srv', () => {
   const _datasourceSrv = new DatasourceSrv({}, {}, {}, templateSrv);
 
-  describe('when loading explore sources', () => {
+  describe('when loading external datasources', () => {
     beforeEach(() => {
       config.datasources = {
-        explore1: {
-          name: 'explore1',
-          meta: { explore: true, metrics: true },
+        buildInDs: {
+          type: 'b',
+          name: 'buildIn',
+          meta: { builtIn: true } as PluginMeta,
+          jsonData: {},
         },
-        explore2: {
-          name: 'explore2',
-          meta: { explore: true, metrics: false },
+        nonBuildIn: {
+          type: 'e',
+          name: 'external1',
+          meta: { builtIn: false } as PluginMeta,
+          jsonData: {},
         },
         nonExplore: {
-          name: 'nonExplore',
-          meta: { explore: false, metrics: true },
+          type: 'e2',
+          name: 'external2',
+          meta: {} as PluginMeta,
+          jsonData: {},
         },
       };
     });
 
     it('should return list of explore sources', () => {
-      const exploreSources = _datasourceSrv.getExploreSources();
-      expect(exploreSources.length).toBe(2);
-      expect(exploreSources[0].name).toBe('explore1');
-      expect(exploreSources[1].name).toBe('explore2');
+      const externalSources = _datasourceSrv.getExternal();
+      expect(externalSources.length).toBe(2);
+      expect(externalSources[0].name).toBe('external1');
+      expect(externalSources[1].name).toBe('external2');
     });
   });
 
@@ -73,7 +80,7 @@ describe('datasource_srv', () => {
       },
     };
     beforeEach(() => {
-      config.datasources = unsortedDatasources;
+      config.datasources = unsortedDatasources as any;
       metricSources = _datasourceSrv.getMetricSources({});
       config.defaultDatasource = 'BBB';
     });

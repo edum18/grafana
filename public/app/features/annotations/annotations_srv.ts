@@ -5,19 +5,27 @@ import _ from 'lodash';
 import coreModule from 'app/core/core_module';
 import { makeRegions, dedupAnnotations } from './events_processing';
 
+// Types
+import { DashboardModel } from '../dashboard/state/DashboardModel';
+
 export class AnnotationsSrv {
   globalAnnotationsPromise: any;
   alertStatesPromise: any;
 
   /** @ngInject */
-  constructor(private $rootScope, private $q, private datasourceSrv, private backendSrv, private timeSrv) {
-    $rootScope.onAppEvent('refresh', this.clearCache.bind(this), $rootScope);
-    $rootScope.onAppEvent('dashboard-initialized', this.clearCache.bind(this), $rootScope);
+  constructor(private $rootScope, private $q, private datasourceSrv, private backendSrv, private timeSrv) {}
+
+  init(dashboard: DashboardModel) {
+    // always clearPromiseCaches when loading new dashboard
+    this.clearPromiseCaches();
+    // clear promises on refresh events
+    dashboard.on('refresh', this.clearPromiseCaches.bind(this));
   }
 
-  clearCache() {
+  clearPromiseCaches() {
     this.globalAnnotationsPromise = null;
     this.alertStatesPromise = null;
+    this.datasourcePromises = null;
   }
 
   getAnnotations(options) {

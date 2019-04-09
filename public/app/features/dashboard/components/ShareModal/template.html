@@ -1,0 +1,185 @@
+<div class="modal-body" ng-controller="ShareModalCtrl" ng-init="init()">
+
+	<div class="modal-header">
+		<h2 class="modal-header-title">
+			<i class="fa fa-share-square-o"></i>
+			<span class="p-l-1">{{modalTitle}}</span>
+		</h2>
+
+		<ul class="gf-tabs">
+			<li class="gf-tabs-item" ng-repeat="tab in tabs">
+				<a class="gf-tabs-link" ng-click="editor.index = $index" ng-class="{active: editor.index === $index}">
+					{{::tab.title}}
+				</a>
+			</li>
+		</ul>
+
+		<a class="modal-header-close" ng-click="dismiss();">
+			<i class="fa fa-remove"></i>
+		</a>
+	</div>
+
+	<div class="modal-content" ng-repeat="tab in tabs" ng-if="editor.index == $index">
+		<div ng-include src="tab.src" class="share-modal-body"></div>
+	</div>
+
+</div>
+
+<script type="text/ng-template" id="shareEmbed.html">
+	<div class="share-modal-header">
+		<div class="share-modal-big-icon">
+			<i class="fa fa-code"></i>
+		</div>
+		<div class="share-modal-content">
+			<div ng-include src="'shareLinkOptions.html'"></div>
+
+      <p class="share-modal-info-text">
+			 The html code below can be pasted and included in another web page. Unless anonymous access
+			 is enabled, the user viewing that page need to be signed into grafana for the graph to load.
+      </p>
+
+      <div class="gf-form-group gf-form--grow">
+				<div class="gf-form">
+					<textarea rows="5" data-share-panel-url class="gf-form-input" ng-model='iframeHtml'></textarea>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</script>
+
+<script type="text/ng-template" id="shareExport.html">
+	<dash-export-modal dismiss="dismiss()"></dash-export-modal>
+</script>
+
+<script type="text/ng-template" id="shareLinkOptions.html">
+	<div class="gf-form-group">
+		<gf-form-switch class="gf-form"
+			label="Atual período de tempo" label-class="width-12" switch-class="max-width-6"
+			checked="options.forCurrent" on-change="buildUrl()">
+		</gf-form-switch>
+		<gf-form-switch class="gf-form"
+			label="Variáveis de template" label-class="width-12" switch-class="max-width-6"
+			checked="options.includeTemplateVars" on-change="buildUrl()">
+		</gf-form-switch>
+		<div class="gf-form">
+			<span class="gf-form-label width-12">Tema</span>
+			<div class="gf-form-select-wrapper width-10">
+				<select class="gf-form-input" ng-model="options.theme" ng-options="f as f for f in ['Atual', 'Escuro', 'Claro']" ng-change="buildUrl()"></select>
+			</div>
+		</div>
+	</div>
+</script>
+
+<script type="text/ng-template" id="shareLink.html">
+	<div class="share-modal-header">
+		<div class="share-modal-big-icon">
+			<i class="fa fa-link"></i>
+		</div>
+		<div class="share-modal-content">
+			<p class="share-modal-info-text">
+				Criar um link direto para este dashboard ou painel personalizado com as opções abaixo.
+			</p>
+			<div ng-include src="'shareLinkOptions.html'"></div>
+			<div>
+				<div class="gf-form-group">
+					<div class="gf-form-inline">
+						<div class="gf-form gf-form--grow">
+							<input type="text" data-share-panel-url class="gf-form-input" ng-model="shareUrl"></input>
+						</div>
+						<div class="gf-form">
+							<button class="btn btn-inverse" clipboard-button="getShareUrl()"><i class="fa fa-clipboard"></i> Copiar</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="gf-form" ng-show="modeSharePanel">
+				<a href="{{imageUrl}}" target="_blank"><i class="fa fa-camera"></i> Link direto para renderizar como imagem</a>
+			</div>
+		</div>
+</script>
+
+<script type="text/ng-template" id="shareSnapshot.html">
+	<div class="ng-cloak" ng-cloak ng-controller="ShareSnapshotCtrl" ng-init="init()">
+		<div class="share-modal-header">
+			<div class="share-modal-big-icon">
+				<i ng-if="loading" class="fa fa-spinner fa-spin"></i>
+				<i ng-if="!loading" class="icon-gf icon-gf-snapshot"></i>
+			</div>
+      <div class="share-modal-content">
+        <div ng-if="step === 1">
+          <p class="share-modal-info-text">
+			  Uma snapshot é uma forma instantânea de partilha de um dashboard interativo público.
+			  Quando criada, são <strong>tirados dados sensíveis</strong> como queries (métricas, de template e anotações) e links de painéis,
+			  deixando apenas dados métricos e nomes de séries visíveis embebidos no dashboard.
+          </p>
+          <p class="share-modal-info-text">
+			  Lembre-se que <strong>qualquer pessoa pode visualizar uma snapshot</strong> se tiver o link.
+			  Partilhe com cuidado.
+          </p>
+        </div>
+
+				<div class="share-modal-header" ng-if="step === 3">
+					<p class="share-modal-info-text">
+						A snapshot foi agora apagada. Se já alguém acedeu a ela, pode demorar até 1 hora para ser removida das caches de browsers ou CDNs.
+					</p>
+				</div>
+
+				<div class="gf-form-group share-modal-options">
+					<div class="gf-form" ng-if="step === 1">
+						<span class="gf-form-label width-12">Nome da Snapshot</span>
+						<input type="text" ng-model="snapshot.name" class="gf-form-input max-width-15" >
+					</div>
+					<div class="gf-form" ng-if="step === 1">
+						<span class="gf-form-label width-12">Expirar</span>
+						<div class="gf-form-select-wrapper max-width-15">
+							<select class="gf-form-input" ng-model="snapshot.expires" ng-options="f.value as f.text for f in expireOptions"></select>
+						</div>
+					</div>
+
+					<div class="gf-form" ng-if="step === 2" style="margin-top: 40px">
+						<div class="gf-form-row">
+							<a href="{{snapshotUrl}}" class="large share-modal-link" target="_blank">
+								<i class="fa fa-external-link-square"></i>
+								{{snapshotUrl}}
+							</a>
+							<br>
+							<button class="btn btn-inverse" clipboard-button="getSnapshotUrl()"><i class="fa fa-clipboard"></i> Copiar Link</button>
+						</div>
+					</div>
+				</div>
+
+				<div ng-if="step === 1">
+					<p class="share-modal-info-text">
+						Poderá ter que configurar o valor de timeout se demorar muito tempo a recolher as métricas do dashboard.
+					</p>
+				</div>
+
+				<div class="gf-form-group share-modal-options">
+					<div class="gf-form" ng-if="step === 1">
+						<span class="gf-form-label width-12">Timeout (segundos)</span>
+						<input type="number" ng-model="snapshot.timeoutSeconds" class="gf-form-input max-width-15" >
+					</div>
+				</div>
+
+				<div ng-if="step === 1" class="gf-form-button-row">
+					<button class="btn gf-form-btn width-10 btn-primary" ng-click="createSnapshot()" ng-disabled="loading">
+						<i class="fa fa-save"></i>
+						Snapshot Local
+					</button>
+					<button class="btn gf-form-btn width-16 btn-secondary" ng-if="externalEnabled" ng-click="createSnapshot(true)" ng-disabled="loading">
+						<i class="fa fa-cloud-upload"></i>
+						Publicar para snapshot.raintank.io
+					</button>
+					<a class="btn btn-link" ng-click="dismiss()">Cancelar</a>
+				</div>
+
+				<div class="pull-right" ng-if="step === 2" style="padding: 5px">
+					Enganou-se? <a class="pointer" ng-click="deleteSnapshot()" target="_blank">Apagar Snapshot.</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>
+</script>

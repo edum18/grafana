@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { UserPicker } from 'app/core/components/Picker/UserPicker';
-import { TeamPicker, Team } from 'app/core/components/Picker/TeamPicker';
-import DescriptionPicker, { OptionWithDescription } from 'app/core/components/Picker/DescriptionPicker';
+import { UserPicker } from 'app/core/components/Select/UserPicker';
+import { TeamPicker, Team } from 'app/core/components/Select/TeamPicker';
+import { Select, SelectOptionItem } from '@grafana/ui';
 import { User } from 'app/types';
 import {
   dashboardPermissionLevels,
@@ -57,7 +57,7 @@ class AddPermissions extends Component<Props, NewDashboardAclItem> {
     this.setState({ teamId: team ? team.id : 0 });
   };
 
-  onPermissionChanged = (permission: OptionWithDescription) => {
+  onPermissionChanged = (permission: SelectOptionItem) => {
     this.setState({ permission: permission.value });
   };
 
@@ -80,7 +80,7 @@ class AddPermissions extends Component<Props, NewDashboardAclItem> {
   render() {
     const { onCancel } = this.props;
     const newItem = this.state;
-    const pickerClassName = 'width-20';
+    const pickerClassName = 'min-width-20';
     const isValid = this.isValid();
 
     return (
@@ -126,17 +126,16 @@ class AddPermissions extends Component<Props, NewDashboardAclItem> {
             ) : null}
 
             <div className="gf-form">
-              <DescriptionPicker
-                optionsWithDesc={dashboardPermissionLevels}
-                onSelected={this.onPermissionChanged}
-                value={newItem.permission}
-                disabled={false}
-                className={'gf-form-input--form-dropdown-right'}
+              <Select
+                isSearchable={false}
+                options={dashboardPermissionLevels}
+                onChange={this.onPermissionChanged}
+                className="gf-form-select-box__control--menu-right"
               />
             </div>
 
             <div className="gf-form">
-              <button data-save-permission className="btn btn-success" type="submit" disabled={!isValid}>
+              <button data-save-permission className="btn btn-primary" type="submit" disabled={!isValid}>
                 Save
               </button>
             </div>

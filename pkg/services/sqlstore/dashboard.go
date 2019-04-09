@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/grafana/grafana/pkg/bus"
-	"github.com/grafana/grafana/pkg/metrics"
+	"github.com/grafana/grafana/pkg/infra/metrics"
 	m "github.com/grafana/grafana/pkg/models"
 	"github.com/grafana/grafana/pkg/services/search"
 	"github.com/grafana/grafana/pkg/util"
@@ -27,7 +27,7 @@ func init() {
 	bus.AddHandler("sql", HasEditPermissionInFolders)
 }
 
-var generateNewUid func() string = util.GenerateShortUid
+var generateNewUid func() string = util.GenerateShortUID
 
 func SaveDashboard(cmd *m.SaveDashboardCommand) error {
 	return inTransaction(func(sess *DBSession) error {
@@ -325,15 +325,35 @@ func DeleteDashboard(cmd *m.DeleteDashboardCommand) error {
 			"DELETE FROM dashboard_provisioning WHERE dashboard_id = ?",
 		}
 
-		for _, sql := range deletes {
-			_, err := sess.Exec(sql, dashboard.Id)
+		if dashboard.IsFolder {
+			deletes = append(deletes, "DELETE FROM dashboard_provisioning WHERE dashboard_id in (select id from dashboard where folder_id = ?)")
+			deletes = append(deletes, "DELETE FROM dashboard WHERE folder_id = ?")
+
+			dashIds := []struct {
+				Id int64
+			}{}
+			err := sess.SQL("select id from dashboard where folder_id = ?", dashboard.Id).Find(&dashIds)
 			if err != nil {
 				return err
+			}
+
+			for _, id := range dashIds {
+				if err := deleteAlertDefinition(id.Id, sess); err != nil {
+					return nil
+				}
 			}
 		}
 
 		if err := deleteAlertDefinition(dashboard.Id, sess); err != nil {
 			return nil
+		}
+
+		for _, sql := range deletes {
+			_, err := sess.Exec(sql, dashboard.Id)
+
+			if err != nil {
+				return err
+			}
 		}
 
 		return nil

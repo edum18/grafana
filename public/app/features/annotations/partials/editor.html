@@ -9,7 +9,7 @@
 	<div ng-if="ctrl.mode === 'list'">
 		<div class="page-action-bar" ng-if="ctrl.annotations.length > 1">
 			<div class="page-action-bar__spacer"></div>
-			<a type="button" class="btn btn-success" ng-click="ctrl.setupNew();"><i class="fa fa-plus" ></i> New</a>
+			<a type="button" class="btn btn-primary" ng-click="ctrl.setupNew();"><i class="fa fa-plus" ></i> New</a>
 		</div>
 
 		<table class="filter-table filter-table--hover">
@@ -36,7 +36,7 @@
 					<td style="width: 1%"><i ng-click="ctrl.move($index,-1)" ng-hide="$first" class="pointer fa fa-arrow-up"></i></td>
 					<td style="width: 1%"><i ng-click="ctrl.move($index,1)" ng-hide="$last" class="pointer fa fa-arrow-down"></i></td>
 					<td style="width: 1%">
-						<a ng-click="ctrl.removeAnnotation(annotation)" class="btn btn-danger btn-mini" ng-hide="annotation.builtIn">
+						<a ng-click="ctrl.removeAnnotation(annotation)" class="btn btn-danger btn-small" ng-hide="annotation.builtIn">
 							<i class="fa fa-remove"></i>
 						</a>
 					</td>
@@ -48,8 +48,8 @@
 		<div ng-if="ctrl.annotations.length === 1" class="p-t-2">
 			<div class="empty-list-cta">
 				<div class="empty-list-cta__title">There are no custom annotation queries added yet</div>
-				<a ng-click="ctrl.setupNew()" class="empty-list-cta__button btn btn-xlarge btn-success">
-					<i class="gicon gicon-add-annotation"></i>
+				<a ng-click="ctrl.setupNew()" class="empty-list-cta__button btn btn-large btn-primary">
+					<i class="gicon gicon-annotation"></i>
 					Add Annotation Query
 				</a>
 				<div class="grafana-info-box">
@@ -105,8 +105,8 @@
 
 		<div class="gf-form">
 			<div class="gf-form-button-row p-y-0">
-				<button ng-show="ctrl.mode === 'new'" type="button" class="btn gf-form-button btn-success" ng-click="ctrl.add()">Add</button>
-				<button ng-show="ctrl.mode === 'edit'" type="button" class="btn btn-success pull-left" ng-click="ctrl.update()">Update</button>
+				<button ng-show="ctrl.mode === 'new'" type="button" class="btn gf-form-button btn-primary" ng-click="ctrl.add()">Add</button>
+				<button ng-show="ctrl.mode === 'edit'" type="button" class="btn btn-primary pull-left" ng-click="ctrl.update()">Update</button>
 			</div>
 		</div>
 	</div>

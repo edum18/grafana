@@ -1,30 +1,22 @@
-export interface PluginMeta {
+import { AngularPanelPlugin, ReactPanelPlugin, PluginMetaInfo } from '@grafana/ui/src/types';
+
+export interface PanelPlugin {
   id: string;
   name: string;
+  hideFromList?: boolean;
+  module: string;
+  baseUrl: string;
   info: PluginMetaInfo;
-  includes: PluginInclude[];
+  sort: number;
+  angularPlugin: AngularPanelPlugin | null;
+  reactPlugin: ReactPanelPlugin | null;
+  hasBeenImported?: boolean;
+  dataFormats: PanelDataFormat[];
 }
 
-export interface PluginInclude {
-  type: string;
-  name: string;
-  path: string;
-}
-
-export interface PluginMetaInfo {
-  author: {
-    name: string;
-    url: string;
-  };
-  description: string;
-  links: string[];
-  logos: {
-    large: string;
-    small: string;
-  };
-  screenshots: string;
-  updated: string;
-  version: string;
+export enum PanelDataFormat {
+  Table = 'table',
+  TimeSeries = 'time_series',
 }
 
 export interface Plugin {
@@ -38,10 +30,21 @@ export interface Plugin {
   pinned: boolean;
   state: string;
   type: string;
+  module: any;
 }
 
 export interface PluginsState {
   plugins: Plugin[];
   searchQuery: string;
   layoutMode: string;
+  hasFetched: boolean;
+  dashboards: PluginDashboard[];
+  isLoadingPluginDashboards: boolean;
+}
+
+export interface VariableQueryProps {
+  query: any;
+  onChange: (query: any, definition: string) => void;
+  datasource: any;
+  templateSrv: any;
 }

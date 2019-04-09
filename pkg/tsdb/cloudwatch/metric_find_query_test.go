@@ -8,6 +8,8 @@ import (
 	"github.com/aws/aws-sdk-go/service/cloudwatch"
 	"github.com/aws/aws-sdk-go/service/ec2"
 	"github.com/aws/aws-sdk-go/service/ec2/ec2iface"
+	"github.com/aws/aws-sdk-go/service/resourcegroupstaggingapi"
+	"github.com/aws/aws-sdk-go/service/resourcegroupstaggingapi/resourcegroupstaggingapiiface"
 	"github.com/bmizerany/assert"
 	"github.com/grafana/grafana/pkg/components/simplejson"
 	"github.com/grafana/grafana/pkg/tsdb"
@@ -19,7 +21,17 @@ type mockedEc2 struct {
 	Resp ec2.DescribeInstancesOutput
 }
 
+type mockedRGTA struct {
+	resourcegroupstaggingapiiface.ResourceGroupsTaggingAPIAPI
+	Resp resourcegroupstaggingapi.GetResourcesOutput
+}
+
 func (m mockedEc2) DescribeInstancesPages(in *ec2.DescribeInstancesInput, fn func(*ec2.DescribeInstancesOutput, bool) bool) error {
+	fn(&m.Resp, true)
+	return nil
+}
+
+func (m mockedRGTA) GetResourcesPages(in *resourcegroupstaggingapi.GetResourcesInput, fn func(*resourcegroupstaggingapi.GetResourcesOutput, bool) bool) error {
 	fn(&m.Resp, true)
 	return nil
 }
@@ -176,6 +188,51 @@ func TestCloudWatchMetrics(t *testing.T) {
 			So(result[5].Text, ShouldEqual, "vol-3-2")
 			So(result[6].Text, ShouldEqual, "vol-4-1")
 			So(result[7].Text, ShouldEqual, "vol-4-2")
+		})
+	})
+
+	Convey("When calling handleGetResourceArns", t, func() {
+		executor := &CloudWatchExecutor{
+			rgtaSvc: mockedRGTA{
+				Resp: resourcegroupstaggingapi.GetResourcesOutput{
+					ResourceTagMappingList: []*resourcegroupstaggingapi.ResourceTagMapping{
+						{
+							ResourceARN: aws.String("arn:aws:ec2:us-east-1:123456789012:instance/i-12345678901234567"),
+							Tags: []*resourcegroupstaggingapi.Tag{
+								{
+									Key:   aws.String("Environment"),
+									Value: aws.String("production"),
+								},
+							},
+						},
+						{
+							ResourceARN: aws.String("arn:aws:ec2:us-east-1:123456789012:instance/i-76543210987654321"),
+							Tags: []*resourcegroupstaggingapi.Tag{
+								{
+									Key:   aws.String("Environment"),
+									Value: aws.String("production"),
+								},
+							},
+						},
+					},
+				},
+			},
+		}
+
+		json := simplejson.New()
+		json.Set("region", "us-east-1")
+		json.Set("resourceType", "ec2:instance")
+		tags := make(map[string]interface{})
+		tags["Environment"] = []string{"production"}
+		json.Set("tags", tags)
+		result, _ := executor.handleGetResourceArns(context.Background(), json, &tsdb.TsdbQuery{})
+
+		Convey("Should return all two instances", func() {
+			So(result[0].Text, ShouldEqual, "arn:aws:ec2:us-east-1:123456789012:instance/i-12345678901234567")
+			So(result[0].Value, ShouldEqual, "arn:aws:ec2:us-east-1:123456789012:instance/i-12345678901234567")
+			So(result[1].Text, ShouldEqual, "arn:aws:ec2:us-east-1:123456789012:instance/i-76543210987654321")
+			So(result[1].Value, ShouldEqual, "arn:aws:ec2:us-east-1:123456789012:instance/i-76543210987654321")
+
 		})
 	})
 }

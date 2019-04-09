@@ -1,4 +1,4 @@
-﻿export interface OrgUser {
+export interface OrgUser {
   avatarUrl: string;
   email: string;
   lastSeenAt: string;
@@ -41,4 +41,8 @@ export interface UsersState {
   externalUserMngLinkUrl: string;
   externalUserMngLinkName: string;
   externalUserMngInfo: string;
+}
+
+export interface UserState {
+  orgId: number;
 }

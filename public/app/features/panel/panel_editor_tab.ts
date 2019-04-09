@@ -8,16 +8,15 @@ function panelEditorTab(dynamicDirectiveSrv) {
     scope: {
       ctrl: '=',
       editorTab: '=',
-      index: '=',
     },
     directive: scope => {
       const pluginId = scope.ctrl.pluginId;
-      const tabIndex = scope.index;
-      // create a wrapper for directiveFn
-      // required for metrics tab directive
-      // that is the same for many panels but
-      // given different names in this function
-      const fn = () => scope.editorTab.directiveFn();
+      const tabName = scope.editorTab.title
+        .toLowerCase()
+        .replace(' ', '-')
+        .replace('&', '')
+        .replace(' ', '')
+        .replace(' ', '-');
 
       return Promise.resolve({
         name: `panel-editor-tab-${pluginId}${tabIndex}`,

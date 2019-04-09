@@ -1,4 +1,6 @@
 import React from 'react';
+import { components } from '@torkelo/react-select';
+import { OptionProps } from 'react-select/lib/components/Option';
 import { TagBadge } from './TagBadge';
 
 export interface Props {

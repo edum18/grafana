@@ -5,6 +5,8 @@ import { LayoutMode } from '../../../core/components/LayoutSelector/LayoutSelect
 
 export enum ActionTypes {
   LoadPlugins = 'LOAD_PLUGINS',
+  LoadPluginDashboards = 'LOAD_PLUGIN_DASHBOARDS',
+  LoadedPluginDashboards = 'LOADED_PLUGIN_DASHBOARDS',
   SetPluginsSearchQuery = 'SET_PLUGIN_SEARCH_QUERY',
   SetLayoutMode = 'SET_LAYOUT_MODE',
 }
@@ -12,6 +14,15 @@ export enum ActionTypes {
 export interface LoadPluginsAction {
   type: ActionTypes.LoadPlugins;
   payload: Plugin[];
+}
+
+export interface LoadPluginDashboardsAction {
+  type: ActionTypes.LoadPluginDashboards;
+}
+
+export interface LoadedPluginDashboardsAction {
+  type: ActionTypes.LoadedPluginDashboards;
+  payload: PluginDashboard[];
 }
 
 export interface SetPluginsSearchQueryAction {
@@ -39,7 +50,21 @@ const pluginsLoaded = (plugins: Plugin[]): LoadPluginsAction => ({
   payload: plugins,
 });
 
-export type Action = LoadPluginsAction | SetPluginsSearchQueryAction | SetLayoutModeAction;
+const pluginDashboardsLoad = (): LoadPluginDashboardsAction => ({
+  type: ActionTypes.LoadPluginDashboards,
+});
+
+const pluginDashboardsLoaded = (dashboards: PluginDashboard[]): LoadedPluginDashboardsAction => ({
+  type: ActionTypes.LoadedPluginDashboards,
+  payload: dashboards,
+});
+
+export type Action =
+  | LoadPluginsAction
+  | LoadPluginDashboardsAction
+  | LoadedPluginDashboardsAction
+  | SetPluginsSearchQueryAction
+  | SetLayoutModeAction;
 
 type ThunkResult<R> = ThunkAction<R, StoreState, undefined, Action>;
 
@@ -47,5 +72,14 @@ export function loadPlugins(): ThunkResult<void> {
   return async dispatch => {
     const result = await getBackendSrv().get('api/plugins', { embedded: 0 });
     dispatch(pluginsLoaded(result));
+  };
+}
+
+export function loadPluginDashboards(): ThunkResult<void> {
+  return async (dispatch, getStore) => {
+    dispatch(pluginDashboardsLoad());
+    const dataSourceType = getStore().dataSources.dataSource.type;
+    const response = await getBackendSrv().get(`api/plugins/${dataSourceType}/dashboards`);
+    dispatch(pluginDashboardsLoaded(response));
   };
 }

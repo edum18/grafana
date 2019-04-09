@@ -1,12 +1,13 @@
 import _ from 'lodash';
+import { QueryHint } from '@grafana/ui/src/types';
 
-export function getQueryHints(series: any[], datasource?: any): any[] {
-  const hints = series.map((s, i) => {
-    const query: string = s.query;
-    const index: number = s.responseIndex;
-    if (query === undefined || index === undefined) {
-      return null;
-    }
+/**
+ * Number of time series results needed before starting to suggest sum aggregation hints
+ */
+export const SUM_HINT_THRESHOLD_COUNT = 20;
+
+export function getQueryHints(query: string, series?: any[], datasource?: any): QueryHint[] {
+  const hints = [];
 
     // ..._bucket metric needs a histogram_quantile()
     const histogramMetric = query.trim().match(/^\w+_bucket$/);
@@ -92,9 +93,25 @@ export function getQueryHints(series: any[], datasource?: any): any[] {
         };
       }
     }
+  }
 
-    // No hint found
-    return null;
-  });
-  return hints;
+  if (series && series.length >= SUM_HINT_THRESHOLD_COUNT) {
+    const simpleMetric = query.trim().match(/^\w+$/);
+    if (simpleMetric) {
+      hints.push({
+        type: 'ADD_SUM',
+        label: 'Many time series results returned.',
+        fix: {
+          label: 'Consider aggregating with sum().',
+          action: {
+            type: 'ADD_SUM',
+            query: query,
+            preventSubmit: true,
+          },
+        },
+      });
+    }
+  }
+
+  return hints.length > 0 ? hints : null;
 }

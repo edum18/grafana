@@ -15,13 +15,14 @@ const (
 )
 
 type NotifierBase struct {
-	Name         string
-	Type         string
-	Id           int64
-	IsDeault     bool
-	UploadImage  bool
-	SendReminder bool
-	Frequency    time.Duration
+	Name                  string
+	Type                  string
+	Uid                   string
+	IsDeault              bool
+	UploadImage           bool
+	SendReminder          bool
+	DisableResolveMessage bool
+	Frequency             time.Duration
 
 	log log.Logger
 }
@@ -34,14 +35,15 @@ func NewNotifierBase(model *models.AlertNotification) NotifierBase {
 	}
 
 	return NotifierBase{
-		Id:           model.Id,
-		Name:         model.Name,
-		IsDeault:     model.IsDefault,
-		Type:         model.Type,
-		UploadImage:  uploadImage,
-		SendReminder: model.SendReminder,
-		Frequency:    model.Frequency,
-		log:          log.New("alerting.notifier." + model.Name),
+		Uid:                   model.Uid,
+		Name:                  model.Name,
+		IsDeault:              model.IsDefault,
+		Type:                  model.Type,
+		UploadImage:           uploadImage,
+		SendReminder:          model.SendReminder,
+		DisableResolveMessage: model.DisableResolveMessage,
+		Frequency:             model.Frequency,
+		log:                   log.New("alerting.notifier." + model.Name),
 	}
 }
 
@@ -66,6 +68,16 @@ func (n *NotifierBase) ShouldNotify(ctx context.Context, context *alerting.EvalC
 	}
 
 	// Do not notify when we become OK for the first time.
+	if context.PrevAlertState == models.AlertStateUnknown && context.Rule.State == models.AlertStateOK {
+		return false
+	}
+
+	// Do not notify when we become OK for the first time.
+	if context.PrevAlertState == models.AlertStateUnknown && context.Rule.State == models.AlertStatePending {
+		return false
+	}
+
+	// Do not notify when we become OK from pending
 	if context.PrevAlertState == models.AlertStatePending && context.Rule.State == models.AlertStateOK {
 		return false
 	}
@@ -94,8 +106,8 @@ func (n *NotifierBase) NeedsImage() bool {
 	return n.UploadImage
 }
 
-func (n *NotifierBase) GetNotifierId() int64 {
-	return n.Id
+func (n *NotifierBase) GetNotifierUid() string {
+	return n.Uid
 }
 
 func (n *NotifierBase) GetIsDefault() bool {

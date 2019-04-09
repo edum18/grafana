@@ -18,13 +18,20 @@ interface SFCCellProps {
   value: string;
 }
 
-function Cell(props: SFCCellProps) {
-  const { columnIndex, rowIndex, table, value, onClickCell } = props;
-  const column = table.columns[columnIndex];
-  if (column && column.filterable && onClickCell) {
-    const onClick = event => {
-      event.preventDefault();
-      onClickCell(column.text, value, columnIndex, rowIndex, table);
+export default class Table extends PureComponent<TableProps> {
+  getCellProps = (state, rowInfo, column) => {
+    return {
+      onClick: (e: React.SyntheticEvent) => {
+        // Only handle click on link, not the cell
+        if (e.target) {
+          const link = e.target as HTMLElement;
+          if (link.className === 'link') {
+            const columnKey = column.Header;
+            const rowValue = rowInfo.row[columnKey];
+            this.props.onClickCell(columnKey, rowValue);
+          }
+        }
+      },
     };
     return (
       <td>
@@ -41,22 +48,20 @@ export default class Table extends PureComponent<TableProps, {}> {
   render() {
     const { className = '', data, loading, onClickCell } = this.props;
     const tableModel = data || EMPTY_TABLE;
-    if (!loading && data && data.rows.length === 0) {
-      return (
-        <table className={`${className} filter-table`}>
-          <thead>
-            <tr>
-              <th>Table</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td className="muted">The queries returned no data for a table.</td>
-            </tr>
-          </tbody>
-        </table>
-      );
-    }
+    const columnNames = tableModel.columns.map(({ text }) => text);
+    const columns = tableModel.columns.map(({ filterable, text }) => ({
+      Header: () => <span title={text}>{text}</span>,
+      accessor: text,
+      className: VALUE_REGEX.test(text) ? 'text-right' : '',
+      show: text !== 'Time',
+      Cell: row => (
+        <span className={filterable ? 'link' : ''} title={text + ': ' + row.value}>
+          {row.value}
+        </span>
+      ),
+    }));
+    const noDataText = data ? 'The queries returned no data for a table.' : '';
+
     return (
       <table className={`${className} filter-table`}>
         <thead>

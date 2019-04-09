@@ -72,11 +72,11 @@ func (dr *dashboardServiceImpl) buildSaveDashboardCommand(dto *SaveDashboardDTO,
 		return nil, models.ErrDashboardFolderCannotHaveParent
 	}
 
-	if dash.IsFolder && strings.ToLower(dash.Title) == strings.ToLower(models.RootFolderName) {
+	if dash.IsFolder && strings.EqualFold(dash.Title, models.RootFolderName) {
 		return nil, models.ErrDashboardFolderNameExists
 	}
 
-	if !util.IsValidShortUid(dash.Uid) {
+	if !util.IsValidShortUID(dash.Uid) {
 		return nil, models.ErrDashboardInvalidUid
 	} else if len(dash.Uid) > 40 {
 		return nil, models.ErrDashboardUidToLong
@@ -86,6 +86,7 @@ func (dr *dashboardServiceImpl) buildSaveDashboardCommand(dto *SaveDashboardDTO,
 		validateAlertsCmd := models.ValidateDashboardAlertsCommand{
 			OrgId:     dto.OrgId,
 			Dashboard: dash,
+			User:      dto.User,
 		}
 
 		if err := bus.Dispatch(&validateAlertsCmd); err != nil {
@@ -155,22 +156,20 @@ func (dr *dashboardServiceImpl) buildSaveDashboardCommand(dto *SaveDashboardDTO,
 func (dr *dashboardServiceImpl) updateAlerting(cmd *models.SaveDashboardCommand, dto *SaveDashboardDTO) error {
 	alertCmd := models.UpdateDashboardAlertsCommand{
 		OrgId:     dto.OrgId,
-		UserId:    dto.User.UserId,
 		Dashboard: cmd.Result,
+		User:      dto.User,
 	}
 
-	if err := bus.Dispatch(&alertCmd); err != nil {
-		return models.ErrDashboardFailedToUpdateAlertData
-	}
-
-	return nil
+	return bus.Dispatch(&alertCmd)
 }
 
 func (dr *dashboardServiceImpl) SaveProvisionedDashboard(dto *SaveDashboardDTO, provisioning *models.DashboardProvisioning) (*models.Dashboard, error) {
 	dto.User = &models.SignedInUser{
 		UserId:  0,
 		OrgRole: models.ROLE_ADMIN,
+		OrgId:   dto.OrgId,
 	}
+
 	cmd, err := dr.buildSaveDashboardCommand(dto, true, false)
 	if err != nil {
 		return nil, err
