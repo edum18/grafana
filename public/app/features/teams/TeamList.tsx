@@ -17,6 +17,7 @@ export interface Props {
   teams: Team[];
   searchQuery: string;
   teamsCount: number;
+  hasFetched: boolean;
   loadTeams: typeof loadTeams;
   deleteTeam: typeof deleteTeam;
   setSearchQuery: typeof setSearchQuery;
@@ -131,8 +132,18 @@ export class TeamList extends PureComponent<Props, any> {
     );
   }
 
+  renderList() {
+    const { teamsCount } = this.props;
+
+    if (teamsCount > 0) {
+      return this.renderTeamList();
+    } else {
+      return this.renderEmptyList();
+    }
+  }
+
   render() {
-    const { navModel, teamsCount } = this.props;
+    const { hasFetched, navModel } = this.props;
 
     return (
       <Page navModel={navModel}>

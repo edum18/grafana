@@ -70,9 +70,9 @@ export class NavModelSrv {
 
   getNotFoundNav() {
     const node = {
-      text: 'Page not found',
+      text: 'Página não encontrada',
       icon: 'fa fa-fw fa-warning',
-      subTitle: '404 Error',
+      subTitle: '404 Erro',
     };
 
     return {

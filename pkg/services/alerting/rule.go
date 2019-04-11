@@ -44,13 +44,13 @@ type ValidationError struct {
 }
 
 func (e ValidationError) Error() string {
-	extraInfo := ""
+	extraInfo := e.Reason
 	if e.Alertid != 0 {
 		extraInfo = fmt.Sprintf("%s AlertId: %v", extraInfo, e.Alertid)
 	}
 
 	if e.PanelId != 0 {
-		extraInfo = fmt.Sprintf("%s PanelId: %v ", extraInfo, e.PanelId)
+		extraInfo = fmt.Sprintf("%s PanelId: %v", extraInfo, e.PanelId)
 	}
 
 	if e.DashboardId != 0 {
@@ -58,10 +58,10 @@ func (e ValidationError) Error() string {
 	}
 
 	if e.Err != nil {
-		return fmt.Sprintf("%s %s%s", e.Err.Error(), e.Reason, extraInfo)
+		return fmt.Sprintf("Alert validation error: %s%s", e.Err.Error(), extraInfo)
 	}
 
-	return fmt.Sprintf("Failed to extract alert.Reason: %s %s", e.Reason, extraInfo)
+	return fmt.Sprintf("Alert validation error: %s", extraInfo)
 }
 
 var (
@@ -153,7 +153,7 @@ func NewRuleFromDBAlert(ruleDef *m.Alert) (*Rule, error) {
 	}
 
 	if len(model.Conditions) == 0 {
-		return nil, fmt.Errorf("Alert is missing conditions")
+		return nil, ValidationError{Reason: "Alert is missing conditions"}
 	}
 
 	return model, nil

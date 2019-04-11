@@ -41,6 +41,7 @@ export interface UsersState {
   externalUserMngLinkUrl: string;
   externalUserMngLinkName: string;
   externalUserMngInfo: string;
+  hasFetched: boolean;
 }
 
 export interface UserState {

@@ -87,8 +87,6 @@ export interface Props {
 
 export class DashboardGrid extends PureComponent<Props> {
   gridToPanelMap: any;
-  panelContainer: PanelContainer;
-  dashboard: DashboardModel;
   panelMap: { [id: string]: PanelModel };
 
   componentDidMount() {
@@ -115,7 +113,7 @@ export class DashboardGrid extends PureComponent<Props> {
     const layout = [];
     this.panelMap = {};
 
-    for (const panel of this.dashboard.panels) {
+    for (const panel of this.props.dashboard.panels) {
       const stringId = panel.id.toString();
       this.panelMap[stringId] = panel;
 

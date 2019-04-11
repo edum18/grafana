@@ -11,7 +11,6 @@ import { toLegacyResponseData, isSeriesData } from '@grafana/ui';
 class MetricsPanelCtrl extends PanelCtrl {
   scope: any;
   datasource: any;
-  datasourceName: any;
   $q: any;
   $timeout: any;
   contextSrv: ContextSrv;
@@ -38,10 +37,6 @@ class MetricsPanelCtrl extends PanelCtrl {
     this.templateSrv = $injector.get('templateSrv');
     this.scope = $scope;
     this.panel.datasource = this.panel.datasource || null;
-
-    if (!this.panel.targets) {
-      this.panel.targets = [{}];
-    }
 
     this.events.on('refresh', this.onMetricsPanelRefresh.bind(this));
     this.events.on('panel-teardown', this.onPanelTearDown.bind(this));
@@ -229,27 +224,6 @@ class MetricsPanelCtrl extends PanelCtrl {
         this.dataStream = null;
       },
     });
-  }
-
-  setDatasource(datasource) {
-    // switching to mixed
-    if (datasource.meta.mixed) {
-      _.each(this.panel.targets, target => {
-        target.datasource = this.panel.datasource;
-        if (!target.datasource) {
-          target.datasource = config.defaultDatasource;
-        }
-      });
-    } else if (this.datasource && this.datasource.meta.mixed) {
-      _.each(this.panel.targets, target => {
-        delete target.datasource;
-      });
-    }
-
-    this.panel.datasource = datasource.value;
-    this.datasourceName = datasource.name;
-    this.datasource = null;
-    this.refresh();
   }
 
   getAdditionalMenuItems() {

@@ -59,7 +59,7 @@ export function uploadDashboardDirective(timer, $location) {
         // Something
         elem[0].addEventListener('change', file_selected, false);
       } else {
-        alertSrv.set('Oops', 'Sorry, the HTML5 File APIs are not fully supported in this browser.', 'error');
+        appEvents.emit('alert-error', ['Oops', 'The HTML5 File APIs are not fully supported in this browser']);
       }
     },
   };

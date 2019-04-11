@@ -15,7 +15,7 @@ import userReducers from 'app/features/profile/state/reducers';
 import organizationReducers from 'app/features/org/state/reducers';
 import { setStore } from './store';
 
-const rootReducer = combineReducers({
+const rootReducers = {
   ...sharedReducers,
   ...alertingReducers,
   ...teamsReducers,

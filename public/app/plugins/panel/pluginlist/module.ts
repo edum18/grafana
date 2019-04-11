@@ -21,7 +21,7 @@ class PluginListCtrl extends PanelCtrl {
     this.pluginList = [];
     this.viewModel = [
       { header: 'Apps instaladas', list: [], type: 'app' },
-      { header: 'Paineis instalados', list: [], type: 'panel' },
+      { header: 'Painéis instalados', list: [], type: 'panel' },
       { header: 'Datasources instalados', list: [], type: 'datasource' },
     ];
 

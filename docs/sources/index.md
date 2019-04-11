@@ -112,8 +112,12 @@ aliases = ["v1.1", "guides/reference/admin"]
       <img src="/img/docs/logos/icon_postgres.svg" >
       <h5>Postgres</h5>
     </a>
-    <a href="{{< relref "features/datasources/cloudwatch.md" >}}" class="nav-cards__item nav-cards__item--ds">
-      <img src="/img/docs/logos/icon_cloudwatch.svg">
-      <h5>Cloudwatch</h5>
+    <a href="{{< relref "features/datasources/mssql.md" >}}" class="nav-cards__item nav-cards__item--ds">
+      <img src="/img/docs/logos/sql_server_logo.svg">
+      <h5>Microsoft SQL Server</h5>
+    </a>
+    <a href="{{< relref "features/datasources/opentsdb.md" >}}" class="nav-cards__item nav-cards__item--ds">
+      <img src="/img/docs/logos/icon_opentsdb.png" >
+      <h5>OpenTSDB</h5>
     </a>
 </div>

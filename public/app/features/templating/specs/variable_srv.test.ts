@@ -59,10 +59,12 @@ describe('VariableSrv', function(this: any) {
           return getVarMockConstructor(ctr, model, ctx);
         };
 
-        ctx.variableSrv.init({
-          templating: { list: [] },
-          updateSubmenuVisibility: () => {},
-        });
+        ctx.variableSrv.init(
+          new DashboardModel({
+            templating: { list: [] },
+            updateSubmenuVisibility: () => {},
+          })
+        );
 
         scenario.variable = ctx.variableSrv.createVariableFromModel(scenario.variableModel);
         ctx.variableSrv.addVariable(scenario.variable);

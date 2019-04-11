@@ -96,13 +96,6 @@ export class DashboardPermissions extends PureComponent<Props, State> {
   }
 }
 
-function connectWithStore(WrappedComponent, ...args) {
-  const ConnectedWrappedComponent = connect(...args)(WrappedComponent);
-  return props => {
-    return <ConnectedWrappedComponent {...props} store={store} />;
-  };
-}
-
 const mapStateToProps = (state: StoreState) => ({
   permissions: state.dashboard.permissions,
 });

@@ -13,19 +13,11 @@ export interface Team {
 
 export interface Props {
   onSelected: (team: Team) => void;
-  value?: string;
   className?: string;
 }
 
 export interface State {
-  isLoading;
-}
-
-export interface Team {
-  id: number;
-  label: string;
-  name: string;
-  avatarUrl: string;
+  isLoading: boolean;
 }
 
 export class TeamPicker extends Component<Props, State> {
@@ -38,7 +30,7 @@ export class TeamPicker extends Component<Props, State> {
 
     this.debouncedSearch = debounce(this.search, 300, {
       leading: true,
-      trailing: false,
+      trailing: true,
     });
   }
 
@@ -62,21 +54,19 @@ export class TeamPicker extends Component<Props, State> {
       });
 
       this.setState({ isLoading: false });
-      return { options: teams };
+      return teams;
     });
   }
 
   render() {
-    const { onSelected, value, className } = this.props;
+    const { onSelected, className } = this.props;
     const { isLoading } = this.state;
-
     return (
       <div className="user-picker">
         <AsyncSelect
           isLoading={isLoading}
+          defaultOptions={true}
           loadOptions={this.debouncedSearch}
-          loadingPlaceholder="Loading..."
-          noResultsText="No teams found"
           onChange={onSelected}
           className={className}
           placeholder="Select a team"

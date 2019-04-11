@@ -11,7 +11,7 @@ import (
 	"github.com/grafana/grafana/pkg/util"
 )
 
-func getFrontendSettingsMap(c *m.ReqContext) (map[string]interface{}, error) {
+func (hs *HTTPServer) getFrontendSettingsMap(c *m.ReqContext) (map[string]interface{}, error) {
 	orgDataSources := make([]*m.DataSource, 0)
 
 	if c.OrgId != 0 {
@@ -22,7 +22,20 @@ func getFrontendSettingsMap(c *m.ReqContext) (map[string]interface{}, error) {
 			return nil, err
 		}
 
-		orgDataSources = query.Result
+		dsFilterQuery := m.DatasourcesPermissionFilterQuery{
+			User:        c.SignedInUser,
+			Datasources: query.Result,
+		}
+
+		if err := bus.Dispatch(&dsFilterQuery); err != nil {
+			if err != bus.ErrHandlerNotFound {
+				return nil, err
+			}
+
+			orgDataSources = query.Result
+		} else {
+			orgDataSources = dsFilterQuery.Result
+		}
 	}
 
 	datasources := make(map[string]interface{})
@@ -195,8 +208,8 @@ func getPanelSort(id string) int {
 	return sort
 }
 
-func GetFrontendSettings(c *m.ReqContext) {
-	settings, err := getFrontendSettingsMap(c)
+func (hs *HTTPServer) GetFrontendSettings(c *m.ReqContext) {
+	settings, err := hs.getFrontendSettingsMap(c)
 	if err != nil {
 		c.JsonApiErr(400, "Failed to get frontend settings", err)
 		return

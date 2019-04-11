@@ -82,7 +82,7 @@ func (hs *HTTPServer) registerRoutes() {
 	r.Get("/alerting/*", reqEditorRole, hs.Index)
 
 	// sign up
-	r.Get("/signup", Index)
+	r.Get("/signup", hs.Index)
 	r.Get("/api/user/signup/options", Wrap(GetSignUpOptions))
 	r.Post("/api/user/signup", quota("user"), bind(dtos.SignUpForm{}), Wrap(SignUp))
 	r.Post("/api/user/signup/step2", bind(dtos.SignUpStep2Form{}), Wrap(hs.SignUpStep2))
@@ -92,15 +92,15 @@ func (hs *HTTPServer) registerRoutes() {
 	r.Post("/api/user/invite/complete", bind(dtos.CompleteInviteForm{}), Wrap(hs.CompleteInvite))
 
 	// reset password
-	r.Get("/user/password/send-reset-email", Index)
-	r.Get("/user/password/reset", Index)
+	r.Get("/user/password/send-reset-email", hs.Index)
+	r.Get("/user/password/reset", hs.Index)
 
 	r.Post("/api/user/password/send-reset-email", bind(dtos.SendResetPasswordEmailForm{}), Wrap(SendResetPasswordEmail))
 	r.Post("/api/user/password/reset", bind(dtos.ResetUserPasswordForm{}), Wrap(ResetPassword))
 
 	// dashboard snapshots
-	r.Get("/dashboard/snapshot/*", Index)
-	r.Get("/dashboard/snapshots/", reqSignedIn, Index)
+	r.Get("/dashboard/snapshot/*", hs.Index)
+	r.Get("/dashboard/snapshots/", reqSignedIn, hs.Index)
 
 	// api for dashboard snapshots
 	r.Post("/api/snapshots/", bind(m.CreateDashboardSnapshotCommand{}), CreateDashboardSnapshot)
@@ -242,13 +242,13 @@ func (hs *HTTPServer) registerRoutes() {
 			datasourceRoute.Get("/", Wrap(GetDataSources))
 			datasourceRoute.Post("/", quota("data_source"), bind(m.AddDataSourceCommand{}), Wrap(AddDataSource))
 			datasourceRoute.Put("/:id", bind(m.UpdateDataSourceCommand{}), Wrap(UpdateDataSource))
-			datasourceRoute.Delete("/:id", Wrap(DeleteDataSourceByID))
+			datasourceRoute.Delete("/:id", Wrap(DeleteDataSourceById))
 			datasourceRoute.Delete("/name/:name", Wrap(DeleteDataSourceByName))
-			datasourceRoute.Get("/:id", Wrap(GetDataSourceByID))
+			datasourceRoute.Get("/:id", Wrap(GetDataSourceById))
 			datasourceRoute.Get("/name/:name", Wrap(GetDataSourceByName))
 		}, reqOrgAdmin)
 
-		apiRoute.Get("/datasources/id/:name", Wrap(GetDataSourceIDByName), reqSignedIn)
+		apiRoute.Get("/datasources/id/:name", Wrap(GetDataSourceIdByName), reqSignedIn)
 
 		apiRoute.Get("/plugins", Wrap(hs.GetPluginList))
 		apiRoute.Get("/plugins/:pluginId/settings", Wrap(GetPluginSettingByID))
@@ -259,7 +259,7 @@ func (hs *HTTPServer) registerRoutes() {
 			pluginRoute.Post("/:pluginId/settings", bind(m.UpdatePluginSettingCmd{}), Wrap(UpdatePluginSetting))
 		}, reqOrgAdmin)
 
-		apiRoute.Get("/frontend/settings/", GetFrontendSettings)
+		apiRoute.Get("/frontend/settings/", hs.GetFrontendSettings)
 		apiRoute.Any("/datasources/proxy/:id/*", reqSignedIn, hs.ProxyDataSourceRequest)
 		apiRoute.Any("/datasources/proxy/:id", reqSignedIn, hs.ProxyDataSourceRequest)
 

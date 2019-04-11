@@ -19,6 +19,7 @@ export interface Props {
   navModel: NavModel;
   apiKeys: ApiKey[];
   searchQuery: string;
+  hasFetched: boolean;
   loadApiKeys: typeof loadApiKeys;
   deleteApiKey: typeof deleteApiKey;
   setSearchQuery: typeof setSearchQuery;

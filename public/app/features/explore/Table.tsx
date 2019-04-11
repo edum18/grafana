@@ -1,21 +1,21 @@
+import _ from 'lodash';
 import React, { PureComponent } from 'react';
+import ReactTable from 'react-table';
+
 import TableModel from 'app/core/table_model';
 
 const EMPTY_TABLE = new TableModel();
+// Identify columns that contain values
+const VALUE_REGEX = /^[Vv]alue #\d+/;
 
 interface TableProps {
-  className?: string;
   data: TableModel;
   loading: boolean;
   onClickCell?: (columnKey: string, rowValue: string) => void;
 }
 
-interface SFCCellProps {
-  columnIndex: number;
-  onClickCell?: (columnKey: string, rowValue: string, columnIndex: number, rowIndex: number, table: TableModel) => void;
-  rowIndex: number;
-  table: TableModel;
-  value: string;
+function prepareRows(rows, columnNames) {
+  return rows.map(cells => _.zipObject(columnNames, cells));
 }
 
 export default class Table extends PureComponent<TableProps> {
@@ -33,20 +33,10 @@ export default class Table extends PureComponent<TableProps> {
         }
       },
     };
-    return (
-      <td>
-        <a className="link" onClick={onClick}>
-          {value}
-        </a>
-      </td>
-    );
-  }
-  return <td>{value}</td>;
-}
+  };
 
-export default class Table extends PureComponent<TableProps, {}> {
   render() {
-    const { className = '', data, loading, onClickCell } = this.props;
+    const { data, loading } = this.props;
     const tableModel = data || EMPTY_TABLE;
     const columnNames = tableModel.columns.map(({ text }) => text);
     const columns = tableModel.columns.map(({ filterable, text }) => ({
@@ -63,27 +53,16 @@ export default class Table extends PureComponent<TableProps, {}> {
     const noDataText = data ? 'The queries returned no data for a table.' : '';
 
     return (
-      <table className={`${className} filter-table`}>
-        <thead>
-          <tr>{tableModel.columns.map(col => <th key={col.text}>{col.text}</th>)}</tr>
-        </thead>
-        <tbody>
-          {tableModel.rows.map((row, i) => (
-            <tr key={i}>
-              {row.map((value, j) => (
-                <Cell
-                  key={j}
-                  columnIndex={j}
-                  rowIndex={i}
-                  value={String(value)}
-                  table={data}
-                  onClickCell={onClickCell}
-                />
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <ReactTable
+        columns={columns}
+        data={tableModel.rows}
+        getTdProps={this.getCellProps}
+        loading={loading}
+        minRows={0}
+        noDataText={noDataText}
+        resolveData={data => prepareRows(data, columnNames)}
+        showPagination={Boolean(data)}
+      />
     );
   }
 }

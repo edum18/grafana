@@ -7,7 +7,7 @@ import { CustomVariable } from 'app/features/templating/all';
 describe('StackdriverDataSource', () => {
   const instanceSettings = {
     jsonData: {
-      projectName: 'testproject',
+      defaultProject: 'testproject',
     },
   };
   const templateSrv = new TemplateSrv();
@@ -54,7 +54,9 @@ describe('StackdriverDataSource', () => {
           datasourceRequest: async () =>
             Promise.reject({
               statusText: 'Bad Request',
-              data: { error: { code: 400, message: 'Field interval.endTime had an invalid value' } },
+              data: {
+                error: { code: 400, message: 'Field interval.endTime had an invalid value' },
+              },
             }),
         };
         ds = new StackdriverDataSource(instanceSettings, backendSrv, templateSrv, timeSrv);
@@ -64,43 +66,6 @@ describe('StackdriverDataSource', () => {
       it('should return error status and a detailed error message', () => {
         expect(result.status).toEqual('error');
         expect(result.message).toBe('Stackdriver: Bad Request: 400. Field interval.endTime had an invalid value');
-      });
-    });
-  });
-
-  describe('when performing getProjects', () => {
-    describe('and call to resource manager api succeeds', () => {
-      let ds;
-      let result;
-      beforeEach(async () => {
-        const response = {
-          projects: [
-            {
-              projectNumber: '853996325002',
-              projectId: 'test-project',
-              lifecycleState: 'ACTIVE',
-              name: 'Test Project',
-              createTime: '2015-06-02T14:16:08.520Z',
-              parent: {
-                type: 'organization',
-                id: '853996325002',
-              },
-            },
-          ],
-        };
-        const backendSrv = {
-          async datasourceRequest() {
-            return Promise.resolve({ status: 200, data: response });
-          },
-        };
-        ds = new StackdriverDataSource(instanceSettings, backendSrv, templateSrv, timeSrv);
-        result = await ds.getProjects();
-      });
-
-      it('should return successfully', () => {
-        expect(result.length).toBe(1);
-        expect(result[0].id).toBe('test-project');
-        expect(result[0].name).toBe('Test Project');
       });
     });
   });
@@ -259,8 +224,8 @@ describe('StackdriverDataSource', () => {
         beforeEach(() => {
           res = ds.resolvePanelUnitFromTargets([{ unit: 'megaseconds' }]);
         });
-        it('should return none', () => {
-          expect(res).toEqual('none');
+        it('should return undefined', () => {
+          expect(res).toBeUndefined();
         });
       });
       describe('and the stackdriver unit has a corresponding grafana unit', () => {
@@ -286,16 +251,16 @@ describe('StackdriverDataSource', () => {
         beforeEach(() => {
           res = ds.resolvePanelUnitFromTargets([{ unit: 'megaseconds' }, { unit: 'megaseconds' }]);
         });
-        it('should return the default value - none', () => {
-          expect(res).toEqual('none');
+        it('should return the default value of undefined', () => {
+          expect(res).toBeUndefined();
         });
       });
       describe('and all target units are not the same', () => {
         beforeEach(() => {
           res = ds.resolvePanelUnitFromTargets([{ unit: 'bit' }, { unit: 'min' }]);
         });
-        it('should return the default value - none', () => {
-          expect(res).toEqual('none');
+        it('should return the default value of undefined', () => {
+          expect(res).toBeUndefined();
         });
       });
     });

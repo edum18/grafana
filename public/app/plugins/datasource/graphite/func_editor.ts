@@ -1,4 +1,3 @@
-import angular from 'angular';
 import _ from 'lodash';
 import $ from 'jquery';
 import coreModule from 'app/core/core_module';
@@ -250,4 +249,4 @@ export function graphiteFuncEditor($compile, templateSrv, popoverSrv) {
   };
 }
 
-angular.module('grafana.directives').directive('graphiteFuncEditor', graphiteFuncEditor);
+coreModule.directive('graphiteFuncEditor', graphiteFuncEditor);

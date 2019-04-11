@@ -1,8 +1,12 @@
+// Libaries
 import angular from 'angular';
 import _ from 'lodash';
+
+// Utils & Services
 import coreModule from 'app/core/core_module';
 import { variableTypes } from './variable';
 import { Graph } from 'app/core/utils/dag';
+import config from 'app/core/config';
 import { TemplateSrv } from 'app/features/templating/template_srv';
 import { TimeSrv } from 'app/features/dashboard/services/TimeSrv';
 import { DashboardModel } from 'app/features/dashboard/state/DashboardModel';
@@ -63,7 +67,9 @@ export class VariableSrv {
         });
       });
 
-    return this.$q.all(promises);
+    return this.$q.all(promises).then(() => {
+      this.dashboard.startRefresh();
+    });
   }
 
   processVariable(variable, queryParams) {
@@ -306,9 +312,11 @@ export class VariableSrv {
   createGraph() {
     const g = new Graph();
 
-    this.variables.forEach(v1 => {
-      g.createNode(v1.name);
+    this.variables.forEach(v => {
+      g.createNode(v.name);
+    });
 
+    this.variables.forEach(v1 => {
       this.variables.forEach(v2 => {
         if (v1 === v2) {
           return;

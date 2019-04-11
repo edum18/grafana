@@ -634,6 +634,8 @@
   digest = "1:758f363e0dff33cf00b234be2efb12f919d79b42d5ae3909ff9eb69ef2c3cca5"
   name = "golang.org/x/crypto"
   packages = [
+    "ed25519",
+    "ed25519/internal/edwards25519",
     "md4",
     "pbkdf2",
   ]

@@ -326,6 +326,11 @@ a.external-link {
   cursor: pointer;
 }
 
+.drop.drop-error .markdown-html p {
+  // adicionado, para o texto do erro no canto ser branco
+  color: white;
+}
+
 .markdown-html {
   img {
     max-width: 100%;

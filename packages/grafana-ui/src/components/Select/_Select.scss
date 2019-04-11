@@ -1,19 +1,5 @@
 $select-input-height: 35px;
-$select-menu-max-height: 300px;
-$select-item-font-size: $font-size-base;
-$select-item-bg: $dropdownBackground;
-$select-item-fg: $input-color;
-$select-option-bg: $menu-dropdown-bg;
-$select-option-color: $input-color;
-$select-noresults-color: $text-color;
-$select-input-bg: $input-bg;
-$select-input-border-color: $input-border-color;
-$select-menu-box-shadow: $menu-dropdown-shadow;
-$select-text-color: $text-color;
 $select-input-bg-disabled: $input-bg-disabled;
-$select-option-selected-bg: $dropdownLinkBackgroundActive;
-
-@import '../../../node_modules/react-select/scss/default.scss';
 
 @mixin select-control() {
   width: 100%;
@@ -29,15 +15,35 @@ $select-option-selected-bg: $dropdownLinkBackgroundActive;
   @include box-shadow($shadow);
 }
 
-// react-select tweaks
-.gf-form-input--form-dropdown {
-  padding: 0;
-  border: 0;
-  overflow: visible;
+.gf-form-select-box__control {
+  @include select-control();
+  border: 1px solid $input-border-color;
+  color: $input-color;
+  cursor: default;
+  display: table;
+  border-spacing: 0;
+  border-collapse: separate;
+  height: $select-input-height;
+  outline: none;
+  overflow: hidden;
+  position: relative;
+}
 
-  .Select-placeholder {
-    color: $input-color-placeholder;
+.gf-form-select-box__control--is-focused {
+  background-color: $input-bg;
+  @include select-control-focus();
+}
+
+.gf-form-select-box__control--is-disabled {
+  background-color: $select-input-bg-disabled;
+}
+
+.gf-form-select-box__control--menu-right {
+  .gf-form-select-box__menu {
+    right: 0;
+    left: unset;
   }
+}
 
 .gf-form-select-box__input {
   padding-left: 5px;
@@ -60,9 +66,9 @@ $select-option-selected-bg: $dropdownLinkBackgroundActive;
   max-width: 600px;
 }
 
-    input {
-      min-width: 1rem;
-    }
+.tag-filter .gf-form-select-box__menu {
+  width: 100%;
+}
 
 /* .gf-form-select-box__single-value { */
 /* } */
@@ -82,15 +88,16 @@ $select-option-selected-bg: $dropdownLinkBackgroundActive;
     @include left-brand-border-gradient();
   }
 
-  &.is-focused > .Select-control {
-    background-color: $input-bg;
-    @include select-control-focus();
+  &.gf-form-select-box__option--is-selected {
+    .fa {
+      color: $input-color-select-arrow;
+    }
   }
+}
 
-  &.is-focused:not(.is-open) > .Select-control {
-    background-color: $input-bg;
-    @include select-control-focus();
-  }
+.gf-form-select-box__control--is-focused .gf-form-select-box__placeholder {
+  display: none;
+}
 
 .gf-form-select-box__value-container {
   display: table-cell;
@@ -99,10 +106,15 @@ $select-option-selected-bg: $dropdownLinkBackgroundActive;
   > div {
     display: inline-block;
   }
+}
 
-  .Select-option {
-    border-left: 2px solid transparent;
-  }
+.gf-form-select-box__indicators {
+  display: table-cell;
+  vertical-align: middle;
+  text-align: right;
+  padding-right: 10px;
+  width: 20px;
+}
 
 .gf-form-select-box__select-arrow {
   border-color: $input-color-select-arrow transparent transparent;
@@ -127,10 +139,9 @@ $select-option-selected-bg: $dropdownLinkBackgroundActive;
   position: relative;
 }
 
-.gf-form-input--form-dropdown-right {
-  .Select-menu-outer {
-    right: 0;
-    left: unset;
+.gf-form--has-input-icon {
+  .gf-form-select-box__value-container {
+    padding-left: 30px;
   }
 }
 

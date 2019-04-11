@@ -26,10 +26,8 @@ export class PanelCtrl {
   $injector: any;
   $location: any;
   $timeout: any;
-  fullscreen: boolean;
   inspector: any;
   editModeInitiated: boolean;
-  editMode: any;
   height: any;
   containerHeight: any;
   events: Emitter;
@@ -52,17 +50,12 @@ export class PanelCtrl {
       this.pluginName = plugin.name;
     }
 
-    $scope.$on('refresh', () => this.refresh());
     $scope.$on('component-did-mount', () => this.panelDidMount());
-  }
-
-  init() {
-    this.events.emit('panel-initialized');
-    this.publishAppEvent('panel-initialized', { scope: this.$scope });
   }
 
   panelDidMount() {
     this.events.emit('component-did-mount');
+    this.dashboard.panelInitialized(this.panel);
   }
 
   renderingCompleted() {
@@ -70,7 +63,7 @@ export class PanelCtrl {
   }
 
   refresh() {
-    this.events.emit('refresh', null);
+    this.panel.refresh();
   }
 
   publishAppEvent(evtName, evt) {
@@ -173,7 +166,7 @@ export class PanelCtrl {
 
   getExtendedMenu() {
     const menu = [];
-    if (!this.fullscreen && this.dashboard.meta.canEdit) {
+    if (!this.panel.fullscreen && this.dashboard.meta.canEdit) {
       menu.push({
         text: 'Duplicar',
         click: 'ctrl.duplicate()',
@@ -203,7 +196,7 @@ export class PanelCtrl {
   }
 
   otherPanelInFullscreenMode() {
-    return this.dashboard.meta.fullscreen && !this.fullscreen;
+    return this.dashboard.meta.fullscreen && !this.panel.fullscreen;
   }
 
   calculatePanelHeight(containerHeight) {

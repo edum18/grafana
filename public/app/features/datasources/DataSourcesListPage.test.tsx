@@ -43,6 +43,7 @@ describe('Render', () => {
     const wrapper = setup({
       dataSources: getMockDataSources(5),
       dataSourcesCount: 5,
+      hasFetched: true,
     });
 
     expect(wrapper).toMatchSnapshot();

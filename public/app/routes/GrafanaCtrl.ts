@@ -15,7 +15,6 @@ import { DatasourceSrv, setDatasourceSrv } from 'app/features/plugins/datasource
 import { KeybindingSrv, setKeybindingSrv } from 'app/core/services/keybindingSrv';
 import { AngularLoader, setAngularLoader } from 'app/core/services/AngularLoader';
 import { configureStore } from 'app/store/configureStore';
-import { AngularLoader, setAngularLoader } from 'app/core/services/AngularLoader';
 
 // Types
 import { KioskUrlValue } from 'app/types';
@@ -24,18 +23,18 @@ export class GrafanaCtrl {
   /** @ngInject */
   constructor(
     $scope,
-    alertSrv,
     utilSrv,
     $rootScope,
     $controller,
     contextSrv,
     bridgeSrv,
     backendSrv: BackendSrv,
+    timeSrv: TimeSrv,
     datasourceSrv: DatasourceSrv,
     keybindingSrv: KeybindingSrv,
     angularLoader: AngularLoader
   ) {
-    // sets singleston instances for angular services so react components can access them
+    // make angular loader service available to react components
     setAngularLoader(angularLoader);
     setBackendSrv(backendSrv);
     setDatasourceSrv(datasourceSrv);
@@ -49,11 +48,8 @@ export class GrafanaCtrl {
       $scope._ = _;
 
       profiler.init(config, $rootScope);
-      alertSrv.init();
       utilSrv.init();
       bridgeSrv.init();
-
-      $scope.dashAlerts = alertSrv;
     };
 
     $rootScope.colors = colors;
@@ -90,7 +86,7 @@ function setViewModeBodyClass(body: JQuery, mode: KioskUrlValue) {
       break;
     }
     // 1 & true for legacy states
-    case 1:
+    case '1':
     case true: {
       body.addClass('view-mode--kiosk');
       break;
@@ -168,16 +164,16 @@ export function grafanaAppDirective(playlistSrv, contextSrv, $timeout, $rootScop
         const search: { kiosk?: KioskUrlValue } = $location.search();
 
         if (options && options.exit) {
-          search.kiosk = 1;
+          search.kiosk = '1';
         }
 
         switch (search.kiosk) {
           case 'tv': {
-            search.kiosk = 1;
+            search.kiosk = true;
             appEvents.emit('alert-success', ['Pressione ESC para sair do modo de visualização Kiosk']);
             break;
           }
-          case 1:
+          case '1':
           case true: {
             delete search.kiosk;
             break;

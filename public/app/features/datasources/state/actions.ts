@@ -47,6 +47,16 @@ export function loadDataSources(): ThunkResult<void> {
   };
 }
 
+export function loadDataSource(id: number): ThunkResult<void> {
+  return async dispatch => {
+    const dataSource = await getBackendSrv().get(`/api/datasources/${id}`);
+    const pluginInfo = await getBackendSrv().get(`/api/plugins/${dataSource.type}/settings`);
+    dispatch(dataSourceLoaded(dataSource));
+    dispatch(dataSourceMetaLoaded(pluginInfo));
+    dispatch(updateNavIndex(buildNavModel(dataSource, pluginInfo)));
+  };
+}
+
 export function addDataSource(plugin: Plugin): ThunkResult<void> {
   return async (dispatch, getStore) => {
     await dispatch(loadDataSources());

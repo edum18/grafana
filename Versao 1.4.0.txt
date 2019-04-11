@@ -1,3 +1,6 @@
+v1.4.0 (09-04-2019):
+merge com a versao mais recente do Grafana v6.1
+
 v1.3.2:
 username e password ja nao sao guardados no browser!
 

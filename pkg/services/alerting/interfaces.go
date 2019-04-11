@@ -27,6 +27,7 @@ type Notifier interface {
 	GetNotifierUid() string
 	GetIsDefault() bool
 	GetSendReminder() bool
+	GetDisableResolveMessage() bool
 	GetFrequency() time.Duration
 }
 

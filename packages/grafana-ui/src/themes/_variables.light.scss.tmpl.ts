@@ -126,7 +126,7 @@ $card-background-hover: linear-gradient(135deg, $gray-5, $gray-6);
 $card-shadow: -1px -1px 0 0 hsla(0, 0%, 100%, 0.1), 1px 1px 0 0 rgba(0, 0, 0, 0.1);
 
 // Lists
-$list-item-bg: linear-gradient(135deg, $gray-5, $gray-6); //$card-background;
+$list-item-bg: unset; // alterado de: linear-gradient(135deg, $gray-5, $gray-6); //$card-background;
 $list-item-hover-bg: darken($gray-5, 5%);
 $list-item-link-color: $text-color;
 $list-item-shadow: $card-shadow;

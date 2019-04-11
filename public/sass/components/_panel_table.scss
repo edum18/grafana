@@ -63,9 +63,9 @@
   }
 
   td {
-    padding: 0.45em 8px 0.45em 1.1em;
+    padding: 0.45em 0 0.45em 1.1em;
     border-bottom: 2px solid $body-bg;
-    //  border-right: 2px solid $body-bg;
+    border-right: 2px solid $body-bg;
 
     &:first-child {
       padding-left: 15px;
@@ -113,10 +113,10 @@
 
 .table-panel-header-bg {
   background: $list-item-bg;
-  border-top: 2px solid $body-bg;
+  // border-top: 2px solid $body-bg; // alterado (comentei)
   border-bottom: 2px solid $body-bg;
-  //height: 4em;
-  //position: absolute;
+  height: 2em;
+  position: absolute;
   top: 0;
   right: 0;
   left: 0;
@@ -124,7 +124,6 @@
 
 .table-panel-table-header-inner {
   padding: 0.45em 0 0.45em 1.1em;
-  font-size: 14px;
   text-align: left;
   color: $blue;
   position: absolute;

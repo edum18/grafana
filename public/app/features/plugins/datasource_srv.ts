@@ -1,3 +1,4 @@
+// Libraries
 import _ from 'lodash';
 import coreModule from 'app/core/core_module';
 
@@ -169,6 +170,16 @@ export class DatasourceSrv {
       }
     }
   }
+}
+
+let singleton: DatasourceSrv;
+
+export function setDatasourceSrv(srv: DatasourceSrv) {
+  singleton = srv;
+}
+
+export function getDatasourceSrv(): DatasourceSrv {
+  return singleton;
 }
 
 coreModule.service('datasourceSrv', DatasourceSrv);

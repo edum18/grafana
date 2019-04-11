@@ -3,7 +3,7 @@ import coreModule from '../core_module';
 
 class DynamicDirectiveSrv {
   /** @ngInject */
-  constructor(private $compile, private $rootScope) {}
+  constructor(private $compile) {}
 
   addDirective(element, name, scope) {
     const child = angular.element(document.createElement(name));

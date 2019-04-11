@@ -16,6 +16,7 @@ const setup = (propOverrides?: object) => {
     } as NavModel,
     apiKeys: [] as ApiKey[],
     searchQuery: '',
+    hasFetched: false,
     loadApiKeys: jest.fn(),
     deleteApiKey: jest.fn(),
     setSearchQuery: jest.fn(),

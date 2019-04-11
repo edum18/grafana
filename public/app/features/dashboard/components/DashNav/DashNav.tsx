@@ -151,7 +151,7 @@ export class DashNav extends PureComponent<Props> {
   renderBackButton() {
     return (
       <div className="navbar-edit">
-        <Tooltip content="Go back (Esc)">
+        <Tooltip content="Voltar (Esc)">
           <button className="navbar-edit__back-btn" onClick={this.onClose}>
             <i className="fa fa-arrow-left" />
           </button>
@@ -175,19 +175,19 @@ export class DashNav extends PureComponent<Props> {
         {this.playlistSrv.isPlaying && (
           <div className="navbar-buttons navbar-buttons--playlist">
             <DashNavButton
-              tooltip="Go to previous dashboard"
+              tooltip="Ir para o dashboard anterior"
               classSuffix="tight"
               icon="fa fa-step-backward"
               onClick={this.onPlaylistPrev}
             />
             <DashNavButton
-              tooltip="Stop playlist"
+              tooltip="Parar playlist"
               classSuffix="tight"
               icon="fa fa-stop"
               onClick={this.onPlaylistStop}
             />
             <DashNavButton
-              tooltip="Go to next dashboard"
+              tooltip="Ir para o próximo dashboard"
               classSuffix="tight"
               icon="fa fa-forward"
               onClick={this.onPlaylistNext}
@@ -198,7 +198,7 @@ export class DashNav extends PureComponent<Props> {
         <div className="navbar-buttons navbar-buttons--actions">
           {canSave && (
             <DashNavButton
-              tooltip="Add panel"
+              tooltip="Adicionar painel"
               classSuffix="add-panel"
               icon="gicon gicon-add-panel"
               onClick={onAddPanel}
@@ -207,7 +207,7 @@ export class DashNav extends PureComponent<Props> {
 
           {canStar && (
             <DashNavButton
-              tooltip="Mark as favorite"
+              tooltip="Marcar como favorito"
               classSuffix="star"
               icon={`${isStarred ? 'fa fa-star' : 'fa fa-star-o'}`}
               onClick={this.onStarDashboard}
@@ -216,7 +216,7 @@ export class DashNav extends PureComponent<Props> {
 
           {canShare && (
             <DashNavButton
-              tooltip="Share dashboard"
+              tooltip="Partilhar dashboard"
               classSuffix="share"
               icon="fa fa-share-square-o"
               onClick={this.onOpenShare}
@@ -224,12 +224,12 @@ export class DashNav extends PureComponent<Props> {
           )}
 
           {canSave && (
-            <DashNavButton tooltip="Save dashboard" classSuffix="save" icon="fa fa-save" onClick={this.onSave} />
+            <DashNavButton tooltip="Guardar dashboard" classSuffix="save" icon="fa fa-save" onClick={this.onSave} />
           )}
 
           {snapshotUrl && (
             <DashNavButton
-              tooltip="Open original dashboard"
+              tooltip="Abrir o dashboard original"
               classSuffix="snapshot-origin"
               icon="fa fa-link"
               href={snapshotUrl}
@@ -238,7 +238,7 @@ export class DashNav extends PureComponent<Props> {
 
           {showSettings && (
             <DashNavButton
-              tooltip="Dashboard settings"
+              tooltip="Definições do dashboard"
               classSuffix="settings"
               icon="fa fa-cog"
               onClick={this.onOpenSettings}
@@ -248,7 +248,7 @@ export class DashNav extends PureComponent<Props> {
 
         <div className="navbar-buttons navbar-buttons--tv">
           <DashNavButton
-            tooltip="Cycle view mode"
+            tooltip="Mudar de modo de visualização"
             classSuffix="tv"
             icon="fa fa-desktop"
             onClick={this.onToggleTVMode}

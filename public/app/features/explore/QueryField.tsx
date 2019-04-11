@@ -10,6 +10,8 @@ import { Editor } from 'slate-react';
 import Plain from 'slate-plain-serializer';
 import classnames from 'classnames';
 
+import { CompletionItem, CompletionItemGroup, TypeaheadOutput } from 'app/types/explore';
+
 import ClearPlugin from './slate-plugins/clear';
 import NewlinePlugin from './slate-plugins/newline';
 
@@ -19,14 +21,14 @@ import PlaceholdersBuffer from './PlaceholdersBuffer';
 
 export const TYPEAHEAD_DEBOUNCE = 100;
 
-function getSuggestionByIndex(suggestions: SuggestionGroup[], index: number): Suggestion {
+function getSuggestionByIndex(suggestions: CompletionItemGroup[], index: number): CompletionItem {
   // Flatten suggestion groups
   const flattenedSuggestions = suggestions.reduce((acc, g) => acc.concat(g.items), []);
   const correctedIndex = Math.max(index, 0) % flattenedSuggestions.length;
   return flattenedSuggestions[correctedIndex];
 }
 
-function hasSuggestions(suggestions: SuggestionGroup[]): boolean {
+function hasSuggestions(suggestions: CompletionItemGroup[]): boolean {
   return suggestions && suggestions.length > 0;
 }
 
@@ -157,7 +159,7 @@ export class QueryField extends React.PureComponent<QueryFieldProps, QueryFieldS
     if (documentChanged && value.selection.isCollapsed) {
       // Need one paint to allow DOM-based typeahead rules to work
       window.requestAnimationFrame(this.handleTypeahead);
-    } else {
+    } else if (!this.resetTimer) {
       this.resetTypeahead();
     }
   };
@@ -192,7 +194,13 @@ export class QueryField extends React.PureComponent<QueryFieldProps, QueryFieldS
       const offset = range.startOffset;
       const text = selection.anchorNode.textContent;
       let prefix = text.substr(0, offset);
-      if (cleanText) {
+
+      // Label values could have valid characters erased if `cleanText()` is
+      // blindly applied, which would undesirably interfere with suggestions
+      const labelValueMatch = prefix.match(/(?:!?=~?"?|")(.*)/);
+      if (labelValueMatch) {
+        prefix = labelValueMatch[1];
+      } else if (cleanText) {
         prefix = cleanText(prefix);
       }
 
@@ -251,7 +259,7 @@ export class QueryField extends React.PureComponent<QueryFieldProps, QueryFieldS
     }
   }, TYPEAHEAD_DEBOUNCE);
 
-  applyTypeahead(change: Change, suggestion: Suggestion): Change {
+  applyTypeahead(change: Change, suggestion: CompletionItem): Change {
     const { cleanText, onWillApplySuggestion, syntax } = this.props;
     const { typeaheadPrefix, typeaheadText } = this.state;
     let suggestionText = suggestion.insertText || suggestion.label;

@@ -36,7 +36,7 @@ class DashListCtrl extends PanelCtrl {
     this.groups = [
       { list: [], show: false, header: 'Dashboards favoritos' },
       { list: [], show: false, header: 'Dashboards vistos recentemente' },
-      { list: [], show: false, header: 'Pesquisar' },
+      { list: [], show: false, header: 'Procurar' },
     ];
 
     // update capability

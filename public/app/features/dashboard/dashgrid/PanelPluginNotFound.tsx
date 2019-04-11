@@ -28,7 +28,10 @@ class PanelPluginNotFound extends PureComponent<Props> {
 
     return (
       <div style={style}>
-        <AlertBox severity={AppNotificationSeverity.Error} title={`Panel plugin not found: ${this.props.pluginId}`} />
+        <AlertBox
+          severity={AppNotificationSeverity.Error}
+          title={`Painel de plugin não encontrado: ${this.props.pluginId}`}
+        />
       </div>
     );
   }

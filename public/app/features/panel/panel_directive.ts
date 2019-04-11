@@ -14,7 +14,7 @@ const panelTemplate = `
         </span>
 
         <span class="panel-loading" ng-show="ctrl.loading">
-          <i class="fa fa-spinner fa-spin"></i>
+          <i class="fa fa-spinner fa-spin" style="color: #9fb614; font-size: 23px; margin-top: 3px; margin-right: 0;"></i>
         </span>
 
         <panel-header class="panel-title-container" panel-ctrl="ctrl"></panel-header>
@@ -56,10 +56,6 @@ module.directive('grafanaPanel', ($rootScope, $document, $timeout) => {
       function mouseLeave() {
         panelContainer.toggleClass('panel-hover-highlight', false);
         ctrl.dashboard.setPanelFocus(0);
-      }
-
-      function panelHeightUpdated() {
-        panelContent.css({ height: ctrl.height + 'px' });
       }
 
       function resizeScrollableContent() {

@@ -20,7 +20,7 @@ func StarDashboard(c *m.ReqContext) Response {
 		return Error(500, "Falha ao marcar dashboard como favorito.", err)
 	}
 
-	return Success("Marcou um dashboard como favorito.")
+	return Success("Dashboard marcado como favorito.")
 }
 
 func UnstarDashboard(c *m.ReqContext) Response {
@@ -35,5 +35,5 @@ func UnstarDashboard(c *m.ReqContext) Response {
 		return Error(500, "Falha ao desmarcar dashboard como favorito.", err)
 	}
 
-	return Success("Desmarcou um dashboard como favorito.")
+	return Success("Dashboard desmarcado como favorito.")
 }

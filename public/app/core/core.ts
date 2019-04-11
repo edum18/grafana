@@ -18,7 +18,6 @@ import './services/search_srv';
 import './services/ng_react';
 import { colors } from '@grafana/ui/';
 
-import { grafanaAppDirective } from './components/grafana_app';
 import { searchDirective } from './components/search/search';
 import { infoPopover } from './components/info_popover';
 import { navbarDirective } from './components/navbar/navbar';
@@ -56,7 +55,6 @@ export {
   registerAngularDirectives,
   arrayJoin,
   coreModule,
-  grafanaAppDirective,
   navbarDirective,
   searchDirective,
   liveSrv,

@@ -7,13 +7,10 @@ import appEvents from 'app/core/app_events';
 
 export interface DashboardRowProps {
   panel: PanelModel;
-  getPanelContainer: () => PanelContainer;
+  dashboard: DashboardModel;
 }
 
 export class DashboardRow extends React.Component<DashboardRowProps, any> {
-  dashboard: any;
-  panelContainer: any;
-
   constructor(props) {
     super(props);
 
@@ -63,14 +60,10 @@ export class DashboardRow extends React.Component<DashboardRowProps, any> {
       altActionText: 'Delete row only',
       icon: 'fa-trash',
       onConfirm: () => {
-        const panelContainer = this.props.getPanelContainer();
-        const dashboard = panelContainer.getDashboard();
-        dashboard.removeRow(this.props.panel, true);
+        this.props.dashboard.removeRow(this.props.panel, true);
       },
       onAltAction: () => {
-        const panelContainer = this.props.getPanelContainer();
-        const dashboard = panelContainer.getDashboard();
-        dashboard.removeRow(this.props.panel, false);
+        this.props.dashboard.removeRow(this.props.panel, false);
       },
     });
   };
@@ -89,7 +82,7 @@ export class DashboardRow extends React.Component<DashboardRowProps, any> {
     const title = templateSrv.replaceWithText(this.props.panel.title, this.props.panel.scopedVars);
     const count = this.props.panel.panels ? this.props.panel.panels.length : 0;
     const panels = count === 1 ? 'panel' : 'panels';
-    const canEdit = this.dashboard.meta.canEdit === true;
+    const canEdit = this.props.dashboard.meta.canEdit === true;
 
     return (
       <div className={classes}>

@@ -14,7 +14,6 @@ import { User } from 'app/types';
 
 export interface Props {
   onSelected: (user: User) => void;
-  value?: string;
   className?: string;
 }
 
@@ -38,7 +37,6 @@ export class UserPicker extends Component<Props, State> {
 
   search(query?: string) {
     const backendSrv = getBackendSrv();
-
     this.setState({ isLoading: true });
 
     if (_.isNil(query)) {
@@ -62,7 +60,7 @@ export class UserPicker extends Component<Props, State> {
   }
 
   render() {
-    const { value, className } = this.props;
+    const { className, onSelected } = this.props;
     const { isLoading } = this.state;
 
     return (
@@ -70,6 +68,7 @@ export class UserPicker extends Component<Props, State> {
         <AsyncSelect
           className={className}
           isLoading={isLoading}
+          defaultOptions={true}
           loadOptions={this.debouncedSearch}
           onChange={onSelected}
           placeholder="Select user"

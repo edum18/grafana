@@ -31,6 +31,7 @@ export interface Props {
   dataSourcesCount: number;
   layoutMode: LayoutMode;
   searchQuery: string;
+  hasFetched: boolean;
   loadDataSources: typeof loadDataSources;
   setDataSourcesLayoutMode: typeof setDataSourcesLayoutMode;
   setDataSourcesSearchQuery: typeof setDataSourcesSearchQuery;
@@ -65,6 +66,7 @@ export class DataSourcesListPage extends PureComponent<Props> {
       searchQuery,
       setDataSourcesSearchQuery,
       setDataSourcesLayoutMode,
+      hasFetched,
     } = this.props;
 
     const linkButton = {
@@ -103,6 +105,7 @@ function mapStateToProps(state: StoreState) {
     layoutMode: getDataSourcesLayoutMode(state.dataSources),
     dataSourcesCount: getDataSourcesCount(state.dataSources),
     searchQuery: getDataSourcesSearchQuery(state.dataSources),
+    hasFetched: state.dataSources.hasFetched,
   };
 }
 

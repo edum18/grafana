@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import React from 'react';
 import { NoOptionsMessage, IndicatorsContainer, resetSelectStyles } from '@grafana/ui';
 import AsyncSelect from '@torkelo/react-select/lib/Async';
@@ -23,24 +22,17 @@ export class TagFilter extends React.Component<Props, any> {
 
   onLoadOptions = query => {
     return this.props.tagOptions().then(options => {
-      const tags = _.map(options, tagOption => {
-        return { value: tagOption.term, label: tagOption.term, count: tagOption.count };
-      });
-      return { options: tags };
+      return options.map(option => ({
+        value: option.term,
+        label: option.term,
+        count: option.count,
+      }));
     });
   };
 
   onChange = (newTags: any[]) => {
     this.props.onChange(newTags.map(tag => tag.value));
   };
-
-  onTagRemove(tag) {
-    let newTags = _.without(this.props.tags, tag.label);
-    newTags = _.map(newTags, tag => {
-      return { value: tag };
-    });
-    this.props.onSelect(newTags);
-  }
 
   render() {
     const tags = this.props.tags.map(tag => ({ value: tag, label: tag, count: 0 }));
@@ -51,12 +43,10 @@ export class TagFilter extends React.Component<Props, any> {
       defaultOptions: true,
       loadOptions: this.onLoadOptions,
       onChange: this.onChange,
-      value: this.props.tags,
-      multi: true,
       className: 'gf-form-input gf-form-input--form-dropdown',
       placeholder: 'Tags',
-      loadingMessage: () => 'Loading...',
-      noOptionsMessage: () => 'No tags found',
+      loadingMessage: () => 'Carregando...',
+      noOptionsMessage: () => 'Sem resultados',
       getOptionValue: i => i.value,
       getOptionLabel: i => i.label,
       value: tags,
@@ -84,12 +74,10 @@ export class TagFilter extends React.Component<Props, any> {
       },
     };
 
-    selectOptions['valueComponent'] = TagValue;
-
     return (
       <div className="gf-form gf-form--has-input-icon gf-form--grow">
         <div className="tag-filter">
-          <Async {...selectOptions} />
+          <AsyncSelect {...selectOptions} />
         </div>
         <i className="gf-form-input-icon fa fa-tag" />
       </div>

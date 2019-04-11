@@ -25,12 +25,12 @@ export const removePanel = (dashboard: DashboardModel, panel: PanelModel, ask: b
     const confirmText = panel.alert ? 'YES' : null;
 
     appEvents.emit('confirm-modal', {
-      title: 'Remove Panel',
-      text: 'Are you sure you want to remove this panel?',
+      title: 'Remover Painel',
+      text: 'Tem a certeza que quer remover este painel?',
       text2: text2,
       icon: 'fa-trash',
       confirmText: confirmText,
-      yesText: 'Remove',
+      yesText: 'Remover',
       onConfirm: () => removePanel(dashboard, panel, false),
     });
     return;
@@ -44,7 +44,7 @@ export const duplicatePanel = (dashboard: DashboardModel, panel: PanelModel) => 
 
 export const copyPanel = (panel: PanelModel) => {
   store.set(LS_PANEL_COPY_KEY, JSON.stringify(panel.getSaveModel()));
-  appEvents.emit('alert-success', ['Panel copied. Open Add Panel to paste']);
+  appEvents.emit('alert-success', ['Painel copiado. Abra "Abrir Painel" para colar']);
 };
 
 const replacePanel = (dashboard: DashboardModel, newPanel: PanelModel, oldPanel: PanelModel) => {

@@ -1,5 +1,6 @@
 import './dashboard_loaders';
 import './ReactContainer';
+import { applyRouteRegistrationHandlers } from './registry';
 
 // Pages
 import ServerStats from 'app/features/admin/ServerStats';
@@ -112,9 +113,10 @@ export function setupAngularRoutes($routeProvider, $locationProvider) {
       },
     })
     .when('/datasources/edit/:id/dashboards', {
-      templateUrl: 'public/app/features/plugins/partials/ds_dashboards.html',
-      controller: 'DataSourceDashboardsCtrl',
-      controllerAs: 'ctrl',
+      template: '<react-container />',
+      resolve: {
+        component: () => DataSourceDashboards,
+      },
     })
     .when('/datasources/new', {
       template: '<react-container />',
@@ -343,4 +345,6 @@ export function setupAngularRoutes($routeProvider, $locationProvider) {
       templateUrl: 'public/app/partials/error.html',
       controller: 'ErrorCtrl',
     });
+
+  applyRouteRegistrationHandlers($routeProvider);
 }

@@ -45,8 +45,7 @@ export class ShareSnapshotCtrl {
 
       $scope.loading = true;
       $scope.snapshot.external = external;
-
-      $rootScope.$broadcast('refresh');
+      $scope.dashboard.startRefresh();
 
       $timeout(() => {
         $scope.saveSnapshot(external);

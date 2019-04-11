@@ -90,7 +90,7 @@ yarn jest
 
 **Open grafana in your browser (default: e.g. `http://localhost:3000`) and login with admin user (default: `user/pass = admin/admin`).**
 
-### Building a docker image (on linux/amd64)
+### Building a Docker image
 
 There are two different ways to build a Grafana docker image. If your machine is setup for Grafana development and you run linux/amd64 you can build just the image. Otherwise, there is the option to build Grafana completely within Docker.
 

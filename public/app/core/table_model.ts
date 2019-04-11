@@ -18,11 +18,20 @@ export default class TableModel implements TableData {
   type: string;
   columnMap: any;
 
-  constructor() {
+  constructor(table?: any) {
     this.columns = [];
     this.columnMap = {};
     this.rows = [];
     this.type = 'table';
+
+    if (table) {
+      if (table.columns) {
+        table.columns.forEach(col => this.addColumn(col));
+      }
+      if (table.rows) {
+        table.rows.forEach(row => this.addRow(row));
+      }
+    }
   }
 
   sort(options) {

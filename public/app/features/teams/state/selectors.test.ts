@@ -8,14 +8,14 @@ describe('Teams selectors', () => {
     const mockTeams = getMultipleMockTeams(5);
 
     it('should return teams if no search query', () => {
-      const mockState: TeamsState = { teams: mockTeams, searchQuery: '' };
+      const mockState: TeamsState = { teams: mockTeams, searchQuery: '', hasFetched: false };
 
       const teams = getTeams(mockState);
       expect(teams).toEqual(mockTeams);
     });
 
     it('Should filter teams if search query', () => {
-      const mockState: TeamsState = { teams: mockTeams, searchQuery: '5' };
+      const mockState: TeamsState = { teams: mockTeams, searchQuery: '5', hasFetched: false };
 
       const teams = getTeams(mockState);
       expect(teams.length).toEqual(1);

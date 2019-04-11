@@ -112,7 +112,7 @@ div.flot-text {
 }
 
 .panel-title-text {
-  font-size: 14px;
+  font-size: 14px; // adicionado
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
@@ -246,14 +246,6 @@ div.flot-text {
     .fa:before {
       content: '\f12a';
     }
-  }
-}
-
-.panel-hover-highlight {
-  .panel-menu-toggle {
-    visibility: visible;
-    transition: opacity 0.1s ease-in 0.2s;
-    opacity: 1;
   }
 }
 

@@ -257,7 +257,7 @@ export default class TimePicker extends PureComponent<TimePickerProps, TimePicke
             <span className="popover-box__title">Custom range</span>
           </div>
           <div className="popover-box__body gf-timepicker-absolute-section">
-            <label className="small">From:</label>
+            <label className="small">Desde:</label>
             <div className="gf-form-inline">
               <div className="gf-form max-width-28">
                 <Input
@@ -269,7 +269,7 @@ export default class TimePicker extends PureComponent<TimePickerProps, TimePicke
               </div>
             </div>
 
-            <label className="small">To:</label>
+            <label className="small">Até:</label>
             <div className="gf-form-inline">
               <div className="gf-form max-width-28">
                 <Input
@@ -282,7 +282,7 @@ export default class TimePicker extends PureComponent<TimePickerProps, TimePicke
             </div>
             <div className="gf-form">
               <button className="btn gf-form-btn btn-secondary" onClick={this.handleClickApply}>
-                Apply
+                Aplicar
               </button>
             </div>
           </div>

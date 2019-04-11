@@ -3,9 +3,9 @@ import { NavModel, NavModelItem, NavIndex } from 'app/types';
 function getNotFoundModel(): NavModel {
   const node: NavModelItem = {
     id: 'not-found',
-    text: 'Page not found',
+    text: 'Página não encontrada',
     icon: 'fa fa-fw fa-warning',
-    subTitle: '404 Error',
+    subTitle: '404 Erro',
     url: 'not-found',
   };
 

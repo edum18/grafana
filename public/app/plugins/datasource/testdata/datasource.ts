@@ -67,7 +67,6 @@ export class TestDataDatasource implements DataSourceApi<TestDataQuery> {
           }
         }
 
-        console.log(res);
         return { data: data };
       });
   }

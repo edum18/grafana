@@ -208,7 +208,7 @@ class GraphElement {
       } else {
         console.log('Tipo de gráfico não encontrado. Contactar suporte.');
       }
-    }
+    } // até aqui
 
     if (this.panel.xaxis.mode !== 'time') {
       // Skip if panel in histogram or series mode

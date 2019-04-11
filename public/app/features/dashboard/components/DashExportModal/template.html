@@ -5,20 +5,19 @@
 	<div>
 		<gf-form-switch
 			class="gf-form"
-			label="Export for sharing externally"
+			label="Exportar para partilhar externamente"
 			label-class="width-16"
-			checked="ctrl.shareExternally"
-			tooltip="Useful for sharing dashboard publicly on grafana.com. Will templatize data source names. Can then only be used with the specific dashboard import API.">
+			checked="ctrl.shareExternally">
 		</gf-form-switch>
 
 		<div class="gf-form-button-row">
 			<button type="button" class="btn gf-form-btn width-10 btn-primary" ng-click="ctrl.saveDashboardAsFile()">
-				<i class="fa fa-save"></i> Save to file
+				<i class="fa fa-save"></i> Download JSON
 			</button>
 			<button type="button" class="btn gf-form-btn width-10 btn-secondary" ng-click="ctrl.viewJson()">
-				<i class="fa fa-file-text-o"></i> View JSON
+				<i class="fa fa-file-text-o"></i> Ver JSON
 			</button>
-			<a class="btn btn-link" ng-click="ctrl.dismiss()">Cancel</a>
+			<a class="btn btn-link" ng-click="ctrl.dismiss()">Cancelar</a>
 		</div>
 
 	</div>

@@ -1,4 +1,3 @@
-import angular from 'angular';
 import _ from 'lodash';
 import $ from 'jquery';
 import * as d3 from 'd3';
@@ -18,7 +17,7 @@ const LEGEND_SEGMENT_WIDTH = 10;
 /**
  * Color legend for heatmap editor.
  */
-module.directive('colorLegend', () => {
+coreModule.directive('colorLegend', () => {
   return {
     restrict: 'E',
     template: '<div class="heatmap-color-legend"><svg width="16.5rem" height="24px"></svg></div>',
@@ -54,7 +53,7 @@ module.directive('colorLegend', () => {
 /**
  * Heatmap legend with scale values.
  */
-module.directive('heatmapLegend', () => {
+coreModule.directive('heatmapLegend', () => {
   return {
     restrict: 'E',
     template: `<div class="heatmap-color-legend"><svg width="${LEGEND_WIDTH_PX}px" height="${LEGEND_HEIGHT_PX}px"></svg></div>`,

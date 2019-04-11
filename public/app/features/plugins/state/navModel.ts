@@ -45,6 +45,16 @@ export function buildNavModel(ds: DataSourceSettings, plugin: PluginMeta, curren
     });
   }
 
+  if (config.buildInfo.isEnterprise) {
+    main.children.push({
+      active: currentPage === 'datasource-permissions',
+      icon: 'fa fa-fw fa-lock',
+      id: 'datasource-permissions',
+      text: 'Permissions',
+      url: `datasources/edit/${ds.id}/permissions`,
+    });
+  }
+
   return {
     main: main,
     node: _.find(main.children, { active: true }),

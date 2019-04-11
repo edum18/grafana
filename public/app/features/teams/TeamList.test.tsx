@@ -50,6 +50,7 @@ describe('Render', () => {
     const { wrapper } = setup({
       teams: getMultipleMockTeams(5),
       teamsCount: 5,
+      hasFetched: true,
     });
 
     expect(wrapper).toMatchSnapshot();

@@ -26,7 +26,6 @@
   }
 
   // Disable grid interaction indicators in fullscreen panels
-
   .panel-header:hover {
     background-color: inherit;
   }
@@ -37,6 +36,11 @@
 
   .react-resizable-handle {
     display: none;
+  }
+
+  // the react-grid has a height transition
+  .react-grid-layout {
+    transition-property: none;
   }
 }
 

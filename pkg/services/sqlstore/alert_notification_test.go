@@ -255,18 +255,20 @@ func TestAlertNotificationSQLAccess(t *testing.T) {
 
 			Convey("Can update alert notification", func() {
 				newCmd := &models.UpdateAlertNotificationCommand{
-					Name:         "NewName",
-					Type:         "webhook",
-					OrgId:        cmd.Result.OrgId,
-					SendReminder: true,
-					Frequency:    "60s",
-					Settings:     simplejson.New(),
-					Id:           cmd.Result.Id,
+					Name:                  "NewName",
+					Type:                  "webhook",
+					OrgId:                 cmd.Result.OrgId,
+					SendReminder:          true,
+					DisableResolveMessage: true,
+					Frequency:             "60s",
+					Settings:              simplejson.New(),
+					Id:                    cmd.Result.Id,
 				}
 				err := UpdateAlertNotification(newCmd)
 				So(err, ShouldBeNil)
 				So(newCmd.Result.Name, ShouldEqual, "NewName")
 				So(newCmd.Result.Frequency, ShouldEqual, 60*time.Second)
+				So(newCmd.Result.DisableResolveMessage, ShouldBeTrue)
 			})
 
 			Convey("Can update alert notification to disable sending of reminders", func() {

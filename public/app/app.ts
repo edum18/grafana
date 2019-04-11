@@ -28,8 +28,9 @@ _.move = (array: [], fromIndex: number, toIndex: number) => {
   return array;
 };
 
-import { coreModule, registerAngularDirectives } from './core/core';
-import { setupAngularRoutes } from './routes/routes';
+import { coreModule, angularModules } from 'app/core/core_module';
+import { registerAngularDirectives } from 'app/core/core';
+import { setupAngularRoutes } from 'app/routes/routes';
 
 import 'app/routes/GrafanaCtrl';
 import 'app/features/all';
@@ -129,14 +130,12 @@ export class GrafanaApp {
       this.useModule(m);
     });
 
-    // makes it possible to add dynamic stuff
-    this.useModule(coreModule);
-
     // register react angular wrappers
     coreModule.config(setupAngularRoutes);
     registerAngularDirectives();
 
-    const preBootRequires = [System.import('app/features/all')];
+    // disable tool tip animation
+    $.fn.tooltip.defaults.animation = false;
 
     // bootstrap the app
     angular.bootstrap(document, this.ngModuleDependencies).invoke(() => {
@@ -144,18 +143,8 @@ export class GrafanaApp {
         _.extend(module, this.registerFunctions);
       });
 
-        // bootstrap the app
-        angular.bootstrap(document, this.ngModuleDependencies).invoke(() => {
-          _.each(this.preBootModules, module => {
-            _.extend(module, this.registerFunctions);
-          });
-
-          this.preBootModules = null;
-        });
-      })
-      .catch(err => {
-        console.log('Application boot failed:', err);
-      });
+      this.preBootModules = null;
+    });
   }
 }
 

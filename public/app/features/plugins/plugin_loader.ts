@@ -136,6 +136,7 @@ const flotDeps = [
   'jquery.flot.events',
   'jquery.flot.gauge',
 ];
+
 for (const flotDep of flotDeps) {
   exposeToPlugin(flotDep, { fakeDep: 1 });
 }

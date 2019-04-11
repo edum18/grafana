@@ -163,7 +163,7 @@ export class SearchCtrl {
       tag: this.query.tag,
     };
 
-    return this.searchSrv.search(this.query).then(results => {
+    return this.searchSrv.search(query).then(results => {
       if (localSearchId < this.currentSearchId) {
         return;
       }

@@ -95,6 +95,7 @@ func GetAlertNotificationsWithUidToSend(query *m.GetAlertNotificationsWithUidToS
 										alert_notification.updated,
 										alert_notification.settings,
 										alert_notification.is_default,
+										alert_notification.disable_resolve_message,
 										alert_notification.send_reminder,
 										alert_notification.frequency
 										FROM alert_notification
@@ -137,6 +138,7 @@ func getAlertNotificationInternal(query *m.GetAlertNotificationsQuery, sess *DBS
 										alert_notification.updated,
 										alert_notification.settings,
 										alert_notification.is_default,
+										alert_notification.disable_resolve_message,
 										alert_notification.send_reminder,
 										alert_notification.frequency
 										FROM alert_notification
@@ -313,6 +315,7 @@ func UpdateAlertNotification(cmd *m.UpdateAlertNotificationCommand) error {
 		current.Type = cmd.Type
 		current.IsDefault = cmd.IsDefault
 		current.SendReminder = cmd.SendReminder
+		current.DisableResolveMessage = cmd.DisableResolveMessage
 
 		if cmd.Uid != "" {
 			current.Uid = cmd.Uid
@@ -331,7 +334,7 @@ func UpdateAlertNotification(cmd *m.UpdateAlertNotificationCommand) error {
 			current.Frequency = frequency
 		}
 
-		sess.UseBool("is_default", "send_reminder")
+		sess.UseBool("is_default", "send_reminder", "disable_resolve_message")
 
 		if affected, err := sess.ID(cmd.Id).Update(current); err != nil {
 			return err

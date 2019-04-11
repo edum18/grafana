@@ -146,14 +146,6 @@ export class LoginCtrl {
       //console.log("admin decoded: " + XORCipher.decode("acceptgrafana", "AAcODB4=")); // admin
       //console.log("a que veio, decoded: " + XORCipher.decode("acceptgrafana", pass));
 
-      // data de hoje para adicionar à password, para ser mais seguro
-      const today = new Date();
-      const dd = today.getDate();
-      const mm = today.getMonth() + 1; //January is 0!
-      const yyyy = today.getFullYear();
-      const todayString = (dd < 10 ? '0' + dd : dd) + '.' + (mm < 10 ? '0' + mm : mm) + '.' + yyyy;
-      console.log('Grafana: data de hoje: ' + todayString);
-
       if (!user || !pass) {
         // se o url nao tiver preenchido totalmente...
         $scope.appEvent('alert-warning', ['Username ou password errada', '']);
@@ -164,12 +156,12 @@ export class LoginCtrl {
       } else {
         // inserir os dados de utilizador no modelo de user tirados do url
         $scope.formModel.user = user;
-        $scope.formModel.password = XORCipher.decode('acceptgrafana' + todayString, pass);
-      }
+        $scope.formModel.password = XORCipher.decode('acceptgrafana', pass);
 
-      $timeout(() => {
-        $scope.submit();
-      }, 1000);
+        $timeout(() => {
+          $scope.submit();
+        }, 1000);
+      }
     };
 
     $scope.submit = () => {

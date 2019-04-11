@@ -21,8 +21,8 @@ const (
 	LoginErrorCookieName = "login_error"
 )
 
-func LoginView(c *m.ReqContext) {
-	viewData, err := setIndexViewData(c)
+func (hs *HTTPServer) LoginView(c *m.ReqContext) {
+	viewData, err := hs.setIndexViewData(c)
 	if err != nil {
 		c.Handle(500, "Failed to get settings", err)
 		return
@@ -82,7 +82,7 @@ func tryOAuthAutoLogin(c *m.ReqContext) bool {
 
 func (hs *HTTPServer) LoginAPIPing(c *m.ReqContext) Response {
 	if c.IsSignedIn || c.IsAnonymous {
-		return JSON(200, "Logged in")
+		return JSON(200, "Autenticado")
 	}
 
 	return Error(401, "Unauthorized", nil)

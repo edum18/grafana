@@ -1,4 +1,4 @@
-import angular from 'angular';
+import coreModule from 'app/core/core_module';
 import _ from 'lodash';
 import { FilterSegments, DefaultFilterValue } from './filter_segments';
 
@@ -49,6 +49,7 @@ export class StackdriverFilterCtrl {
         value: `metric.label.${l}`,
         expandable: false,
       });
+    });
 
     elements = [
       ...elements,
@@ -97,8 +98,8 @@ export class StackdriverFilterCtrl {
     let elements = await this.createLabelKeyElements();
     elements = elements.filter(e => this.groupBys.indexOf(e.value) === -1);
     const noValueOrPlusButton = !segment || segment.type === 'plus-button';
-    if (noValueOrPlusButton && metricLabels.length === 0 && resourceLabels.length === 0) {
-      return Promise.resolve([]);
+    if (noValueOrPlusButton && elements.length === 0) {
+      return [];
     }
 
     this.removeSegment.value = this.defaultRemoveGroupByValue;

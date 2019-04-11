@@ -7,6 +7,7 @@ import kbn from 'app/core/utils/kbn';
 import * as dateMath from 'app/core/utils/datemath';
 import PrometheusMetricFindQuery from './metric_find_query';
 import { ResultTransformer } from './result_transformer';
+import PrometheusLanguageProvider from './language_provider';
 import { BackendSrv } from 'app/core/services/backend_srv';
 import addLabelToQuery from './add_label_to_query';
 import { getQueryHints } from './query_hints';
@@ -30,6 +31,7 @@ export class PrometheusDatasource implements DataSourceApi<PromQuery> {
   interval: string;
   queryTimeout: string;
   httpMethod: string;
+  languageProvider: PrometheusLanguageProvider;
   resultTransformer: ResultTransformer;
 
   /** @ngInject */
@@ -46,6 +48,7 @@ export class PrometheusDatasource implements DataSourceApi<PromQuery> {
     this.httpMethod = instanceSettings.jsonData.httpMethod || 'GET';
     this.resultTransformer = new ResultTransformer(templateSrv);
     this.ruleMappings = {};
+    this.languageProvider = new PrometheusLanguageProvider(this);
   }
 
   init() {
@@ -146,7 +149,6 @@ export class PrometheusDatasource implements DataSourceApi<PromQuery> {
 
     return this.$q.all(allQueryPromise).then(responseList => {
       let result = [];
-      let hints = [];
 
       _.each(responseList, (response, index) => {
         if (response.status === 'error') {
@@ -166,19 +168,14 @@ export class PrometheusDatasource implements DataSourceApi<PromQuery> {
           end: queries[index].end,
           query: queries[index].expr,
           responseListLength: responseList.length,
-          responseIndex: index,
           refId: activeTargets[index].refId,
+          valueWithRefId: activeTargets[index].valueWithRefId,
         };
         const series = this.resultTransformer.transform(response, transformerOptions);
         result = [...result, ...series];
-
-        if (queries[index].hinting) {
-          const queryHints = getQueryHints(series, this);
-          hints = [...hints, ...queryHints];
-        }
       });
 
-      return { data: result, hints };
+      return { data: result };
     });
   }
 

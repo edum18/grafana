@@ -21,7 +21,7 @@
 }
 
 .panel-editor-container__editor {
-  margin-top: $space-lg;
+  margin-top: 2px; // alterado de $space-lg; para ter mais espaço no editor
   display: flex;
   flex-direction: row;
   flex: 1 1 0;
@@ -67,7 +67,7 @@
 }
 
 .panel-editor__content {
-  padding: 15px;
+  padding: 0 15px 15px 15px; // alterado de padding: 15px;
 }
 
 .panel-in-fullscreen {

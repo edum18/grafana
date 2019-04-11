@@ -9,7 +9,7 @@ const theme: GrafanaThemeCommons = {
     },
     size: {
       root: '14px',
-      base: '13px',
+      base: '13px', // nossa versao ja foi 12px. default é 13px
       xs: '10px',
       sm: '12px',
       md: '14px',

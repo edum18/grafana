@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Input } from '@grafana/ui';
+import { Input } from './customTextArea'; // adicionado, ficheiro criado por mim também
 import { VariableQueryProps } from 'app/types/plugins';
 
 export default class DefaultVariableQueryEditor extends PureComponent<VariableQueryProps, any> {

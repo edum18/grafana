@@ -8,7 +8,7 @@ import { AngularPanelPlugin, DataSourceApi } from '@grafana/ui/src/types';
 import { importPanelPlugin, importDataSourcePlugin, importAppPlugin } from './plugin_loader';
 
 /** @ngInject */
-function pluginDirectiveLoader($compile, datasourceSrv, $rootScope, $q, $http, $templateCache) {
+function pluginDirectiveLoader($compile, datasourceSrv, $rootScope, $q, $http, $templateCache, $timeout) {
   function getTemplate(component) {
     if (component.template) {
       return $q.when(component.template);
@@ -201,10 +201,13 @@ function pluginDirectiveLoader($compile, datasourceSrv, $rootScope, $q, $http, $
 
     // let a binding digest cycle complete before adding to dom
     setTimeout(() => {
-      elem.append(child);
       scope.$applyAsync(() => {
-        scope.$broadcast('component-did-mount');
-        scope.$broadcast('refresh');
+        elem.append(child);
+        setTimeout(() => {
+          scope.$applyAsync(() => {
+            scope.$broadcast('component-did-mount');
+          });
+        });
       });
     });
   }
@@ -239,7 +242,6 @@ function pluginDirectiveLoader($compile, datasourceSrv, $rootScope, $q, $http, $
           registerPluginComponent(scope, elem, attrs, componentInfo);
         })
         .catch(err => {
-          $rootScope.appEvent('alert-error', ['Plugin Error', err.message || err]);
           console.log('Plugin component error', err);
         });
     },

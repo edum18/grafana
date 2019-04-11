@@ -60,9 +60,9 @@ describe('VariableSrv init', function(this: any) {
         ctx.variableSrv.datasourceSrv = ctx.datasourceSrv;
 
         ctx.variableSrv.$location.search = () => scenario.urlParams;
-        ctx.variableSrv.dashboard = {
+        ctx.variableSrv.dashboard = new DashboardModel({
           templating: { list: scenario.variables },
-        };
+        });
 
         await ctx.variableSrv.init(ctx.variableSrv.dashboard);
 

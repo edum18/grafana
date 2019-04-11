@@ -15,6 +15,7 @@ export interface Props {
   plugins: Plugin[];
   layoutMode: LayoutMode;
   searchQuery: string;
+  hasFetched: boolean;
   loadPlugins: typeof loadPlugins;
   setPluginsLayoutMode: typeof setPluginsLayoutMode;
   setPluginsSearchQuery: typeof setPluginsSearchQuery;
@@ -30,12 +31,21 @@ export class PluginListPage extends PureComponent<Props> {
   }
 
   render() {
-    const { navModel, plugins, layoutMode, setPluginsLayoutMode, setPluginsSearchQuery, searchQuery } = this.props;
+    const {
+      hasFetched,
+      navModel,
+      plugins,
+      layoutMode,
+      setPluginsLayoutMode,
+      setPluginsSearchQuery,
+      searchQuery,
+    } = this.props;
 
     const linkButton = {
       href: 'https://grafana.com/plugins?utm_source=grafana_plugin_list',
       title: 'Find more plugins on Grafana.com',
     };
+
     return (
       <Page navModel={navModel}>
         <Page.Contents isLoading={!hasFetched}>
@@ -61,6 +71,7 @@ function mapStateToProps(state) {
     plugins: getPlugins(state.plugins),
     layoutMode: getLayoutMode(state.plugins),
     searchQuery: getPluginsSearchQuery(state.plugins),
+    hasFetched: state.plugins.hasFetched,
   };
 }
 

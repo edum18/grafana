@@ -118,7 +118,7 @@ export class Graph extends PureComponent<GraphProps, GraphState> {
   componentDidUpdate(prevProps: GraphProps, prevState: GraphState) {
     if (
       prevProps.data !== this.props.data ||
-      prevProps.options !== this.props.options ||
+      prevProps.range !== this.props.range ||
       prevProps.split !== this.props.split ||
       prevProps.height !== this.props.height ||
       prevProps.width !== this.props.width ||
@@ -242,13 +242,6 @@ export class Graph extends PureComponent<GraphProps, GraphState> {
     const { hiddenSeries } = this.state;
     const data = this.getGraphData();
 
-    if (!loading && data.length === 0) {
-      return (
-        <div className="panel-container">
-          <div className="muted m-a-1">The queries returned no time series to graph.</div>
-        </div>
-      );
-    }
     return (
       <>
         {this.props.data && this.props.data.length > MAX_NUMBER_OF_TIME_SERIES && !this.state.showAllTimeSeries && (

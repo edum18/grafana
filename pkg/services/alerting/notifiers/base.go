@@ -6,7 +6,6 @@ import (
 
 	"github.com/grafana/grafana/pkg/log"
 	"github.com/grafana/grafana/pkg/models"
-
 	"github.com/grafana/grafana/pkg/services/alerting"
 )
 
@@ -95,6 +94,11 @@ func (n *NotifierBase) ShouldNotify(ctx context.Context, context *alerting.EvalC
 		}
 	}
 
+	// Do not notify when state is OK if DisableResolveMessage is set to true
+	if context.Rule.State == models.AlertStateOK && n.DisableResolveMessage {
+		return false
+	}
+
 	return true
 }
 
@@ -116,6 +120,10 @@ func (n *NotifierBase) GetIsDefault() bool {
 
 func (n *NotifierBase) GetSendReminder() bool {
 	return n.SendReminder
+}
+
+func (n *NotifierBase) GetDisableResolveMessage() bool {
+	return n.DisableResolveMessage
 }
 
 func (n *NotifierBase) GetFrequency() time.Duration {

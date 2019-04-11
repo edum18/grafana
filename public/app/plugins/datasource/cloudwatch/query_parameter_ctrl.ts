@@ -1,4 +1,5 @@
 import angular from 'angular';
+import coreModule from 'app/core/core_module';
 import _ from 'lodash';
 
 export class CloudWatchQueryParameterCtrl {

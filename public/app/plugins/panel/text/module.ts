@@ -5,7 +5,7 @@ import { sanitize } from 'app/core/utils/text';
 import config from 'app/core/config';
 
 const defaultContent = `
-# Title
+# Título
 
 For markdown syntax help: [commonmark.org/help](https://commonmark.org/help/)
 

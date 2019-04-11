@@ -5,7 +5,7 @@ const template = `
   <div class="modal-header">
     <h2 class="modal-header-title">
       <i class="fa fa-save"></i>
-      <span class="p-l-1">Save changes</span>
+      <span class="p-l-1">Guardar alterações no dashboard</span>
     </h2>
 
     <a class="modal-header-close" ng-click="ctrl.dismiss();">
@@ -31,7 +31,7 @@ const template = `
             type="text"
             name="message"
             class="gf-form-input"
-            placeholder="Add a note to describe your changes &hellip;"
+            placeholder="Coloca uma nota para descrever as suas alterações"
             give-focus="true"
             ng-model="ctrl.message"
             ng-model-options="{allowInvalid: true}"
@@ -42,7 +42,7 @@ const template = `
             <span ng-class="{'text-error': ctrl.saveForm.message.$invalid && ctrl.saveForm.message.$dirty }">
               {{ctrl.message.length || 0}}
             </span>
-            / {{ctrl.max}} characters
+            / {{ctrl.max}} caracteres
           </small>
         </label>
       </div>
@@ -56,10 +56,10 @@ const template = `
         ng-class="{'btn-primary--processing': ctrl.isSaving}"
         ng-disabled="ctrl.saveForm.$invalid || ctrl.isSaving"
       >
-        <span ng-if="!ctrl.isSaving">Save</span>
-        <span ng-if="ctrl.isSaving === true">Saving...</span>
+        <span ng-if="!ctrl.isSaving">Guardar</span>
+        <span ng-if="ctrl.isSaving === true">Guardando...</span>
       </button>
-      <button class="btn btn-inverse" ng-click="ctrl.dismiss();">Cancel</button>
+      <button class="btn btn-inverse" ng-click="ctrl.dismiss();">Cancelar</button>
     </div>
   </form>
 </div>

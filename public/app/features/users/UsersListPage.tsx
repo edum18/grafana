@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import Remarkable from 'remarkable';
 import Page from 'app/core/components/Page/Page';
 import UsersActionBar from './UsersActionBar';
-import UsersTable from 'app/features/users/UsersTable';
+import UsersTable from './UsersTable';
 import InviteesTable from './InviteesTable';
 import { Invitee, NavModel, OrgUser } from 'app/types';
 import appEvents from 'app/core/app_events';
@@ -18,6 +18,7 @@ export interface Props {
   users: OrgUser[];
   searchQuery: string;
   externalUserMngInfo: string;
+  hasFetched: boolean;
   loadUsers: typeof loadUsers;
   loadInvitees: typeof loadInvitees;
   setUsersSearchQuery: typeof setUsersSearchQuery;
@@ -99,7 +100,7 @@ export class UsersListPage extends PureComponent<Props, State> {
   }
 
   render() {
-    const { invitees, navModel, users } = this.props;
+    const { navModel, hasFetched } = this.props;
     const externalUserMngInfoHtml = this.externalUserMngInfoHtml;
 
     return (
@@ -125,6 +126,7 @@ function mapStateToProps(state) {
     searchQuery: getUsersSearchQuery(state.users),
     invitees: getInvitees(state.users),
     externalUserMngInfo: state.users.externalUserMngInfo,
+    hasFetched: state.users.hasFetched,
   };
 }
 

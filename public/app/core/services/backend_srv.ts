@@ -60,14 +60,14 @@ export class BackendSrv {
     }
 
     if (err.status === 422) {
-      this.alertSrv.set('Validation failed', data.message, 'warning', 4000);
+      appEvents.emit('alert-warning', ['Validation failed', data.message]);
       throw data;
     }
 
-    data.severity = 'error';
+    let severity = 'error';
 
     if (err.status < 500) {
-      data.severity = 'warning';
+      severity = 'warning';
     }
 
     if (data.message) {
@@ -77,7 +77,8 @@ export class BackendSrv {
         description = message;
         message = 'Error';
       }
-      this.alertSrv.set(message, description, data.severity, 10000);
+
+      appEvents.emit('alert-' + severity, [message, description]);
     }
 
     throw data;
@@ -104,7 +105,7 @@ export class BackendSrv {
         if (options.method !== 'GET') {
           if (results && results.data.message) {
             if (options.showSuccessAlert !== false) {
-              this.alertSrv.set(results.data.message, '', 'success', 3000);
+              appEvents.emit('alert-success', [results.data.message]);
             }
           }
         }

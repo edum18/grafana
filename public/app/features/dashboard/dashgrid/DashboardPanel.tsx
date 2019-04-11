@@ -217,4 +217,3 @@ export class DashboardPanel extends PureComponent<Props, State> {
     );
   }
 }
-

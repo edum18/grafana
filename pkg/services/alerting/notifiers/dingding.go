@@ -82,6 +82,9 @@ func (this *DingDingNotifier) Notify(evalContext *alerting.EvalContext) error {
 	message := evalContext.Rule.Message
 	picUrl := evalContext.ImagePublicUrl
 	title := evalContext.GetNotificationTitle()
+	if message == "" {
+		message = title
+	}
 
 	for i, match := range evalContext.EvalMatches {
 		message += fmt.Sprintf("\\n%2d. %s: %s", i+1, match.Metric, match.Value)
