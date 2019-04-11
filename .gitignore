@@ -82,4 +82,3 @@ debug.test
 # Ignoring frontend packages specifics
 /packages/**/dist
 /packages/**/compiled
-/packages/**/.rpt2_cache
