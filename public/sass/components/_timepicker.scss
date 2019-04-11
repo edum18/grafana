@@ -30,7 +30,7 @@
 
   @include media-breakpoint-up(md) {
     left: auto;
-    width: 550px;
+    width: 650px; // alterado de: 550px;
   }
 
   .popover-box {

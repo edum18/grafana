@@ -133,7 +133,7 @@ export function describeTextRange(expr: any) {
 }
 
 export function describeTimeRange(range: RawTimeRange): string {
-  const option = rangeIndex[range.from.toString() + ' to ' + range.to.toString()];
+  const option = rangeIndex[range.from.toString() + ' até ' + range.to.toString()];
   if (option) {
     return option.display;
   }

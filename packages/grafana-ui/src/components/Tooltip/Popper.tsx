@@ -6,15 +6,15 @@ import Transition from 'react-transition-group/Transition';
 import { PopperContent } from './PopperController';
 
 const defaultTransitionStyles = {
-  transition: 'opacity 200ms linear',
+  //transition: 'opacity 0s linear', // alterado de: 'opacity 200ms linear',   Lá em baixo mudei o timeout para 0
   opacity: 0,
 };
 
 const transitionStyles: { [key: string]: object } = {
   exited: { opacity: 0 },
   entering: { opacity: 0 },
-  entered: { opacity: 1, transitionDelay: '0s' },
-  exiting: { opacity: 0, transitionDelay: '500ms' },
+  entered: { opacity: 1 },
+  exiting: { opacity: 0 }, // alterado de '500ms'
 };
 
 export type RenderPopperArrowFn = (props: { arrowProps: PopperArrowProps; placement: string }) => JSX.Element;
@@ -43,7 +43,7 @@ class Popper extends PureComponent<Props> {
 
     return (
       <Manager>
-        <Transition in={show} timeout={100} mountOnEnter={true} unmountOnExit={true}>
+        <Transition in={show} timeout={0} mountOnEnter={true} unmountOnExit={true}>
           {transitionState => {
             return (
               <Portal>

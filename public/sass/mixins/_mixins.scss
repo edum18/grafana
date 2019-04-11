@@ -358,7 +358,7 @@
   display: block;
   margin: 3px;
   padding: 7px;
-  background: $list-item-bg;
+  background: linear-gradient(135deg, #dde4ed, #e9edf2); // alterado de: $list-item-bg;
   box-shadow: $list-item-shadow;
   color: $list-item-link-color;
 
