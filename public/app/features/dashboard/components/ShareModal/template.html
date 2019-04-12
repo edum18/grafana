@@ -93,8 +93,12 @@
 					</div>
 				</div>
 			</div>
+			Renderizar como imagem:
 			<div class="gf-form" ng-show="modeSharePanel">
-				<a href="{{imageUrl}}" target="_blank"><i class="fa fa-camera"></i> Link direto para renderizar como imagem</a>
+				<a ng-click="downloadAsImage()"><i class="fa fa-camera"></i> Método 1</a>
+			</div>
+			<div class="gf-form" ng-show="modeSharePanel">
+				<a href="{{imageUrl}}" target="_blank"><i class="fa fa-camera"></i> Método 2</a>
 			</div>
 		</div>
 </script>

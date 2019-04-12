@@ -2,6 +2,7 @@ v1.4.1 (12-04-2019):
 Melhoramentos, traduçoes e novos modificadores de variaveis ${variavel:text} e ${variavel:currentValue}
 Exportar CSV já nao leva as tags HTML injetadas na query
 Phantomjs no commit (tirado do .gitignore)
+Novo método para fazer download direto de imagem com o html2canvas (mais rápido e dá para plugins)
 
 v1.4.0 (09-04-2019):
 merge com a versao mais recente do Grafana v6.1

@@ -6,7 +6,7 @@ import baron from 'baron';
 const module = angular.module('grafana.directives');
 
 const panelTemplate = `
-  <div class="panel-container">
+  <div class="panel-container" id="panel-id-{{ctrl.panel.id}}">
       <div class="panel-header" ng-class="{'grid-drag-handle': !ctrl.panel.fullscreen}">
         <span class="panel-info-corner">
           <i class="fa"></i>

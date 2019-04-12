@@ -1,6 +1,8 @@
 import angular from 'angular';
 import config from 'app/core/config';
 import moment from 'moment';
+import html2canvas from 'html2canvas';
+import { saveAs } from 'file-saver';
 
 /** @ngInject */
 export function ShareModalCtrl($scope, $rootScope, $location, $timeout, timeSrv, templateSrv, linkSrv) {
@@ -34,6 +36,16 @@ export function ShareModalCtrl($scope, $rootScope, $location, $timeout, timeSrv,
     }
 
     $scope.buildUrl();
+  };
+
+  $scope.downloadAsImage = () => {
+    html2canvas(document.getElementById('panel-id-' + $scope.panel.id)).then(canvas => {
+      // document.getElementById("renderImageResult").appendChild(canvas);
+      canvas.toBlob(blob => {
+        // Generate file download
+        saveAs(blob, 'Imagem.png');
+      });
+    });
   };
 
   $scope.buildUrl = () => {
