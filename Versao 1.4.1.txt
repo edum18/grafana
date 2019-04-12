@@ -1,0 +1,19 @@
+v1.4.1 (12-04-2019):
+Melhoramentos, traduçoes e novos modificadores de variaveis ${variavel:text} e ${variavel:currentValue}
+Exportar CSV já nao leva as tags HTML injetadas na query
+Phantomjs no commit (tirado do .gitignore)
+
+v1.4.0 (09-04-2019):
+merge com a versao mais recente do Grafana v6.1
+
+v1.3.2:
+username e password ja nao sao guardados no browser
+
+v1.3.1:
+Remoção do logger para tirar os logs desnecessários "update location".
+
+v1.3:
+Já leva uma base de dados criada e limpa.
+Nova página de entrada.
+Nova variavel de nome de utilizador. Agora depende que os metodos da api e consultas considerem nome de utilizador.
+

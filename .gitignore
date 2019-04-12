@@ -13,8 +13,6 @@ awsconfig
 /public_gen
 /public/vendor/npm
 /tmp
-tools/phantomjs/phantomjs
-tools/phantomjs/phantomjs.exe
 profile.out
 coverage.txt
 
@@ -54,7 +52,6 @@ profile.cov
 /pkg/cmd/grafana-cli/grafana-cli
 /pkg/cmd/grafana-server/grafana-server
 /pkg/cmd/grafana-server/debug
-/pkg/extensions
 /public/app/extensions
 debug.test
 /examples/*/dist

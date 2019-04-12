@@ -130,7 +130,7 @@ export class DashboardSrv {
 
     // important that these happens before location redirect below
     this.$rootScope.appEvent('dashboard-saved', this.dashboard);
-    this.$rootScope.appEvent('alert-success', ['Dashboard saved']);
+    this.$rootScope.appEvent('alert-success', ['Dashboard guardado!']);
 
     const newUrl = locationUtil.stripBaseFromUrl(data.url);
     const currentPath = this.$location.path();

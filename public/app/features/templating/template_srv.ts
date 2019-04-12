@@ -125,12 +125,10 @@ export class TemplateSrv {
 
     switch (format) {
       case 'text': {
-        //console.log("b: ", variable.current.text); // adicionado      ou  , variable.current.value
-        return variable.current.text;
+        return variable.current.text; // adicionado      ou  , variable.current.value
       }
       case 'currentValue': {
         // valor atual. porque ao usar só $variavel nos urls, está a devolvar todos os selecionados e queremos o atual
-        //console.log("variable", variable, value);
         return value; // se precisar do texto do atual, é fazer uma pesquisa na lista de valores com este value
       }
       case 'regex': {

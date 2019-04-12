@@ -150,7 +150,7 @@ export function convertTableDataToCsv(table, excel = false) {
   text += formatRow(table.columns.map(val => val.title || val.text));
   // process data
   for (let i = 0; i < table.rows.length; i += 1) {
-    text += formatRow(table.rows[i], i < table.rows.length - 1);
+    text += formatRow(table.rows[i], i < table.rows.length - 1).replace(/(<([^>]+)>)/gi, '');
   }
   return text;
 }
