@@ -29,6 +29,11 @@ class GraphCtrl extends MetricsPanelCtrl {
   subTabIndex: number;
   processor: DataProcessor;
 
+  originalPointsOption: null; // adicionado
+  originalLinesOption: null; // adicionado
+  currentPointsOption: boolean; // adicionado
+  currentLinesOption: boolean; // adicionado
+
   panelDefaults = {
     // datasource name, null = default datasource
     datasource: null,
@@ -170,6 +175,72 @@ class GraphCtrl extends MetricsPanelCtrl {
 
   zoomOut(evt) {
     this.publishAppEvent('zoom-out', 2);
+  }
+
+  /*togglePoints() { // adicionado
+    if (this.originalPointsOption == null) {
+      // é preciso isto tudo que é para guardar o valor original (para nao haver alteraçoes no dashboard)
+      this.originalPointsOption = this.panel.points;
+      this.currentPointsOption = this.panel.points;
+    }
+    this.panel.points = !this.currentPointsOption;
+    this.currentPointsOption = !this.currentPointsOption;
+    this.render();
+    this.panel.points = this.originalPointsOption;
+  }
+
+  toggleLines() { // adicionado
+    if (this.originalLinesOption == null) {
+      // é preciso isto tudo que é para guardar o valor original (para nao haver alteraçoes no dashboard)
+      this.originalLinesOption = this.panel.lines;
+      this.currentLinesOption = this.panel.lines;
+    }
+    this.panel.lines = !this.currentLinesOption;
+    this.currentLinesOption = !this.currentLinesOption;
+    this.render();
+    this.panel.lines = this.originalLinesOption;
+  }*/
+
+  setBars() {
+    const originalBarsOption = this.panel.bars;
+    const originalPointsOption = this.panel.points;
+    const originalLinesOption = this.panel.lines;
+    this.panel.bars = true;
+    this.panel.points = false;
+    this.panel.lines = false;
+    this.render();
+    this.panel.bars = originalBarsOption;
+    this.panel.points = originalPointsOption;
+    this.panel.lines = originalLinesOption;
+  }
+
+  setLines() {
+    const originalBarsOption = this.panel.bars;
+    const originalPointsOption = this.panel.points;
+    const originalLinesOption = this.panel.lines;
+    this.panel.bars = false;
+    this.panel.points = false;
+    this.panel.lines = true;
+    this.render();
+    this.panel.bars = originalBarsOption;
+    this.panel.points = originalPointsOption;
+    this.panel.lines = originalLinesOption;
+  }
+
+  setPoints() {
+    const originalBarsOption = this.panel.bars;
+    const originalPointsOption = this.panel.points;
+    const originalRadiusOption = this.panel.pointradius;
+    const originalLinesOption = this.panel.lines;
+    this.panel.bars = false;
+    this.panel.points = true;
+    this.panel.pointradius = 1;
+    this.panel.lines = false;
+    this.render();
+    this.panel.bars = originalBarsOption;
+    this.panel.points = originalPointsOption;
+    this.panel.pointradius = originalRadiusOption;
+    this.panel.lines = originalLinesOption;
   }
 
   onDataSnapshotLoad(snapshotData) {

@@ -1,3 +1,7 @@
+v1.4.2 (26-04-2019):
+graficos "graph" agora têm as opçoes de mostrar pontos, linhas ou barras
+dropdown do gráfico gauge já tem as opções em português
+
 v1.4.1 (12-04-2019):
 Melhoramentos, traduçoes e novos modificadores de variaveis ${variavel:text} e ${variavel:currentValue}
 Exportar CSV já nao leva as tags HTML injetadas na query

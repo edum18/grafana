@@ -465,3 +465,19 @@
 .thresholds-form-disabled {
   filter: blur(3px);
 }
+
+// adicionado:
+.acceptGraphButtons {
+  display: flex;
+  justify-content: flex-end;
+  position: absolute;
+  right: 30px;
+  top: 8px;
+  z-index: 1;
+  fill: #c7c7c7;
+  padding: 3px;
+
+  .acceptGraphButtonDiv:hover {
+    fill: #7c7c7c;
+  }
+}

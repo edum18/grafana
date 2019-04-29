@@ -56,7 +56,7 @@ export const getPanelMenu = (dashboard: DashboardModel, panel: PanelModel) => {
   const menu: PanelMenuItem[] = [];
 
   menu.push({
-    text: 'View',
+    text: 'Visualizar',
     iconClassName: 'fa fa-fw fa-eye',
     onClick: onViewPanel,
     shortcut: 'v',
@@ -64,7 +64,7 @@ export const getPanelMenu = (dashboard: DashboardModel, panel: PanelModel) => {
 
   if (dashboard.meta.canEdit) {
     menu.push({
-      text: 'Edit',
+      text: 'Editar',
       iconClassName: 'fa fa-fw fa-edit',
       onClick: onEditPanel,
       shortcut: 'e',
@@ -72,7 +72,7 @@ export const getPanelMenu = (dashboard: DashboardModel, panel: PanelModel) => {
   }
 
   menu.push({
-    text: 'Share',
+    text: 'Partilhar',
     iconClassName: 'fa fa-fw fa-share',
     onClick: onSharePanel,
     shortcut: 'p s',
@@ -82,25 +82,25 @@ export const getPanelMenu = (dashboard: DashboardModel, panel: PanelModel) => {
 
   if (!panel.fullscreen && dashboard.meta.canEdit) {
     subMenu.push({
-      text: 'Duplicate',
+      text: 'Duplicar',
       onClick: onDuplicatePanel,
       shortcut: 'p d',
     });
 
     subMenu.push({
-      text: 'Copy',
+      text: 'Copiar',
       onClick: onCopyPanel,
     });
   }
 
   subMenu.push({
-    text: 'Panel JSON',
+    text: 'Painel em JSON',
     onClick: onEditPanelJson,
   });
 
   menu.push({
     type: 'submenu',
-    text: 'More...',
+    text: 'Mais...',
     iconClassName: 'fa fa-fw fa-cube',
     subMenu: subMenu,
   });
@@ -109,7 +109,7 @@ export const getPanelMenu = (dashboard: DashboardModel, panel: PanelModel) => {
     menu.push({ type: 'divider' });
 
     menu.push({
-      text: 'Remove',
+      text: 'Remover',
       iconClassName: 'fa fa-fw fa-trash',
       onClick: onRemovePanel,
       shortcut: 'p r',
