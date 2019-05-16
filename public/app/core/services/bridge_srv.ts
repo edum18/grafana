@@ -51,7 +51,7 @@ export class BridgeSrv {
             this.$location.replace();
           }
         });
-        console.log('store updating angular $location.url', url);
+        // console.log('store updating angular $location.url', url);
       }
     });
 

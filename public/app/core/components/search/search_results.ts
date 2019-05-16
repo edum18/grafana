@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import coreModule from '../../core_module';
 import appEvents from 'app/core/app_events';
+import { contextSrv } from 'app/core/core'; // adicionado
 
 export class SearchResultsCtrl {
   results: any;
@@ -9,8 +10,12 @@ export class SearchResultsCtrl {
   onFolderExpanding: any;
   editable: boolean;
 
+  isAdmin: boolean; // adicionado
+
   /** @ngInject */
-  constructor(private $location) {}
+  constructor(private $location) {
+    this.isAdmin = contextSrv.isGrafanaAdmin; // adicionado
+  }
 
   toggleFolderExpand(section) {
     if (section.toggle) {

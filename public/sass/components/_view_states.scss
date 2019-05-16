@@ -58,7 +58,9 @@
   }
 
   .scroll-canvas--dashboard {
-    height: 100%;
+    height: calc(
+      100% - 43px
+    ); // alterado de: 100%; // para nao ganhar o scroll por as variaveis estarem sempre visiveis fixas
   }
 
   .submenu-controls {

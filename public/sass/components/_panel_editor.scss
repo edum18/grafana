@@ -179,7 +179,7 @@
   display: flex;
   flex-direction: column;
   position: absolute;
-  top: 44px;
+  top: 20px; // alterado de 44px; // para nao ganhar scroll em ecras pequenos. é a div dos botoes no modo de ediçao
   left: 20px;
   align-items: flex-start;
 

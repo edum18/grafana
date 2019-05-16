@@ -8,7 +8,9 @@
 
   .dashboard-container--has-submenu {
     .react-grid-layout {
-      height: calc(100% - 50px) !important;
+      height: calc(
+        100% - 10px
+      ) !important; // alterado de calc(100% - 50px) !important; // para a area de query ser maior
     }
   }
 

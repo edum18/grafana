@@ -135,12 +135,19 @@ export class LoginCtrl {
       }).join('');
     };
 
+    $scope.getUrlParameter = name => {
+      name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+      const regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+      const results = regex.exec(location.search);
+      return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+    };
+
     $scope.autoLogin = () => {
       console.log('full URL: ' + window.location.href);
-      const urlString = window.location.href;
-      const url = new URL(urlString);
-      const user = url.searchParams.get('user');
-      const pass = url.searchParams.get('pass');
+      // const urlString = window.location.href;
+      // const url = new URL(urlString);
+      const user = $scope.getUrlParameter('user'); // url.searchParams.get('user');
+      const pass = $scope.getUrlParameter('pass'); // url.searchParams.get('pass');
 
       //console.log("admin encoded: " + XORCipher.encode("acceptgrafana", "admin")); // AAcODB4=
       //console.log("admin decoded: " + XORCipher.decode("acceptgrafana", "AAcODB4=")); // admin

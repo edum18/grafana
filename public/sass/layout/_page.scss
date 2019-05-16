@@ -62,7 +62,9 @@
   flex-direction: column;
 
   &--dashboard {
-    height: calc(100% - 56px);
+    height: calc(
+      100% - 97px
+    ); // alterado de calc(100% - 56px); // para nao ganhar o scroll por as variaveis estarem sempre visiveis fixas
   }
 
   > div {
