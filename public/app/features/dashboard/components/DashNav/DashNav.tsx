@@ -17,6 +17,8 @@ import { updateLocation } from 'app/core/actions';
 // Types
 import { DashboardModel } from '../../state';
 
+import { contextSrv } from 'app/core/core'; // adicionado
+
 export interface Props {
   dashboard: DashboardModel;
   editview: string;
@@ -32,9 +34,13 @@ export class DashNav extends PureComponent<Props> {
   timepickerCmp: AngularComponent;
   playlistSrv: PlaylistSrv;
 
+  isAdmin: boolean; // adicionado
+
   constructor(props: Props) {
     super(props);
     this.playlistSrv = this.props.$injector.get('playlistSrv');
+
+    this.isAdmin = contextSrv.isGrafanaAdmin; // adicionado
   }
 
   componentDidMount() {
@@ -129,19 +135,35 @@ export class DashNav extends PureComponent<Props> {
     const folderTitle = dashboard.meta.folderTitle;
     const haveFolder = dashboard.meta.folderId > 0;
 
-    return (
-      <>
-        <div>
-          <a className="navbar-page-btn" onClick={this.onOpenSearch}>
-            {!this.isInFullscreenOrSettings && <i className="gicon gicon-dashboard" />}
-            {haveFolder && <span className="navbar-page-btn--folder">{folderTitle} / </span>}
-            {dashboard.title}
-            <i className="fa fa-caret-down" />
-          </a>
-        </div>
-        <div className="navbar__spacer" />
-      </>
-    );
+    if (this.isAdmin) {
+      // adicionado. Se for admin, mostra o nome de dashboard
+      return (
+        <>
+          <div>
+            <a className="navbar-page-btn" onClick={this.onOpenSearch}>
+              {!this.isInFullscreenOrSettings && <i className="gicon gicon-dashboard" />}
+              {haveFolder && <span className="navbar-page-btn--folder">{folderTitle} / </span>}
+              {dashboard.title}
+              <i className="fa fa-caret-down" />
+            </a>
+          </div>
+          <div className="navbar__spacer" />
+        </>
+      );
+    } else {
+      return (
+        <>
+          <div>
+            <span className="navbar-page-btn">
+              {!this.isInFullscreenOrSettings && <i className="gicon gicon-dashboard" />}
+              {haveFolder && <span className="navbar-page-btn--folder">{folderTitle} / </span>}
+              {dashboard.title}
+            </span>
+          </div>
+          <div className="navbar__spacer" />
+        </>
+      );
+    }
   }
 
   get isInFullscreenOrSettings() {

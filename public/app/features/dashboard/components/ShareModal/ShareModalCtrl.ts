@@ -4,6 +4,8 @@ import moment from 'moment';
 import html2canvas from 'html2canvas';
 import { saveAs } from 'file-saver';
 
+import { contextSrv } from 'app/core/core'; // adicionado
+
 /** @ngInject */
 export function ShareModalCtrl($scope, $rootScope, $location, $timeout, timeSrv, templateSrv, linkSrv) {
   $scope.options = {
@@ -22,7 +24,10 @@ export function ShareModalCtrl($scope, $rootScope, $location, $timeout, timeSrv,
 
     if ($scope.modeSharePanel) {
       $scope.modalTitle = 'Partilhar Painel';
-      $scope.tabs.push({ title: 'Embed', src: 'shareEmbed.html' });
+      if (contextSrv.isGrafanaAdmin) {
+        // adicionado
+        $scope.tabs.push({ title: 'Embed', src: 'shareEmbed.html' });
+      }
     } else {
       $scope.modalTitle = 'Partilhar';
     }

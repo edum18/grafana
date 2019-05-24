@@ -7,16 +7,16 @@
     <div class="gf-form">
       <label class="gf-form-label">From</label>
       <div class="gf-form-select-wrapper">
-        <select class="gf-form-input width-6" ng-model="timeRegion.fromDayOfWeek" ng-options="f.d as f.value for f in [{d: undefined, value: 'Any'}, {d:1, value: 'Mon'}, {d:2, value: 'Tue'}, {d:3, value: 'Wed'}, {d:4, value: 'Thu'}, {d:5, value: 'Fri'}, {d:6, value: 'Sat'}, {d:7, value: 'Sun'}]"
+        <select class="gf-form-input width-6" ng-model="timeRegion.fromDayOfWeek" ng-options="f.d as f.value for f in [{d: 99, value: 'Value'}, {d: undefined, value: 'Any'}, {d:1, value: 'Mon'}, {d:2, value: 'Tue'}, {d:3, value: 'Wed'}, {d:4, value: 'Thu'}, {d:5, value: 'Fri'}, {d:6, value: 'Sat'}, {d:7, value: 'Sun'}]"
           ng-change="ctrl.render()"></select>
       </div>
-      <input type="text" ng-maxlength="5" ng-model="timeRegion.from" class="gf-form-input width-5" ng-change="ctrl.render()" placeholder="hh:mm">
+      <input type="text" ng-model="timeRegion.from" class="gf-form-input width-8" ng-change="ctrl.render()" placeholder="hh:mm">
       <label class="gf-form-label">To</label>
       <div class="gf-form-select-wrapper">
-        <select class="gf-form-input width-6" ng-model="timeRegion.toDayOfWeek" ng-options="f.d as f.value for f in [{d: undefined, value: 'Any'}, {d:1, value: 'Mon'}, {d:2, value: 'Tue'}, {d:3, value: 'Wed'}, {d:4, value: 'Thu'}, {d:5, value: 'Fri'}, {d:6, value: 'Sat'}, {d:7, value: 'Sun'}]"
+        <select class="gf-form-input width-6" ng-model="timeRegion.toDayOfWeek" ng-options="f.d as f.value for f in [{d: 99, value: 'Value'}, {d: undefined, value: 'Any'}, {d:1, value: 'Mon'}, {d:2, value: 'Tue'}, {d:3, value: 'Wed'}, {d:4, value: 'Thu'}, {d:5, value: 'Fri'}, {d:6, value: 'Sat'}, {d:7, value: 'Sun'}]"
           ng-change="ctrl.render()"></select>
       </div>
-      <input type="text" ng-maxlength="5" ng-model="timeRegion.to" class="gf-form-input width-5" ng-change="ctrl.render()" placeholder="hh:mm"
+      <input type="text" ng-model="timeRegion.to" class="gf-form-input width-8" ng-change="ctrl.render()" placeholder="hh:mm"
       >
     </div>
 
@@ -46,6 +46,15 @@
       </span>
     </div>
 
+    <div class="gf-form" ng-if="timeRegion.line">
+      <label class="gf-form-label">Line style</label>
+      <div class="gf-form-select-wrapper">
+        <select class="gf-form-input" ng-model="timeRegion.lineStyle" ng-change="ctrl.render()"
+                ng-options="f.d as f.value for f in [{d: 0, value: 'Solid'}, {d: 1, value: 'Dashed'}]">
+        </select>
+      </div>
+    </div>
+
     <div class="gf-form">
       <label class="gf-form-label">
         <a class="pointer" ng-click="ctrl.removeTimeRegion($index)">
@@ -57,7 +66,7 @@
 
   <div class="gf-form-button-row">
     <button class="btn btn-inverse" ng-click="ctrl.addTimeRegion()">
-      <i class="fa fa-plus"></i>&nbsp;Add time region<tip>All configured time regions refers to UTC time</tip>
+      <i class="fa fa-plus"></i>&nbsp;Add line or time region<tip>All configured time regions refers to UTC time</tip>
     </button>
   </div>
 </div>

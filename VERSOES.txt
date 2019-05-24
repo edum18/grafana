@@ -1,3 +1,9 @@
+v1.4.5 (23-05-2019):
+Nova possibilidade de definir limites de linhas verticais nos graficos com valores diretos, de variaveis ou de colunas das queries.
+Print: https://i.imgur.com/DH9GUua.png
+Dropdown da lista de dashboards ja nao aparece para viewers.
+Separador "Embed" na modal de partilha de painel ja nao aparece para viewers.
+
 v1.4.4 (16-05-2019):
 Dashboards com a tag "hidden" ja nao aparecem na lista de dashboards de viewers
 Barra das variáveis agora está sempre visivel se se fizer scroll

@@ -161,6 +161,19 @@ export default function GraphTooltip(this: any, elem, dashboard, scope, getSerie
   elem.bind('plothover', (event, pos, item) => {
     self.show(pos, item);
 
+    // adaptado de: https://stackoverflow.com/questions/41238890/flot-chart-hoverable-markings
+    if (!item) {
+      // adicionado
+      const plot = elem.data().plot;
+      $.each(plot.getOptions().grid.markings, (idx, marking) => {
+        if (marking.xaxis && marking.xaxis.from && Math.abs(pos.x - marking.xaxis.from) < 15) {
+          $tooltip
+            .html('<div style="font-weight: bold">' + marking.xaxis.from + '</div>')
+            .place_tt(pos.pageX + 20, pos.pageY);
+        }
+      });
+    }
+
     // broadcast to other graph panels that we are hovering!
     pos.panelRelY = (pos.pageY - elem.offset().top) / elem.height();
     appEvents.emit('graph-hover', { pos: pos, panel: panel });

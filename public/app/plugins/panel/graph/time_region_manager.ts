@@ -63,7 +63,7 @@ function getColor(timeRegion, theme: GrafanaThemeType): TimeRegionColorDefinitio
 
   return {
     fill: timeRegion.fill ? getColorFromHexRgbOrName(colorMode.color.fill, theme) : null,
-    line: timeRegion.fill ? getColorFromHexRgbOrName(colorMode.color.line, theme) : null,
+    line: timeRegion.line ? getColorFromHexRgbOrName(colorMode.color.line, theme) : null,
   };
 }
 
@@ -143,55 +143,101 @@ export class TimeRegionManager {
 
       regions = [];
 
-      fromStart = moment(tRange.from);
-      fromStart.set('hour', 0);
-      fromStart.set('minute', 0);
-      fromStart.set('second', 0);
-      fromStart.add(hRange.from.h, 'hours');
-      fromStart.add(hRange.from.m, 'minutes');
-      fromStart.add(hRange.from.s, 'seconds');
+      if (timeRegion.fromDayOfWeek === 99 && timeRegion.toDayOfWeek === 99) {
+        // opçoes "Value" // adicionado
+        // se tiver as opçoes "Value", que meti com valor 99, interpreta como numero diretamente e nao como data...
 
-      while (fromStart.unix() <= tRange.to.unix()) {
-        while (hRange.from.dayOfWeek && hRange.from.dayOfWeek !== fromStart.isoWeekday()) {
+        let fromValue = timeRegion.from;
+        let toValue = timeRegion.to;
+        if (fromValue) {
+          if (fromValue[0] === '$') {
+            // se tiver $, é para meter o valor da variavel
+            for (let j = 0; j < this.panelCtrl.templateSrv.variables.length; j++) {
+              if (fromValue.substring(1) === this.panelCtrl.templateSrv.variables[j].name) {
+                fromValue = this.panelCtrl.templateSrv.variables[j].current.value;
+              }
+            }
+          } else if (typeof fromValue === 'string') {
+            // verificar se sao letras
+            _.each(this.panelCtrl.dataList, queryColumn => {
+              if (queryColumn.target === fromValue) {
+                fromValue = queryColumn.datapoints[0][0]; // --> pode ser melhorado. porque tem outros valores
+                return;
+              }
+            });
+          }
+        }
+        if (toValue) {
+          if (toValue[0] === '$') {
+            // se tiver $, é para meter o valor da variavel
+            for (let j = 0; j < this.panelCtrl.templateSrv.variables.length; j++) {
+              if (toValue.substring(1) === this.panelCtrl.templateSrv.variables[j].name) {
+                toValue = this.panelCtrl.templateSrv.variables[j].current.value;
+              }
+            }
+          } else if (typeof toValue === 'string') {
+            // verificar se sao letras
+            _.each(this.panelCtrl.dataList, queryColumn => {
+              if (queryColumn.target === toValue) {
+                toValue = queryColumn.datapoints[0][0]; // --> pode ser melhorado. porque tem outros valores
+                return;
+              }
+            });
+          }
+        }
+        regions.push({ from: fromValue, to: toValue });
+        // console.log(this.panelCtrl.dataList); // ver dados das colunas
+      } else {
+        fromStart = moment(tRange.from);
+        fromStart.set('hour', 0);
+        fromStart.set('minute', 0);
+        fromStart.set('second', 0);
+        fromStart.add(hRange.from.h, 'hours');
+        fromStart.add(hRange.from.m, 'minutes');
+        fromStart.add(hRange.from.s, 'seconds');
+
+        while (fromStart.unix() <= tRange.to.unix()) {
+          while (hRange.from.dayOfWeek && hRange.from.dayOfWeek !== fromStart.isoWeekday()) {
+            fromStart.add(24, 'hours');
+          }
+
+          if (fromStart.unix() > tRange.to.unix()) {
+            break;
+          }
+
+          fromEnd = moment(fromStart);
+
+          if (hRange.from.h <= hRange.to.h) {
+            fromEnd.add(hRange.to.h - hRange.from.h, 'hours');
+          } else if (hRange.from.h > hRange.to.h) {
+            while (fromEnd.hour() !== hRange.to.h) {
+              fromEnd.add(1, 'hours');
+            }
+          } else {
+            fromEnd.add(24 - hRange.from.h, 'hours');
+
+            while (fromEnd.hour() !== hRange.to.h) {
+              fromEnd.add(1, 'hours');
+            }
+          }
+
+          fromEnd.set('minute', hRange.to.m);
+          fromEnd.set('second', hRange.to.s);
+
+          while (hRange.to.dayOfWeek && hRange.to.dayOfWeek !== fromEnd.isoWeekday()) {
+            fromEnd.add(24, 'hours');
+          }
+
+          const outsideRange =
+            (fromStart.unix() < tRange.from.unix() && fromEnd.unix() < tRange.from.unix()) ||
+            (fromStart.unix() > tRange.to.unix() && fromEnd.unix() > tRange.to.unix());
+
+          if (!outsideRange) {
+            regions.push({ from: fromStart.valueOf(), to: fromEnd.valueOf() });
+          }
+
           fromStart.add(24, 'hours');
         }
-
-        if (fromStart.unix() > tRange.to.unix()) {
-          break;
-        }
-
-        fromEnd = moment(fromStart);
-
-        if (hRange.from.h <= hRange.to.h) {
-          fromEnd.add(hRange.to.h - hRange.from.h, 'hours');
-        } else if (hRange.from.h > hRange.to.h) {
-          while (fromEnd.hour() !== hRange.to.h) {
-            fromEnd.add(1, 'hours');
-          }
-        } else {
-          fromEnd.add(24 - hRange.from.h, 'hours');
-
-          while (fromEnd.hour() !== hRange.to.h) {
-            fromEnd.add(1, 'hours');
-          }
-        }
-
-        fromEnd.set('minute', hRange.to.m);
-        fromEnd.set('second', hRange.to.s);
-
-        while (hRange.to.dayOfWeek && hRange.to.dayOfWeek !== fromEnd.isoWeekday()) {
-          fromEnd.add(24, 'hours');
-        }
-
-        const outsideRange =
-          (fromStart.unix() < tRange.from.unix() && fromEnd.unix() < tRange.from.unix()) ||
-          (fromStart.unix() > tRange.to.unix() && fromEnd.unix() > tRange.to.unix());
-
-        if (!outsideRange) {
-          regions.push({ from: fromStart.valueOf(), to: fromEnd.valueOf() });
-        }
-
-        fromStart.add(24, 'hours');
       }
 
       timeRegionColor = getColor(timeRegion, this.theme);
@@ -209,10 +255,12 @@ export class TimeRegionManager {
           options.grid.markings.push({
             xaxis: { from: r.from, to: r.from },
             color: timeRegionColor.line,
+            markingsStyle: timeRegion.lineStyle ? 'dashed' : '', // adicionado
           });
           options.grid.markings.push({
             xaxis: { from: r.to, to: r.to },
             color: timeRegionColor.line,
+            markingsStyle: timeRegion.lineStyle ? 'dashed' : '', // adicionado
           });
         }
       }

@@ -173,6 +173,49 @@ Licensed under the MIT license.
 		context.scale(pixelRatio, pixelRatio);
 	};
 
+    // Adicionado:
+    CanvasRenderingContext2D.prototype.dashedLineTo = function (fromX, fromY, toX, toY, pattern) {
+        // Our growth rate for our line can be one of the following:
+        //   (+,+), (+,-), (-,+), (-,-)
+        // Because of this, our algorithm needs to understand if the x-coord and
+        // y-coord should be getting smaller or larger and properly cap the values
+        // based on (x,y).
+        var lt = function (a, b) { return a <= b; };
+        var gt = function (a, b) { return a >= b; };
+        var capmin = function (a, b) { return Math.min(a, b); };
+        var capmax = function (a, b) { return Math.max(a, b); };
+
+        var checkX = { thereYet: gt, cap: capmin };
+        var checkY = { thereYet: gt, cap: capmin };
+
+        if (fromY - toY > 0) {
+            checkY.thereYet = lt;
+            checkY.cap = capmax;
+        }
+        if (fromX - toX > 0) {
+            checkX.thereYet = lt;
+            checkX.cap = capmax;
+        }
+
+        this.moveTo(fromX, fromY);
+        var offsetX = fromX;
+        var offsetY = fromY;
+        var idx = 0, dash = true;
+        while (!(checkX.thereYet(offsetX, toX) && checkY.thereYet(offsetY, toY))) {
+            var ang = Math.atan2(toY - fromY, toX - fromX);
+            var len = pattern[idx];
+
+            offsetX = checkX.cap(toX, offsetX + (Math.cos(ang) * len));
+            offsetY = checkY.cap(toY, offsetY + (Math.sin(ang) * len));
+
+            if (dash) this.lineTo(offsetX, offsetY);
+            else this.moveTo(offsetX, offsetY);
+
+            idx = (idx + 1) % pattern.length;
+            dash = !dash;
+        }
+    };
+
 	// Clears the entire canvas area, not including any overlaid HTML text
 
 	Canvas.prototype.clear = function() {
@@ -2051,8 +2094,13 @@ Licensed under the MIT license.
                         ctx.strokeStyle = m.color || options.grid.markingsColor;
                         ctx.lineWidth = lineWidth;
                         if (xequal) {
-                            ctx.moveTo(xrange.to + subPixel, yrange.from);
-                            ctx.lineTo(xrange.to + subPixel, yrange.to);
+                            // tirado de https://stackoverflow.com/questions/14700417/dashed-ticklines-gridlines-in-flot
+                            if(m.markingsStyle === 'dashed') { // adicionado
+                                ctx.dashedLineTo(xrange.from, yrange.from, xrange.to, yrange.to, [5,5])
+                            } else {
+                                ctx.moveTo(xrange.to + subPixel, yrange.from); // ja tava
+                                ctx.lineTo(xrange.to + subPixel, yrange.to); // ja tava
+                            }
                         } else {
                             ctx.moveTo(xrange.from, yrange.to + subPixel);
                             ctx.lineTo(xrange.to, yrange.to + subPixel);
