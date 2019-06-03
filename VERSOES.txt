@@ -1,3 +1,7 @@
+v1.4.7 (03-06-2019):
+Agora o parametro "root_url" terá de ser mudado sempre que se instala um Grafana num cliente.
+Removida a opçao de publicar snapshot em serviço externo.
+
 v1.4.6 (31-05-2019):
 Texto mais compreensível na caixa de partilha de dashboard.
 Separador "Exportar" (para JSON) escondido para viewers  na caixa de partilha de dashboard.
