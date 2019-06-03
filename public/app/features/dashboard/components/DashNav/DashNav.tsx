@@ -141,7 +141,7 @@ export class DashNav extends PureComponent<Props> {
         <>
           <div>
             <a className="navbar-page-btn" onClick={this.onOpenSearch}>
-              {!this.isInFullscreenOrSettings && <i className="gicon gicon-dashboard" />}
+              {!this.isInFullscreenOrSettings && this.renderDrilldownBackButton()}
               {haveFolder && <span className="navbar-page-btn--folder">{folderTitle} / </span>}
               {dashboard.title}
               <i className="fa fa-caret-down" />
@@ -151,11 +151,12 @@ export class DashNav extends PureComponent<Props> {
         </>
       );
     } else {
+      // alterado no <span> em baixo
       return (
         <>
           <div>
             <span className="navbar-page-btn">
-              {!this.isInFullscreenOrSettings && <i className="gicon gicon-dashboard" />}
+              {!this.isInFullscreenOrSettings && this.renderDrilldownBackButton()}
               {haveFolder && <span className="navbar-page-btn--folder">{folderTitle} / </span>}
               {dashboard.title}
             </span>
@@ -168,6 +169,39 @@ export class DashNav extends PureComponent<Props> {
 
   get isInFullscreenOrSettings() {
     return this.props.editview || this.props.isFullscreen;
+  }
+
+  getUrlParameter = name => {
+    // adicionado
+    name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+    const regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+    const results = regex.exec(location.search);
+    return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+  };
+
+  renderDrilldownBackButton() {
+    // adicionado
+    const paramDrilldownUID = this.getUrlParameter('drilldown');
+    if (paramDrilldownUID) {
+      // se tiver parametro drilldown, entao este dashboard é de detalhe
+      // ao clicar, update location tirando todos os parametros...
+      return (
+        <Tooltip content="Voltar ao dashboard anterior">
+          <button
+            className="navbar-edit__back-btn"
+            style={{ marginRight: '13px', bottom: '1px', position: 'relative' }}
+            onClick={() => {
+              this.props.updateLocation({ path: `/d/${paramDrilldownUID}`, query: {}, partial: false, replace: true });
+            }}
+          >
+            <i className="fa fa-arrow-left" />
+          </button>
+        </Tooltip>
+      );
+    } else {
+      // se nao tiver o parametro no url, entao mostra o icone de dashboard normalmente
+      return <i className="gicon gicon-dashboard" />;
+    }
   }
 
   renderBackButton() {

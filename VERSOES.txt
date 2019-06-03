@@ -1,3 +1,10 @@
+v1.4.6 (31-05-2019):
+Texto mais compreensível na caixa de partilha de dashboard.
+Separador "Exportar" (para JSON) escondido para viewers  na caixa de partilha de dashboard.
+Tema agora é sempre o mesmo ao partilhar um dashboard por Link.
+Traduçao do alerta "Dashboard not found".
+Drilldown nos graficos de grafana, tabelas e plugins melhorado: é mais rápido e agora tem botao de Voltar no dashboard.
+
 v1.4.5 (23-05-2019):
 Nova possibilidade de definir limites de linhas verticais nos graficos com valores diretos, de variaveis ou de colunas das queries.
 Print: https://i.imgur.com/DH9GUua.png

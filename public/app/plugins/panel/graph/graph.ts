@@ -29,6 +29,8 @@ import { getValueFormat } from '@grafana/ui';
 import { provideTheme } from 'app/core/utils/ConfigProvider';
 
 const LegendWithThemeProvider = provideTheme(Legend);
+import { updateLocation } from 'app/core/actions'; // adicionado
+import { store } from 'app/store/store'; // adicionado
 
 class GraphElement {
   ctrl: GraphCtrl;
@@ -195,16 +197,24 @@ class GraphElement {
         const redirectX = fullDate; // exemplo: '2018-10-22 01:00:00';
         const redirectY = item.datapoint[1]; // exemplo: 6739
 
-        window.location.href = redirectLink + '?var-eixox=' + redirectX + '&var-eixoy=' + redirectY; // &orgId=1';
-        console.log('redirect to:' + redirectLink + '?var-eixox=' + redirectX + '&var-eixoy=' + redirectY);
+        const newFullLink = `${redirectLink}?var-eixox=${redirectX}&var-eixoy=${redirectY}&drilldown=${
+          this.dashboard.uid
+        }`; // &orgId=1;
+        // window.location.href = newFullLink;
+        store.dispatch(updateLocation({ path: newFullLink }));
+        console.log('redirect to: ' + newFullLink);
       } else if (this.panel.xaxis.mode === 'series') {
         // se for um grafico de series (eixo x é strings)
 
         const redirectX = item.series.alias; // exemplo: 'RCE%20-%20Fatiados';
         const redirectY = item.datapoint[1]; // exemplo: 6739
 
-        window.location.href = redirectLink + '?var-eixox=' + redirectX + '&var-eixoy=' + redirectY; // &orgId=1';
-        console.log('redirect to:' + redirectLink + '?var-eixox=' + redirectX + '&var-eixoy=' + redirectY);
+        const newFullLink = `${redirectLink}?var-eixox=${redirectX}&var-eixoy=${redirectY}&drilldown=${
+          this.dashboard.uid
+        }`; // &orgId=1;
+        // window.location.href = newFullLink;
+        store.dispatch(updateLocation({ path: newFullLink }));
+        console.log('redirect to: ' + newFullLink);
       } else {
         console.log('Tipo de gráfico não encontrado. Contactar suporte.');
       }

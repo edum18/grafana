@@ -36,7 +36,8 @@ export function ShareModalCtrl($scope, $rootScope, $location, $timeout, timeSrv,
       $scope.tabs.push({ title: 'Snapshot', src: 'shareSnapshot.html' });
     }
 
-    if (!$scope.dashboard.meta.isSnapshot && !$scope.modeSharePanel) {
+    if (!$scope.dashboard.meta.isSnapshot && !$scope.modeSharePanel && contextSrv.isGrafanaAdmin) {
+      // alterado
       $scope.tabs.push({ title: 'Exportar', src: 'shareExport.html' });
     }
 
@@ -48,7 +49,7 @@ export function ShareModalCtrl($scope, $rootScope, $location, $timeout, timeSrv,
       // document.getElementById("renderImageResult").appendChild(canvas);
       canvas.toBlob(blob => {
         // Generate file download
-        saveAs(blob, 'Imagem.png');
+        saveAs(blob, 'Painel.png');
       });
     });
   };
@@ -77,9 +78,9 @@ export function ShareModalCtrl($scope, $rootScope, $location, $timeout, timeSrv,
       delete params.to;
     }
 
-    if ($scope.options.theme !== 'current') {
-      params.theme = $scope.options.theme;
-    }
+    // if ($scope.options.theme !== 'current') {
+    params.theme = 'light'; // alterado de $scope.options.theme;
+    // }
 
     if ($scope.modeSharePanel) {
       params.panelId = $scope.panel.id;

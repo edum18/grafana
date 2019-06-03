@@ -142,13 +142,16 @@ export class PanelCtrl {
     // Additional items from sub-class
     menu.push(...this.getAdditionalMenuItems());
 
-    const extendedMenu = this.getExtendedMenu();
-    menu.push({
-      text: 'Mais ...',
-      click: '',
-      icon: 'fa fa-fw fa-cube',
-      submenu: extendedMenu,
-    });
+    if (this.dashboard.meta.canEdit) {
+      // adicionado // só quem pode editar, pode ter acesso ao "Painel em JSON"
+      const extendedMenu = this.getExtendedMenu();
+      menu.push({
+        text: 'Mais ...',
+        click: '',
+        icon: 'fa fa-fw fa-cube',
+        submenu: extendedMenu,
+      });
+    }
 
     if (this.dashboard.meta.canEdit) {
       menu.push({ divider: true, role: 'Editor' });

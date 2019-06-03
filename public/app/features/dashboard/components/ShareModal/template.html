@@ -62,12 +62,12 @@
 			label="Variáveis (filtros)" label-class="width-12" switch-class="max-width-6"
 			checked="options.includeTemplateVars" on-change="buildUrl()">
 		</gf-form-switch>
-		<div class="gf-form">
+		<!--<div class="gf-form">
 			<span class="gf-form-label width-12">Tema</span>
 			<div class="gf-form-select-wrapper width-10">
 				<select class="gf-form-input" ng-model="options.theme" ng-options="f as f for f in ['Atual', 'Escuro', 'Claro']" ng-change="buildUrl()"></select>
 			</div>
-		</div>
+		</div>-->
 	</div>
 </script>
 
@@ -78,7 +78,7 @@
 		</div>
 		<div class="share-modal-content">
 			<p class="share-modal-info-text">
-				Criar um link direto para este dashboard ou painel personalizado com as opções abaixo.
+				Criar um link <strong>direto</strong> para este dashboard. Só utilizadores autenticados podem acedê-lo.
 			</p>
 			<div ng-include src="'shareLinkOptions.html'"></div>
 			<div>
@@ -113,12 +113,13 @@
       <div class="share-modal-content">
         <div ng-if="step === 1">
           <p class="share-modal-info-text">
-			  Uma snapshot é uma forma instantânea de partilha de um dashboard interativo público.
+			  Uma snapshot é uma forma instantânea de partilha de um dashboard interativo <strong>público</strong>.
+			  <!--Uma snapshot é uma forma instantânea de partilha de um dashboard interativo público.
 			  Quando criada, são <strong>tirados dados sensíveis</strong> como queries (métricas, de template e anotações) e links de painéis,
-			  deixando apenas dados métricos e nomes de séries visíveis embebidos no dashboard.
+			  deixando apenas dados métricos e nomes de séries visíveis embebidos no dashboard.-->
           </p>
           <p class="share-modal-info-text">
-			  Lembre-se que <strong>qualquer pessoa pode visualizar uma snapshot</strong> se tiver o link.
+			  Lembre-se que <strong>qualquer pessoa pode visualizar o dashboard</strong> se tiver o link da snapshot.
 			  Partilhe com cuidado.
           </p>
         </div>
@@ -155,7 +156,7 @@
 
 				<div ng-if="step === 1">
 					<p class="share-modal-info-text" style="margin-bottom: 0;">
-						Poderá ter que configurar o valor de timeout se demorar muito tempo a recolher as métricas do dashboard.
+						Poderá ter que configurar o valor de timeout se demorar muito tempo a carregar.
 					</p>
 				</div>
 
@@ -173,7 +174,7 @@
 					</button>
 					<button class="btn gf-form-btn width-16 btn-secondary" ng-if="externalEnabled" ng-click="createSnapshot(true)" ng-disabled="loading">
 						<i class="fa fa-cloud-upload"></i>
-						Publicar para snapshot.raintank.io
+						Publicar em serviço externo<!--Publicar para snapshot.raintank.io-->
 					</button>
 					<a class="btn btn-link" ng-click="dismiss()">Cancelar</a>
 				</div>

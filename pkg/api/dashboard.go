@@ -147,7 +147,7 @@ func getDashboardHelper(orgID int64, slug string, id int64, uid string) (*m.Dash
 	}
 
 	if err := bus.Dispatch(&query); err != nil {
-		return nil, Error(404, "Dashboard not found", err)
+		return nil, Error(404, "Dashboard não encontrado", err)
 	}
 
 	return query.Result, nil

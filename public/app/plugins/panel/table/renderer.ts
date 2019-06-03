@@ -6,6 +6,7 @@ import { ColumnStyle } from '@grafana/ui/src/components/Table/TableCellBuilder';
 export class TableRenderer {
   formatters: any[];
   colorState: any;
+  dashboardUID: string;
 
   constructor(
     private panel,
@@ -16,6 +17,7 @@ export class TableRenderer {
     private theme?: GrafanaThemeType
   ) {
     this.initColumns();
+    this.dashboardUID = window.location.pathname.split('/')[2]; // adicionado
   }
 
   setTable(table) {
@@ -268,7 +270,12 @@ export class TableRenderer {
       const scopedVars = this.renderRowVariables(rowIndex);
       scopedVars['__cell'] = { value: value };
 
-      const cellLink = this.templateSrv.replace(column.style.linkUrl, scopedVars, encodeURIComponent);
+      // alterado (o this.dashboardUID na linha seguinte)
+      const cellLink = this.templateSrv.replace(
+        column.style.linkUrl + '&drilldown=' + this.dashboardUID,
+        scopedVars,
+        encodeURIComponent
+      );
       const cellLinkTooltip = this.templateSrv.replace(column.style.linkTooltip, scopedVars);
       const cellTarget = column.style.linkTargetBlank ? '_blank' : '';
 

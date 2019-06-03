@@ -91,19 +91,20 @@ export const getPanelMenu = (dashboard: DashboardModel, panel: PanelModel) => {
       text: 'Copiar',
       onClick: onCopyPanel,
     });
-  }
 
-  subMenu.push({
-    text: 'Painel em JSON',
-    onClick: onEditPanelJson,
-  });
+    subMenu.push({
+      // opçao para paineis de plugin. o outro "painem em json" é para graficos do grafana
+      text: 'Painel em JSON',
+      onClick: onEditPanelJson,
+    });
 
-  menu.push({
-    type: 'submenu',
-    text: 'Mais...',
-    iconClassName: 'fa fa-fw fa-cube',
-    subMenu: subMenu,
-  });
+    menu.push({
+      type: 'submenu',
+      text: 'Mais...',
+      iconClassName: 'fa fa-fw fa-cube',
+      subMenu: subMenu,
+    });
+  } // alterado // só quem pode editar, pode ter acesso ao "Painel em JSON"
 
   if (dashboard.meta.canEdit) {
     menu.push({ type: 'divider' });
