@@ -113,7 +113,7 @@ export class TimePickerCtrl {
       }),
     };
 
-    this.refresh.options.unshift({ text: 'desligado' });
+    this.refresh.options.unshift({ text: 'desativado' });
     this.isOpen = true;
     this.$rootScope.appEvent('timepickerOpen');
   }

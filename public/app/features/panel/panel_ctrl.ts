@@ -142,9 +142,12 @@ export class PanelCtrl {
     // Additional items from sub-class
     menu.push(...this.getAdditionalMenuItems());
 
-    if (this.dashboard.meta.canEdit) {
-      // adicionado // só quem pode editar, pode ter acesso ao "Painel em JSON"
-      const extendedMenu = this.getExtendedMenu();
+    const extendedMenu = this.getExtendedMenu();
+    // esconder o "Mais" se nao tiver opçoes.
+    // Se fosse um painel de texto numa conta de viewer, so tinha a opçao de painel em json, mas
+    // como quero esconder essa opçao, o mais fica sem opçoes. por isso o Mais tem de desaparecer.
+    if (extendedMenu.length) {
+      // alterado
       menu.push({
         text: 'Mais ...',
         click: '',
@@ -182,12 +185,13 @@ export class PanelCtrl {
         click: 'ctrl.copyPanel()',
         role: 'Editor',
       });
-    }
 
-    menu.push({
-      text: 'Painel em JSON',
-      click: 'ctrl.editPanelJson(); dismiss();',
-    });
+      // alterado // tirei de fora deste if para dentro do if
+      menu.push({
+        text: 'Painel em JSON',
+        click: 'ctrl.editPanelJson(); dismiss();',
+      });
+    }
 
     this.events.emit('init-panel-actions', menu);
     return menu;

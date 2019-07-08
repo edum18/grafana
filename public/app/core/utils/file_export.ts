@@ -10,7 +10,7 @@ const POINT_VALUE_INDEX = 0;
 const END_COLUMN = ';';
 const END_ROW = '\r\n';
 const QUOTE = '"';
-const EXPORT_FILENAME = 'grafana_data_export.csv';
+const EXPORT_FILENAME = 'exportacao_dados.csv'; // alterado
 
 function csvEscaped(text) {
   if (!text) {
@@ -55,7 +55,7 @@ function formatRow(row, addEndRowDelimiter = true) {
 }
 
 export function convertSeriesListToCsv(seriesList, dateTimeFormat = DEFAULT_DATETIME_FORMAT, excel = false) {
-  let text = formatSpecialHeader(excel) + formatRow(['Series', 'Time', 'Value']);
+  let text = formatSpecialHeader(excel) + formatRow(['Séries', 'Data', 'Valor']); // alterado de Series, Time, Value
   for (let seriesIndex = 0; seriesIndex < seriesList.length; seriesIndex += 1) {
     for (let i = 0; i < seriesList[seriesIndex].datapoints.length; i += 1) {
       text += formatRow(
@@ -81,7 +81,8 @@ export function convertSeriesListToCsvColumns(seriesList, dateTimeFormat = DEFAU
   let text =
     formatSpecialHeader(excel) +
     formatRow(
-      ['Time'].concat(
+      ['Data'].concat(
+        // alterado
         seriesList.map(val => {
           return val.alias;
         })

@@ -1,3 +1,10 @@
+v1.4.8 (08-07-2019):
+Agora o parametro "root_url" é dinamico e nao precisa de ser sempre mudado.
+Traduçoes no ficheiro de exportaçao CSV e formato de data alterado para um mais acessível.
+Bugfix: Opçao de Exportar CSV agora já é mostrada para viewers.
+Opçao "Mais..." desaparece se nao tiver opçoes (no caso de ser um painel de texto numa conta de viewer).
+Texto no datepicker "desligado" passou para "desativado".
+
 v1.4.7 (03-06-2019):
 Agora o parametro "root_url" terá de ser mudado sempre que se instala um Grafana num cliente.
 Removida a opçao de publicar snapshot em serviço externo.

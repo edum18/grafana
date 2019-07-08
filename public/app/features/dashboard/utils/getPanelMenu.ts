@@ -93,7 +93,8 @@ export const getPanelMenu = (dashboard: DashboardModel, panel: PanelModel) => {
     });
 
     subMenu.push({
-      // opçao para paineis de plugin. o outro "painem em json" é para graficos do grafana
+      // opçao para paineis de plugin. o outro "painel em json" é para graficos do grafana
+      // so 1 tipo de painel, que nao encontro (é dalgum plugin ou algum que nao permita csv), ta a usar este ficheiro
       text: 'Painel em JSON',
       onClick: onEditPanelJson,
     });
