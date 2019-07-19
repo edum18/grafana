@@ -1,3 +1,6 @@
+v1.4.9 (18-07-2019):
+O login agora comunica ao HUB se o login foi ou nao bem sucedido (necessario para saber se falta sincronizar ou dominio é diferente do do HUB).
+
 v1.4.8 (08-07-2019):
 Agora o parametro "root_url" é dinamico e nao precisa de ser sempre mudado.
 Traduçoes no ficheiro de exportaçao CSV e formato de data alterado para um mais acessível.

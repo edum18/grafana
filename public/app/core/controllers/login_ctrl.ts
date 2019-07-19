@@ -143,7 +143,7 @@ export class LoginCtrl {
     };
 
     $scope.autoLogin = () => {
-      console.log('full URL: ' + window.location.href);
+      // console.log('full URL: ' + window.location.href);
       // const urlString = window.location.href;
       // const url = new URL(urlString);
       const user = $scope.getUrlParameter('user'); // url.searchParams.get('user');
@@ -290,10 +290,14 @@ export class LoginCtrl {
           } else {
             $scope.toGrafana(); // mudado
           }
+
+          window.parent.postMessage('loginSuccess', '*'); // adicionado
         })
         .catch(() => {
           $scope.loggingIn = false;
-          $scope.logando = false;
+          $scope.logando = false; // adicionado
+
+          window.parent.postMessage('loginFail', '*'); // adicionado
         });
     };
 
