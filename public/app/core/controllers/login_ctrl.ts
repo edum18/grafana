@@ -284,14 +284,14 @@ export class LoginCtrl {
         .then(result => {
           $scope.result = result;
 
+          window.parent.postMessage('loginSuccess', '*'); // adicionado
+
           if ($scope.formModel.password !== 'admin' || $scope.ldapEnabled || $scope.authProxyEnabled) {
             $scope.toGrafana();
             return;
           } else {
             $scope.toGrafana(); // mudado
           }
-
-          window.parent.postMessage('loginSuccess', '*'); // adicionado
         })
         .catch(() => {
           $scope.loggingIn = false;
