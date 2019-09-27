@@ -4,7 +4,7 @@
 
 // Background
 .modal-backdrop {
-  position: fixed;
+  position: absolute; // alterado de fixed; // para nao ficar fora do sitio no Edge
   top: 0;
   right: 0;
   bottom: 0;
@@ -20,7 +20,7 @@
 
 // Base modal
 .modal {
-  position: fixed;
+  position: absolute; // alterado de fixed; // para nao ficar fora do sitio no Edge
   z-index: $zindex-modal;
   width: 100%;
   background: $page-bg;

@@ -1,5 +1,5 @@
 .search-backdrop {
-  position: fixed;
+  position: absolute; // alterado de fixed; // para nao ficar fora do sitio no Edge
   right: 0;
   left: 0;
   bottom: 0;
@@ -15,7 +15,7 @@
   right: 0;
   bottom: 0;
   z-index: ($zindex-modal-backdrop + 10);
-  position: fixed;
+  position: absolute; // alterado de fixed; // para nao ficar fora do sitio no Edge
 }
 
 // Search

@@ -1,3 +1,8 @@
+v1.4.10 (13-08-2019):
+Resolvido bug das modais no Edge nao darem para clicar (de position fixed para absolute).
+Adicionado polyfill de toBlob para exportar painel como imagem funcionar no Edge.
+Adicionados mais icones para poderem ser injetados nas tabelas por SQL.
+
 v1.4.9 (18-07-2019):
 O login agora comunica ao HUB se o login foi ou nao bem sucedido (necessario para saber se falta sincronizar ou dominio é diferente do do HUB).
 
