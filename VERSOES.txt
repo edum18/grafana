@@ -1,3 +1,7 @@
+v1.4.11 (09-10-2019):
+Resolvido bug das variaveis $__timeFrom() e $__timeTo() estarem sempre no modo UTC.
+Agora as variaveis devolvem sempre a hora certa, independentemente do fuso horario, porque foi definido Europe/London.
+
 v1.4.10 (13-08-2019):
 Resolvido bug das modais no Edge nao darem para clicar (de position fixed para absolute).
 Adicionado polyfill de toBlob para exportar painel como imagem funcionar no Edge.

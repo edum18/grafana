@@ -7,6 +7,8 @@ import (
 	"time"
 )
 
+import "4d63.com/tz" // adicionado e instalado no grafana
+
 func NewTimeRange(from, to string) *TimeRange {
 	return &TimeRange{
 		From: from,
@@ -39,6 +41,22 @@ func (tr *TimeRange) GetFromAsSecondsEpoch() int64 {
 
 func (tr *TimeRange) GetFromAsTimeUTC() time.Time {
 	return tr.MustGetFrom().UTC()
+}
+
+func (tr *TimeRange) GetFromAsTimeCustom() time.Time { // adicionado
+	location, err := tz.LoadLocation("Europe/London")
+	if err != nil {
+		fmt.Println(err)
+	}
+	return tr.MustGetFrom().In(location)
+}
+
+func (tr *TimeRange) GetToAsTimeCustom() time.Time { // adicionado
+	location, err := tz.LoadLocation("Europe/London")
+	if err != nil {
+		fmt.Println(err)
+	}
+	return tr.MustGetTo().In(location)
 }
 
 func (tr *TimeRange) GetToAsMsEpoch() int64 {
