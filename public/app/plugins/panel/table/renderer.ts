@@ -270,12 +270,27 @@ export class TableRenderer {
       const scopedVars = this.renderRowVariables(rowIndex);
       scopedVars['__cell'] = { value: value };
 
+      // adicionado
+      // explicado no graph.ts  porque foi feito o mesmo.
+      let initialParams = '?';
+      _.each(this.templateSrv.variables, variable => {
+        // para cada variavel
+        if (variable.current.value.constructor === Array) {
+          // se for array, é porque é uma variavel multivalor com 1+ valores
+          _.each(variable.current.value, val => {
+            // para cada valor dos varios valores selecionados (pode ser so 1 ou $__all)
+            initialParams += `&var-${variable.name}=${val}`;
+          });
+        } else {
+          // variavel de 1 valor
+          initialParams += `&var-${variable.name}=${variable.current.value}`;
+        }
+      });
+      const drillDownParameter = encodeURIComponent(this.dashboardUID + initialParams);
       // alterado (o this.dashboardUID na linha seguinte)
-      const cellLink = this.templateSrv.replace(
-        column.style.linkUrl + '&drilldown=' + this.dashboardUID,
-        scopedVars,
-        encodeURIComponent
-      );
+      const linkUrl = !column.style.linkUrl.includes('?') ? column.style.linkUrl + '?' : column.style.linkUrl;
+      const newFullLink = linkUrl + '&drilldown=' + drillDownParameter;
+      const cellLink = this.templateSrv.replace(newFullLink, scopedVars, encodeURIComponent);
       const cellLinkTooltip = this.templateSrv.replace(column.style.linkTooltip, scopedVars);
       const cellTarget = column.style.linkTargetBlank ? '_blank' : '';
 

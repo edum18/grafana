@@ -177,11 +177,13 @@ class GraphElement {
     // mudado / adicionado
     if (item && this.panel.redirectLink) {
       // se item nao for null e houver link definido, entao pode haver redirect.
-      console.log(item);
-      console.log(this.panel.xaxis);
-      console.log('Link definido: ' + this.panel.redirectLink);
+      // console.log(item);
+      // console.log(this.panel.xaxis);
+      // console.log('Link definido: ' + this.panel.redirectLink);
       const redirectLink = this.panel.redirectLink; // exemplo: 'd/BGcqmH0iz/new-dashboard-copy3';
 
+      let redirectX;
+      let redirectY;
       if (this.panel.xaxis.mode === 'time') {
         // se for um grafico de tempo
 
@@ -194,31 +196,42 @@ class GraphElement {
         //console.log("data final: " + fullDate);
         // https://stackoverflow.com/questions/2388115/get-locale-short-date-format-using-javascript
 
-        const redirectX = fullDate; // exemplo: '2018-10-22 01:00:00';
-        const redirectY = item.datapoint[1]; // exemplo: 6739
-
-        const newFullLink = `${redirectLink}?var-eixox=${redirectX}&var-eixoy=${redirectY}&drilldown=${
-          this.dashboard.uid
-        }`; // &orgId=1;
-        // window.location.href = newFullLink;
-        store.dispatch(updateLocation({ path: newFullLink }));
-        console.log('redirect to: ' + newFullLink);
+        redirectX = fullDate; // exemplo: '2018-10-22 01:00:00';
+        redirectY = item.datapoint[1]; // exemplo: 6739
       } else if (this.panel.xaxis.mode === 'series') {
         // se for um grafico de series (eixo x é strings)
 
-        const redirectX = item.series.alias; // exemplo: 'RCE%20-%20Fatiados';
-        const redirectY = item.datapoint[1]; // exemplo: 6739
-
-        const newFullLink = `${redirectLink}?var-eixox=${redirectX}&var-eixoy=${redirectY}&drilldown=${
-          this.dashboard.uid
-        }`; // &orgId=1;
-        // window.location.href = newFullLink;
-        store.dispatch(updateLocation({ path: newFullLink }));
-        console.log('redirect to: ' + newFullLink);
+        redirectX = item.series.alias; // exemplo: 'RCE%20-%20Fatiados';
+        redirectY = item.datapoint[1]; // exemplo: 6739
       } else {
         console.log('Tipo de gráfico não encontrado. Contactar suporte.');
       }
-    } // até aqui
+
+      //console.log("dash", this.dashboard, this.dashboard.templating.list);
+      // Colocar todas as variaveis do dashboard atual no parametro de drilldown mas encoded, para voltarem a ser preenchidas ao voltar.
+      let initialParams = '?';
+      _.each(this.dashboard.templating.list, variable => {
+        // para cada variavel
+        if (variable.current.value.constructor === Array) {
+          // se for array, é porque é uma variavel multivalor com 1+ valores
+          _.each(variable.current.value, val => {
+            // para cada valor dos varios valores selecionados (pode ser so 1 ou $__all)
+            initialParams += `&var-${variable.name}=${val}`;
+          });
+        } else {
+          // variavel de 1 valor
+          initialParams += `&var-${variable.name}=${variable.current.value}`;
+        }
+      });
+      // aqui ^^^ enviam-se os parametros do dashboard pai para o drilldown, mas encoded para nao ficarem no novo dashboard.
+      // o parametro fica tipo &drilldown=H2HX2&var-test=asd&var-teste2=das;   mas encoded:
+      const drillDownParameter = encodeURIComponent(this.dashboard.uid + initialParams);
+      const newFullLink = `${redirectLink}?var-eixox=${redirectX}&var-eixoy=${redirectY}&drilldown=${drillDownParameter}`;
+      store.dispatch(updateLocation({ path: newFullLink, query: {}, partial: false, replace: true }));
+      //console.log("Initialparams: ", initialParams);
+      //console.log("drilldownparameter", drillDownParameter);
+      console.log('redirect to: ' + newFullLink);
+    } // até aqui adicionado
 
     if (this.panel.xaxis.mode !== 'time') {
       // Skip if panel in histogram or series mode

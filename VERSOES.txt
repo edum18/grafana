@@ -1,3 +1,7 @@
+v1.4.12 (16-10-2019):
+O botao Back de drilldown agora coloca de volta os parametros que estavam no dashboard inicial.
+Agora depende da versao 1.1.1 dos plugins tambem.
+
 v1.4.11 (09-10-2019):
 Resolvido bug das variaveis $__timeFrom() e $__timeTo() estarem sempre no modo UTC.
 Agora as variaveis devolvem sempre a hora certa, independentemente do fuso horario, porque foi definido Europe/London.
