@@ -286,18 +286,22 @@ export class TableRenderer {
           initialParams += `&var-${variable.name}=${variable.current.value}`;
         }
       });
-      const drillDownParameter = encodeURIComponent(this.dashboardUID + initialParams);
-      // alterado (o this.dashboardUID na linha seguinte)
-      const linkUrl = !column.style.linkUrl.includes('?') ? column.style.linkUrl + '?' : column.style.linkUrl;
-      const newFullLink = linkUrl + '&drilldown=' + drillDownParameter;
+      const drilldownParameter = encodeURIComponent(this.dashboardUID + initialParams);
+      const linkUrl = !(column.style.linkUrl || '?').includes('?') ? column.style.linkUrl + '?' : column.style.linkUrl;
+      const newFullLink = linkUrl + '&drilldown=' + 'true';
       const cellLink = this.templateSrv.replace(newFullLink, scopedVars, encodeURIComponent);
       const cellLinkTooltip = this.templateSrv.replace(column.style.linkTooltip, scopedVars);
       const cellTarget = column.style.linkTargetBlank ? '_blank' : '';
 
       cellClasses.push('table-panel-cell-link');
 
-      columnHtml += `
-        <a href="${cellLink}" target="${cellTarget}" data-link-tooltip data-original-title="${cellLinkTooltip}" data-placement="right"${textStyle}>
+      // @ts-ignore // adicionado:
+      columnHtml +=
+        `
+        <a href="${cellLink}" onClick="window.drilldownGrafana.push(\'` +
+        drilldownParameter +
+        `\')"
+        target="${cellTarget}" data-link-tooltip data-original-title="${cellLinkTooltip}" data-placement="right"${textStyle}>
           ${value}
         </a>
       `;

@@ -68,6 +68,8 @@ export class GrafanaApp {
     const app = angular.module('grafana', []);
 
     moment.locale(config.bootData.user.locale);
+    // @ts-ignore
+    window.drilldownGrafana = []; // adicionado // init do drilldown
 
     app.config(
       (

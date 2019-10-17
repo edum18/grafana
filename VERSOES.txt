@@ -1,3 +1,7 @@
+v1.4.13 (17-10-2019):
+Bugfix: drilldown em tabela tava a dar um undefined.
+Agora é possivel multiplos drilldowns, podendo andar para trás neles.
+
 v1.4.12 (16-10-2019):
 O botao Back de drilldown agora coloca de volta os parametros que estavam no dashboard inicial.
 Agora depende da versao 1.1.1 dos plugins tambem.

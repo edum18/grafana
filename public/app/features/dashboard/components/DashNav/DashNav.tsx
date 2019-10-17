@@ -60,7 +60,11 @@ export class DashNav extends PureComponent<Props> {
   }
 
   onOpenSearch = () => {
-    appEvents.emit('show-dash-search');
+    // alterado
+    const paramDrilldownUID = this.getUrlParameter('drilldown'); // se o botao de drilldown tiver visivel, impede o click de abrir o menu
+    if (!paramDrilldownUID) {
+      appEvents.emit('show-dash-search');
+    }
   };
 
   onClose = () => {
@@ -181,17 +185,27 @@ export class DashNav extends PureComponent<Props> {
 
   renderDrilldownBackButton() {
     // adicionado
-    const paramDrilldownUID = this.getUrlParameter('drilldown');
-    if (paramDrilldownUID) {
-      // se tiver parametro drilldown, entao este dashboard é de detalhe
-      // ao clicar, update location tirando todos os parametros...
+    // @ts-ignore
+    const ddGrafana = window.drilldownGrafana;
+    const paramDrilldownUID = this.getUrlParameter('drilldown'); // é usado so para se saber se fez drilldown e apagar o array ddGrafana
+    if (ddGrafana.length && paramDrilldownUID) {
+      // se tiver parametro drilldown e se tiver links para voltar para tras, entao este dashboard é de detalhe
+
+      const lastDrilldownIndex = ddGrafana.length - 1;
+      let ddURL = ddGrafana[lastDrilldownIndex]; // parametros é do ultimo do array de links
+      if (ddGrafana.length > 1) {
+        // se ainda tiver drilldowns por fazer, volta a meter a true no URL do dashboard pai
+        ddURL += '&drilldown=true';
+      }
+
       return (
         <Tooltip content="Voltar ao dashboard anterior">
           <button
             className="navbar-edit__back-btn"
             style={{ marginRight: '13px', bottom: '1px', position: 'relative' }}
             onClick={() => {
-              this.props.updateLocation({ path: `/d/${paramDrilldownUID}`, query: {}, partial: false, replace: true });
+              this.props.updateLocation({ path: `/d/${ddURL}`, query: {}, partial: false, replace: true });
+              ddGrafana.pop(); // remover o ultimo, porque ja meti os parametros no botao.
             }}
           >
             <i className="fa fa-arrow-left" />
@@ -199,7 +213,9 @@ export class DashNav extends PureComponent<Props> {
         </Tooltip>
       );
     } else {
-      // se nao tiver o parametro no url, entao mostra o icone de dashboard normalmente
+      // se nao tiver o parametro no url, entao mostra o icone de dashboard normalmente e limpa o array, para nao aparecer em ouros dashboards
+      // @ts-ignore
+      window.drilldownGrafana = [];
       return <i className="gicon gicon-dashboard" />;
     }
   }

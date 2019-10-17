@@ -203,8 +203,11 @@ class GraphElement {
 
         redirectX = item.series.alias; // exemplo: 'RCE%20-%20Fatiados';
         redirectY = item.datapoint[1]; // exemplo: 6739
+      } else if (this.panel.xaxis.mode === 'histogram') {
+        redirectX = item.datapoint[0]; // exemplo: 60
+        redirectY = item.datapoint[1]; // exemplo: 17
       } else {
-        console.log('Tipo de gráfico não encontrado. Contactar suporte.');
+        console.log('Tipo de gráfico não encontrado. Contactar suporte.'); // ver dados: item.datapoint
       }
 
       //console.log("dash", this.dashboard, this.dashboard.templating.list);
@@ -225,11 +228,13 @@ class GraphElement {
       });
       // aqui ^^^ enviam-se os parametros do dashboard pai para o drilldown, mas encoded para nao ficarem no novo dashboard.
       // o parametro fica tipo &drilldown=H2HX2&var-test=asd&var-teste2=das;   mas encoded:
-      const drillDownParameter = encodeURIComponent(this.dashboard.uid + initialParams);
-      const newFullLink = `${redirectLink}?var-eixox=${redirectX}&var-eixoy=${redirectY}&drilldown=${drillDownParameter}`;
+      const drilldownParameter = encodeURIComponent(this.dashboard.uid + initialParams);
+      const newFullLink = `${redirectLink}?var-eixox=${redirectX}&var-eixoy=${redirectY}&drilldown=true`;
       store.dispatch(updateLocation({ path: newFullLink, query: {}, partial: false, replace: true }));
+      // @ts-ignore
+      window.drilldownGrafana.push(drilldownParameter); // adicionar ao array de drilldowns para multiplos drilldowns.
       //console.log("Initialparams: ", initialParams);
-      //console.log("drilldownparameter", drillDownParameter);
+      //console.log("drilldownparameter", drilldownParameter);
       console.log('redirect to: ' + newFullLink);
     } // até aqui adicionado
 
