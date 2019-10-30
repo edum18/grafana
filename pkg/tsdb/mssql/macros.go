@@ -68,10 +68,20 @@ func (m *msSqlMacroEngine) evaluateMacro(name string, args []string) (string, er
 		return fmt.Sprintf("%s BETWEEN '%s' AND '%s'", args[0], m.timeRange.GetFromAsTimeUTC().Format(time.RFC3339), m.timeRange.GetToAsTimeUTC().Format(time.RFC3339)), nil
 	case "__timeFrom":
 		formattedTime := m.timeRange.GetFromAsTimeCustom().Format(time.RFC3339) // alterado // devolver o tempo custom, com menos 6 caracteres
-		return fmt.Sprintf("'%s'", formattedTime[:len(formattedTime)-6]), nil
+		if len(formattedTime) > 19 {                                            // se tiver mais que 19 caracteres, é porque tem o +01:00 por isso corta-se.
+			charactersToRemove := len(formattedTime) - 19
+			return fmt.Sprintf("'%s'", formattedTime[:len(formattedTime)-charactersToRemove]), nil
+		} else {
+			return fmt.Sprintf("'%s'", formattedTime), nil
+		}
 	case "__timeTo":
 		formattedTime := m.timeRange.GetToAsTimeCustom().Format(time.RFC3339) // alterado // devolver o tempo custom, com menos 6 caracteres
-		return fmt.Sprintf("'%s'", formattedTime[:len(formattedTime)-6]), nil
+		if len(formattedTime) > 19 {                                          // se tiver mais que 19 caracteres, é porque tem o +01:00 por isso corta-se.
+			charactersToRemove := len(formattedTime) - 19
+			return fmt.Sprintf("'%s'", formattedTime[:len(formattedTime)-charactersToRemove]), nil
+		} else {
+			return fmt.Sprintf("'%s'", formattedTime), nil
+		}
 	case "__timeGroup":
 		if len(args) < 2 {
 			return "", fmt.Errorf("macro %v needs time column and interval", name)

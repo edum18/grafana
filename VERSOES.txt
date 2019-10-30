@@ -1,3 +1,6 @@
+v1.4.14 (30-10-2019):
+Bugfix: datas na hora nova já nao cortam os ultimos numeros.
+
 v1.4.13 (17-10-2019):
 Bugfix: drilldown em tabela tava a dar um undefined.
 Agora é possivel multiplos drilldowns, podendo andar para trás neles.
