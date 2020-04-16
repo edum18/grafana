@@ -1,3 +1,7 @@
+v1.4.15 (16-04-2020):
+Mudanças sobre offset revertidas das variaveis timeFrom e timeTo.
+Adicionadas 4 variaveis com horas locais de portugal e horas locais com offset: timeFromLocal, timeToLocal, timeFromLocalOffset e timeToLocalOffset
+
 v1.4.14 (30-10-2019):
 Bugfix: datas na hora nova já nao cortam os ultimos numeros.
 

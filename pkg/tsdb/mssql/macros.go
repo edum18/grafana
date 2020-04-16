@@ -67,6 +67,10 @@ func (m *msSqlMacroEngine) evaluateMacro(name string, args []string) (string, er
 
 		return fmt.Sprintf("%s BETWEEN '%s' AND '%s'", args[0], m.timeRange.GetFromAsTimeUTC().Format(time.RFC3339), m.timeRange.GetToAsTimeUTC().Format(time.RFC3339)), nil
 	case "__timeFrom":
+		return fmt.Sprintf("'%s'", m.timeRange.GetFromAsTimeUTC().Format(time.RFC3339)), nil
+	case "__timeTo":
+		return fmt.Sprintf("'%s'", m.timeRange.GetToAsTimeUTC().Format(time.RFC3339)), nil
+	case "__timeFromLocal":
 		formattedTime := m.timeRange.GetFromAsTimeCustom().Format(time.RFC3339) // alterado // devolver o tempo custom, com menos 6 caracteres
 		if len(formattedTime) > 19 {                                            // se tiver mais que 19 caracteres, é porque tem o +01:00 por isso corta-se.
 			charactersToRemove := len(formattedTime) - 19
@@ -74,14 +78,20 @@ func (m *msSqlMacroEngine) evaluateMacro(name string, args []string) (string, er
 		} else {
 			return fmt.Sprintf("'%s'", formattedTime), nil
 		}
-	case "__timeTo":
-		formattedTime := m.timeRange.GetToAsTimeCustom().Format(time.RFC3339) // alterado // devolver o tempo custom, com menos 6 caracteres
+	case "__timeToLocal":
+		formattedTime := m.timeRange.GetToAsTimeCustom().Format(time.RFC3339) // adicionado // devolver o tempo custom, com menos 6 caracteres
 		if len(formattedTime) > 19 {                                          // se tiver mais que 19 caracteres, é porque tem o +01:00 por isso corta-se.
 			charactersToRemove := len(formattedTime) - 19
 			return fmt.Sprintf("'%s'", formattedTime[:len(formattedTime)-charactersToRemove]), nil
 		} else {
 			return fmt.Sprintf("'%s'", formattedTime), nil
 		}
+	case "__timeFromLocalOffset":
+		formattedTime := m.timeRange.GetFromAsTimeCustom().Format(time.RFC3339) // alterado // devolver o tempo custom, com o offset
+		return fmt.Sprintf("'%s'", formattedTime), nil
+	case "__timeToLocalOffset":
+		formattedTime := m.timeRange.GetToAsTimeCustom().Format(time.RFC3339) // adicionado // devolver o tempo custom, com o offset
+		return fmt.Sprintf("'%s'", formattedTime), nil
 	case "__timeGroup":
 		if len(args) < 2 {
 			return "", fmt.Errorf("macro %v needs time column and interval", name)
