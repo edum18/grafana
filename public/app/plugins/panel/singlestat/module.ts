@@ -46,6 +46,7 @@ class SingleStatCtrl extends MetricsPanelCtrl {
     targets: [{}],
     cacheTimeout: null,
     format: 'none',
+    linkURL: '', // adicionado
     prefix: '',
     postfix: '',
     nullText: null,
@@ -571,6 +572,56 @@ class SingleStatCtrl extends MetricsPanelCtrl {
       $.plot(plotCanvas, [plotSeries], options);
     }
 
+    const onClickURL = () => {
+      // adicionado
+      //console.log("dash", this.dashboard, this.dashboard.templating.list);
+      // Colocar todas as variaveis do dashboard atual no parametro de drilldown mas encoded, para voltarem a ser preenchidas ao voltar.
+      let initialParams = '?';
+      _.each(this.dashboard.templating.list, variable => {
+        // para cada variavel
+        if (variable.current.value.constructor === Array) {
+          // se for array, é porque é uma variavel multivalor com 1+ valores
+          _.each(variable.current.value, val => {
+            // para cada valor dos varios valores selecionados (pode ser so 1 ou $__all)
+            initialParams += `&var-${variable.name}=${val}`;
+          });
+        } else {
+          // variavel de 1 valor
+          initialParams += `&var-${variable.name}=${variable.current.value}`;
+        }
+      });
+      // aqui ^^^ enviam-se os parametros do dashboard pai para o drilldown, mas encoded para nao ficarem no novo dashboard.
+      // o parametro fica tipo &drilldown=H2HX2&var-test=asd&var-teste2=das;   mas encoded:
+      const drilldownParameter = encodeURIComponent(this.dashboard.uid + initialParams);
+
+      let newFullLink = window
+        // @ts-ignore
+        .replaceVariables(panel.linkURL, ctrl.panel.scopedVars)
+        .replace('$__cell', this.data.valueFormatted);
+
+      // console.log("newFullLink", newFullLink);
+
+      // adicionado:
+      const linkToWithoutSlash = newFullLink[0] === '/' ? newFullLink.substr(1) : newFullLink;
+      const isSameDashboard = this.dashboard.uid === linkToWithoutSlash.split('/')[1]; // se o url é para o mesmo dashboard
+
+      if (!isSameDashboard) {
+        // Se é link para dashboard externo, mete o drilldownParameter, para depois ter o botao de voltar.
+        newFullLink += (newFullLink.includes('?') ? '&' : '?') + 'drilldown=true';
+        // @ts-ignore
+        window.drilldownGrafana.push(drilldownParameter); // adicionar ao array de drilldowns para multiplos drilldowns.
+        //console.log("Initialparams: ", initialParams);
+        //console.log("drilldownparameter", drilldownParameter);
+        console.log('redirect to: ' + newFullLink);
+        // @ts-ignore
+        window.updateLocation(newFullLink);
+      } else {
+        // Se é para o mesmo dashboard, apenas muda variaveis do dashboard. Mando o link para a funçao atualizar as variaveis neste dashboard
+        // @ts-ignore
+        window.drilldownUpdateVariable(newFullLink.substr(newFullLink.indexOf('?')));
+      }
+    };
+
     function render() {
       if (!ctrl.data) {
         return;
@@ -619,6 +670,17 @@ class SingleStatCtrl extends MetricsPanelCtrl {
       }
 
       elem.toggleClass('pointer', panel.links.length > 0);
+
+      const hasLink = !!panel.linkURL; // adicionado
+      if (hasLink) {
+        // adicionado
+        const valElement = elem[0].getElementsByClassName('singlestat-panel-value')[0];
+        valElement.style.cursor = 'pointer';
+
+        valElement.addEventListener('click', () => {
+          onClickURL();
+        });
+      }
 
       if (panel.links.length > 0) {
         linkInfo = linkSrv.getPanelLinkAnchorInfo(panel.links[0], data.scopedVars);

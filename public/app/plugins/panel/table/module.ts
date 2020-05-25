@@ -20,6 +20,10 @@ class TablePanelCtrl extends MetricsPanelCtrl {
   panelDefaults = {
     targets: [{}],
     transform: 'timeseries_to_columns',
+    rotateHeaders: false, // adicionado
+    rotateHeadersDeg: null, // adicionado
+    noWrapCells: false, // adicionado
+    thresholdCellTextColor: 'rgb(255,255,255)', // adicionado
     pageSize: null,
     showHeader: true,
     styles: [

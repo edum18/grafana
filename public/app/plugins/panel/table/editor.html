@@ -31,6 +31,25 @@
 		</div>
 	</div>
 
+	<div class="section gf-form-group"> <!-- ADICIONADO -->
+		<h5 class="section-heading">Estilos</h5>
+		<div class="gf-form">
+			<gf-form-switch class="gf-form" label-class="width-10" switch-class="max-width-7" label="Rodar headers" checked="editor.panel.rotateHeaders"
+							on-change="!editor.panel.rotateHeaders ? editor.panel.rotateHeadersDeg = null : ''; editor.render();"></gf-form-switch>
+		</div>
+		<div class="gf-form">
+			<label class="gf-form-label width-10">Ângulo de rotação</label>
+			<input type="number" class="gf-form-input max-width-15"
+				   placeholder="0-360 ou vazio (180)" data-placement="right"
+				   ng-model="editor.panel.rotateHeadersDeg"
+				   ng-disabled="!editor.panel.rotateHeaders"
+				   ng-change="editor.render()">
+		</div>
+		<div class="gf-form">
+			<gf-form-switch class="gf-form" label-class="width-10" switch-class="max-width-7" label="Tudo na mesma linha" checked="editor.panel.noWrapCells" on-change="editor.render()"></gf-form-switch>
+		</div>
+	</div>
+
 	<div class="section gf-form-group">
 		<h5 class="section-heading">Paging</h5>
     <div class="gf-form">

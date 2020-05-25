@@ -1,0 +1,44 @@
+// Tabelas com o header sticky verticalmente e horizontalmente (colocado por defeito)
+.table-panel-container {
+  padding-top: 0 !important;
+  position: relative;
+}
+
+table.table-panel-table {
+  border-collapse: collapse;
+
+  th {
+    background: white;
+    position: sticky;
+    top: 0;
+  }
+}
+
+.table-panel-header-bg {
+  display: none !important;
+}
+
+.table-panel-table-header-inner {
+  position: inherit !important;
+  white-space: nowrap !important;
+}
+
+// Tabelas com a opçao do header rodado
+.acc-rotated-header.table-panel-table-header-inner {
+  padding: 4px;
+  writing-mode: vertical-lr;
+  margin: auto;
+  .acc-tableHeaderTitle {
+    transform: rotate(180deg);
+    display: inline-block;
+  }
+}
+
+// Tabelas com a opçao de manter tudo na mesma linha
+.acc-noWrapCells.table-panel-table {
+  td,
+  th .table-panel-table-header-inner {
+    white-space: nowrap;
+    padding: 0.45em 0.45em 0.45em 0.45em; // mais apertado e centrado
+  }
+}

@@ -115,6 +115,14 @@ export class ColumnOptionsCtrl {
     };
   }
 
+  onColorTextChange(style: any, colorIndex: number) {
+    // adicionado
+    return (newColor: string) => {
+      this.panel.thresholdCellTextColor = newColor;
+      this.render();
+    };
+  }
+
   addValueMap(style: any) {
     if (!style.valueMaps) {
       style.valueMaps = [];

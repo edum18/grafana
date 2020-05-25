@@ -7,6 +7,7 @@ import { TimeSrv } from 'app/features/dashboard/services/TimeSrv';
 import { AnnotationsSrv } from 'app/features/annotations/annotations_srv';
 import { VariableSrv } from 'app/features/templating/variable_srv';
 import { KeybindingSrv } from 'app/core/services/keybindingSrv';
+import _ from 'lodash'; // adicionado
 
 // Actions
 import { updateLocation } from 'app/core/actions';
@@ -202,7 +203,46 @@ export function initDashboard(args: InitDashboardArgs): ThunkResult<void> {
     dashboardSrv.setCurrent(dashboard);
     // yay we are done
     dispatch(dashboardInitCompleted(dashboard));
+
+    // @ts-ignore
+    window.drilldownUpdateVariable = linkWithParams => {
+      // adicionado
+      console.log('final linkWithParams:', linkWithParams);
+      // Funçao para atualizar variaveis no mesmo dashboard.
+      // Obtem link com todas as variaveis a serem alteradas neste dashboard, de forma a permitir drilldown no mesmo dashboard.
+      // O link que vem é so a parte da query com o ponto de interrogaçao, exemplo: ?var-same=asd&from=asdasd
+      const params = new URLSearchParams(linkWithParams);
+      // @ts-ignore
+      for (const variable of params.keys()) {
+        const isParamVariable = variable.indexOf('var-') > -1;
+        if (isParamVariable) {
+          // se o parametro no URL é uma variavel a ser atualizada no dashboard, entao atualiza-a internamente.
+          updateVarable(variable.substr(variable.indexOf('-') + 1), params.get(variable), variableSrv);
+        }
+      }
+    };
+    // @ts-ignore
+    window.updateLocation = link => {
+      // adicionado
+      dispatch(updateLocation({ path: link, query: {}, partial: false, replace: true }));
+    };
   };
+}
+
+function updateVarable(varname: string, path: string, srv: VariableSrv) {
+  // adicionado
+  // Ta mal escrito de proposito porque é uma funçao copiada da net. Recebe o nome da variable e o seu valor.
+  // console.log('update variable', varname, path);
+  const v = _.find(srv.variables, check => {
+    return check.name === varname;
+  });
+  if (v) {
+    srv.setOptionAsCurrent(v, {
+      text: path,
+      value: path,
+    });
+    srv.variableUpdated(v, true);
+  }
 }
 
 function getNewDashboardModelData(urlFolderId?: string): any {

@@ -197,6 +197,7 @@ export class DashNav extends PureComponent<Props> {
         // se ainda tiver drilldowns por fazer, volta a meter a true no URL do dashboard pai
         ddURL += '&drilldown=true';
       }
+      ddURL = decodeURIComponent(ddURL); // para dashboard nao ficar bloqueado às vezes, ao carregar no Voltar
 
       return (
         <Tooltip content="Voltar ao dashboard anterior">
@@ -204,7 +205,7 @@ export class DashNav extends PureComponent<Props> {
             className="navbar-edit__back-btn"
             style={{ marginRight: '13px', bottom: '1px', position: 'relative' }}
             onClick={() => {
-              this.props.updateLocation({ path: `/d/${ddURL}`, query: {}, partial: false, replace: true });
+              this.props.updateLocation({ path: `d/${ddURL}`, query: {}, partial: false, replace: true });
               ddGrafana.pop(); // remover o ultimo, porque ja meti os parametros no botao.
             }}
           >

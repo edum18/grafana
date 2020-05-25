@@ -104,6 +104,11 @@ export const getColorByName = (colorName: string) => {
 };
 
 export const getColorFromHexRgbOrName = (color: string, theme?: GrafanaThemeType): string => {
+  if (!color) {
+    // adicionado, so para nao dar erro, na escolha da cor do texto por nao estar em rgba
+    return 'rgb(255,255,255)';
+  }
+
   if (color.indexOf('rgb') > -1 || isHex(color)) {
     return color;
   }

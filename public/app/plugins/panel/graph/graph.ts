@@ -29,8 +29,6 @@ import { getValueFormat } from '@grafana/ui';
 import { provideTheme } from 'app/core/utils/ConfigProvider';
 
 const LegendWithThemeProvider = provideTheme(Legend);
-import { updateLocation } from 'app/core/actions'; // adicionado
-import { store } from 'app/store/store'; // adicionado
 
 class GraphElement {
   ctrl: GraphCtrl;
@@ -229,13 +227,39 @@ class GraphElement {
       // aqui ^^^ enviam-se os parametros do dashboard pai para o drilldown, mas encoded para nao ficarem no novo dashboard.
       // o parametro fica tipo &drilldown=H2HX2&var-test=asd&var-teste2=das;   mas encoded:
       const drilldownParameter = encodeURIComponent(this.dashboard.uid + initialParams);
-      const newFullLink = `${redirectLink}?var-eixox=${redirectX}&var-eixoy=${redirectY}&drilldown=true`;
-      store.dispatch(updateLocation({ path: newFullLink, query: {}, partial: false, replace: true }));
       // @ts-ignore
-      window.drilldownGrafana.push(drilldownParameter); // adicionar ao array de drilldowns para multiplos drilldowns.
-      //console.log("Initialparams: ", initialParams);
-      //console.log("drilldownparameter", drilldownParameter);
-      console.log('redirect to: ' + newFullLink);
+      let newFullLink = window
+        // @ts-ignore
+        .replaceVariables(redirectLink, this.ctrl.panel.scopedVars)
+        .replace('$__x', redirectX)
+        .replace('$__y', redirectY); // antigo: `${redirectLink}?var-eixox=${redirectX}&var-eixoy=${redirectY}&drilldown=true`;
+
+      if (!redirectLink.includes('$__x') && !redirectLink.includes('$__y')) {
+        // se nao tiver nenhuma cena destas, mete o URL antigo para nao termos de mudar dashboards antigos.
+        newFullLink += `?var-eixox=${redirectX}&var-eixoy=${redirectY}`;
+      }
+
+      // console.log("newFullLink", newFullLink);
+
+      // adicionado:
+      const linkToWithoutSlash = newFullLink[0] === '/' ? newFullLink.substr(1) : newFullLink;
+      const isSameDashboard = this.dashboard.uid === linkToWithoutSlash.split('/')[1]; // se o url é para o mesmo dashboard
+
+      if (!isSameDashboard) {
+        // Se é link para dashboard externo, mete o drilldownParameter, para depois ter o botao de voltar.
+        newFullLink += (newFullLink.includes('?') ? '&' : '?') + 'drilldown=true';
+        // @ts-ignore
+        window.drilldownGrafana.push(drilldownParameter); // adicionar ao array de drilldowns para multiplos drilldowns.
+        //console.log("Initialparams: ", initialParams);
+        //console.log("drilldownparameter", drilldownParameter);
+        console.log('redirect to: ' + newFullLink);
+        // @ts-ignore
+        window.updateLocation(newFullLink);
+      } else {
+        // Se é para o mesmo dashboard, apenas muda variaveis do dashboard. Mando o link para a funçao atualizar as variaveis neste dashboard
+        // @ts-ignore
+        window.drilldownUpdateVariable(newFullLink.substr(newFullLink.indexOf('?')));
+      }
     } // até aqui adicionado
 
     if (this.panel.xaxis.mode !== 'time') {

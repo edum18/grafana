@@ -36,6 +36,14 @@ class MetricsPanelCtrl extends PanelCtrl {
     this.datasourceSrv = $injector.get('datasourceSrv');
     this.timeSrv = $injector.get('timeSrv');
     this.templateSrv = $injector.get('templateSrv');
+    // @ts-ignore
+    if (!window.replaceVariables) {
+      // adicionado
+      // @ts-ignore
+      window.replaceVariables = (url, scopedVars = null) => this.templateSrv.replace(url, scopedVars);
+      // Nota: isto recebe as scopedvars que dá os valores das variaveis atuais numa repetiçao de paineis.
+      // Tem uma limitaçao, que é a de que só dá para dar o value atual, e nao o text atual.
+    }
     this.scope = $scope;
     this.panel.datasource = this.panel.datasource || null;
 

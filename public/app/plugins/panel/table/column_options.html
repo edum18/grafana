@@ -136,6 +136,12 @@
         <a class="pointer" ng-click="editor.invertColorOrder($index)">Invert</a>
       </div>
     </div>
+    <div class="gf-form"> <!-- adicionado -->
+      <label class="gf-form-label width-8">Cor do texto</label>
+      <span class="gf-form-label">
+        <color-picker color="editor.thresholdCellTextColor" onChange="editor.onColorTextChange(style, 0)"></color-picker>
+      </span>
+    </div>
   </div>
 
   <div class="section gf-form-group" ng-if="style.link">

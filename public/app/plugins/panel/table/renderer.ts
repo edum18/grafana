@@ -235,7 +235,8 @@ export class TableRenderer {
     let cellClass = '';
 
     if (this.colorState.cell) {
-      cellStyle = ' style="background-color:' + this.colorState.cell + '"';
+      cellStyle =
+        ' style="background-color:' + this.colorState.cell + '; color: ' + this.panel.thresholdCellTextColor + '"'; // alterado
       cellClasses.push('table-panel-color-cell');
       this.colorState.cell = null;
     } else if (this.colorState.value) {
@@ -295,12 +296,29 @@ export class TableRenderer {
 
       cellClasses.push('table-panel-cell-link');
 
-      // @ts-ignore // adicionado:
+      // adicionado:
+      let onClickHandler = '';
+      let isSameDashboard = false;
+      if (column.style.linkUrl) {
+        const linkToWithoutSlash =
+          column.style.linkUrl[0] === '/' ? column.style.linkUrl.substr(1) : column.style.linkUrl;
+        isSameDashboard = this.dashboardUID === linkToWithoutSlash.split('/')[1]; // se o url é para o mesmo dashboard
+
+        if (!isSameDashboard) {
+          // Se é link para dashboard externo, mete o drilldownParameter, para depois ter o botao de voltar.
+          onClickHandler += `window.drilldownGrafana.push('${drilldownParameter}'); `;
+        } else {
+          // Se é para o mesmo dashboard, apenas muda variaveis do dashboard. Mando o link para a funçao atualizar as variaveis neste dashboard
+          onClickHandler += `window.drilldownUpdateVariable('${cellLink.substr(cellLink.indexOf('?'))}');`;
+        }
+      }
+
+      // @ts-ignore // alterado
       columnHtml +=
         `
-        <a href="${cellLink}" onClick="window.drilldownGrafana.push(\'` +
-        drilldownParameter +
-        `\')"
+        <a ` +
+        (!isSameDashboard ? `href="${cellLink}"` : '') +
+        ` onClick="${onClickHandler}"
         target="${cellTarget}" data-link-tooltip data-original-title="${cellLinkTooltip}" data-placement="right"${textStyle}>
           ${value}
         </a>

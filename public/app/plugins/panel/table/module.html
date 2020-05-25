@@ -2,12 +2,14 @@
 <div class="table-panel-container">
 	<div class="table-panel-header-bg" ng-show="ctrl.table.rows.length"></div>
 	<div class="table-panel-scroll" ng-show="ctrl.table.rows.length">
-		<table class="table-panel-table">
+		<table class="table-panel-table" ng-class="{'acc-noWrapCells': ctrl.panel.noWrapCells}"> <!-- adicionado class -->
 			<thead>
 				<tr>
 					<th ng-repeat="col in ctrl.table.columns" ng-if="!col.hidden">
-						<div class="table-panel-table-header-inner pointer" ng-click="ctrl.toggleColumnSort(col, $index)">
-							{{col.title}}
+						<div class="table-panel-table-header-inner pointer" ng-click="ctrl.toggleColumnSort(col, $index)"
+							 ng-class="{'acc-rotated-header': ctrl.panel.rotateHeaders}"> <!-- adicionado class -->
+							<span class="acc-tableHeaderTitle"
+								  ng-style="{'transform': 'rotate(' + ctrl.panel.rotateHeadersDeg + 'deg)' }">{{col.title}}</span> <!-- adicionado span -->
 							<span class="table-panel-table-header-controls" ng-if="col.sort">
 								<i class="fa fa-caret-down" ng-show="col.desc"></i>
 								<i class="fa fa-caret-up" ng-hide="col.desc"></i>
