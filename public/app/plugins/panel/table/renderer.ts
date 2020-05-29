@@ -6,7 +6,6 @@ import { ColumnStyle } from '@grafana/ui/src/components/Table/TableCellBuilder';
 export class TableRenderer {
   formatters: any[];
   colorState: any;
-  dashboardUID: string;
 
   constructor(
     private panel,
@@ -17,7 +16,6 @@ export class TableRenderer {
     private theme?: GrafanaThemeType
   ) {
     this.initColumns();
-    this.dashboardUID = window.location.pathname.split('/')[2]; // adicionado
   }
 
   setTable(table) {
@@ -287,7 +285,8 @@ export class TableRenderer {
           initialParams += `&var-${variable.name}=${variable.current.value}`;
         }
       });
-      const drilldownParameter = encodeURIComponent(this.dashboardUID + initialParams);
+      // @ts-ignore
+      const drilldownParameter = encodeURIComponent(window.currentDashboard.uid + initialParams);
       const linkUrl = !(column.style.linkUrl || '?').includes('?') ? column.style.linkUrl + '?' : column.style.linkUrl;
       const newFullLink = linkUrl + '&drilldown=' + 'true';
       const cellLink = this.templateSrv.replace(newFullLink, scopedVars, encodeURIComponent);
@@ -302,7 +301,8 @@ export class TableRenderer {
       if (column.style.linkUrl) {
         const linkToWithoutSlash =
           column.style.linkUrl[0] === '/' ? column.style.linkUrl.substr(1) : column.style.linkUrl;
-        isSameDashboard = this.dashboardUID === linkToWithoutSlash.split('/')[1]; // se o url é para o mesmo dashboard
+        // @ts-ignore
+        isSameDashboard = window.currentDashboard.uid === linkToWithoutSlash.split('/')[1]; // se o url é para o mesmo dashboard
 
         if (!isSameDashboard) {
           // Se é link para dashboard externo, mete o drilldownParameter, para depois ter o botao de voltar.

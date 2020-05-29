@@ -1,4 +1,8 @@
-v1.4.16 (X-05-2020):
+v1.4.17 (26-05-2020):
+Resolvido bug em que ao fazer-se refresh perdia-se descritivos do variaveis multi-valor.
+Resolvido bug no botao Voltar depois de drilldown quando o Grafana corre sob um proxy.
+
+v1.4.16 (25-05-2020):
 Otimizaçoes nas tabelas, nomeadamente:
 -Scroll horizontal nas tabelas ja mostra os headers, assim como se mantêm no topo ao fazer scroll vertical.
 -Nova opçao de angulo de rotaçao dos headers.

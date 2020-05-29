@@ -226,6 +226,9 @@ export function initDashboard(args: InitDashboardArgs): ThunkResult<void> {
       // adicionado
       dispatch(updateLocation({ path: link, query: {}, partial: false, replace: true }));
     };
+
+    // @ts-ignore
+    window.currentDashboard = dashboard;
   };
 }
 
