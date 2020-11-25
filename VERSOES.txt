@@ -1,27 +1,30 @@
+v1.4.18 (23-11-2020):
+Exporta√ßao para CSV agora exporta numeros decimais com virgula em vez de ponto.
+
 v1.4.17 (26-05-2020):
 Resolvido bug em que ao fazer-se refresh perdia-se descritivos do variaveis multi-valor.
 Resolvido bug no botao Voltar depois de drilldown quando o Grafana corre sob um proxy.
 
 v1.4.16 (25-05-2020):
-OtimizaÁoes nas tabelas, nomeadamente:
--Scroll horizontal nas tabelas ja mostra os headers, assim como se mantÍm no topo ao fazer scroll vertical.
--Nova opÁao de angulo de rotaÁao dos headers.
--Nova opÁao de manter o texto das celulas na mesma linha.
--Nova opÁao de configurar a cor do texto de celulas pintadas.
-Bugfix: ao carregar Voltar de um drilldown, o dashboard ja nao fica bloqueado (soluÁao foi descodificar URL).
-Agora È possivel drilldown no mesmo dashboard, a partir de tabelas, grafico de barras, heatmap, advanced discrete, status panel e singlestat.
-Nesses drilldowns, tambem podem ser levadas variaveis de repetiÁao, de dashboard e de valores do painel em que foi carregado.
+Otimiza√ßoes nas tabelas, nomeadamente:
+-Scroll horizontal nas tabelas ja mostra os headers, assim como se mant√™m no topo ao fazer scroll vertical.
+-Nova op√ßao de angulo de rota√ßao dos headers.
+-Nova op√ßao de manter o texto das celulas na mesma linha.
+-Nova op√ßao de configurar a cor do texto de celulas pintadas.
+Bugfix: ao carregar Voltar de um drilldown, o dashboard ja nao fica bloqueado (solu√ßao foi descodificar URL).
+Agora √© possivel drilldown no mesmo dashboard, a partir de tabelas, grafico de barras, heatmap, advanced discrete, status panel e singlestat.
+Nesses drilldowns, tambem podem ser levadas variaveis de repeti√ßao, de dashboard e de valores do painel em que foi carregado.
 
 v1.4.15 (16-04-2020):
-MudanÁas sobre offset revertidas das variaveis timeFrom e timeTo.
+Mudan√ßas sobre offset revertidas das variaveis timeFrom e timeTo.
 Adicionadas 4 variaveis com horas locais de portugal e horas locais com offset: timeFromLocal, timeToLocal, timeFromLocalOffset e timeToLocalOffset
 
 v1.4.14 (30-10-2019):
-Bugfix: datas na hora nova j· nao cortam os ultimos numeros.
+Bugfix: datas na hora nova j√° nao cortam os ultimos numeros.
 
 v1.4.13 (17-10-2019):
 Bugfix: drilldown em tabela tava a dar um undefined.
-Agora È possivel multiplos drilldowns, podendo andar para tr·s neles.
+Agora √© possivel multiplos drilldowns, podendo andar para tr√°s neles.
 
 v1.4.12 (16-10-2019):
 O botao Back de drilldown agora coloca de volta os parametros que estavam no dashboard inicial.
@@ -37,25 +40,25 @@ Adicionado polyfill de toBlob para exportar painel como imagem funcionar no Edge
 Adicionados mais icones para poderem ser injetados nas tabelas por SQL.
 
 v1.4.9 (18-07-2019):
-O login agora comunica ao HUB se o login foi ou nao bem sucedido (necessario para saber se falta sincronizar ou dominio È diferente do do HUB).
+O login agora comunica ao HUB se o login foi ou nao bem sucedido (necessario para saber se falta sincronizar ou dominio √© diferente do do HUB).
 
 v1.4.8 (08-07-2019):
-Agora o parametro "root_url" È dinamico e nao precisa de ser sempre mudado.
-TraduÁoes no ficheiro de exportaÁao CSV e formato de data alterado para um mais acessÌvel.
-Bugfix: OpÁao de Exportar CSV agora j· È mostrada para viewers.
-OpÁao "Mais..." desaparece se nao tiver opÁoes (no caso de ser um painel de texto numa conta de viewer).
+Agora o parametro "root_url" √© dinamico e nao precisa de ser sempre mudado.
+Tradu√ßoes no ficheiro de exporta√ßao CSV e formato de data alterado para um mais acess√≠vel.
+Bugfix: Op√ßao de Exportar CSV agora j√° √© mostrada para viewers.
+Op√ßao "Mais..." desaparece se nao tiver op√ßoes (no caso de ser um painel de texto numa conta de viewer).
 Texto no datepicker "desligado" passou para "desativado".
 
 v1.4.7 (03-06-2019):
-Agora o parametro "root_url" ter· de ser mudado sempre que se instala um Grafana num cliente.
-Removida a opÁao de publicar snapshot em serviÁo externo.
+Agora o parametro "root_url" ter√° de ser mudado sempre que se instala um Grafana num cliente.
+Removida a op√ßao de publicar snapshot em servi√ßo externo.
 
 v1.4.6 (31-05-2019):
-Texto mais compreensÌvel na caixa de partilha de dashboard.
+Texto mais compreens√≠vel na caixa de partilha de dashboard.
 Separador "Exportar" (para JSON) escondido para viewers  na caixa de partilha de dashboard.
-Tema agora È sempre o mesmo ao partilhar um dashboard por Link.
-TraduÁao do alerta "Dashboard not found".
-Drilldown nos graficos de grafana, tabelas e plugins melhorado: È mais r·pido e agora tem botao de Voltar no dashboard.
+Tema agora √© sempre o mesmo ao partilhar um dashboard por Link.
+Tradu√ßao do alerta "Dashboard not found".
+Drilldown nos graficos de grafana, tabelas e plugins melhorado: √© mais r√°pido e agora tem botao de Voltar no dashboard.
 
 v1.4.5 (23-05-2019):
 Nova possibilidade de definir limites de linhas verticais nos graficos com valores diretos, de variaveis ou de colunas das queries.
@@ -65,21 +68,21 @@ Separador "Embed" na modal de partilha de painel ja nao aparece para viewers.
 
 v1.4.4 (16-05-2019):
 Dashboards com a tag "hidden" ja nao aparecem na lista de dashboards de viewers
-Barra das vari·veis agora est· sempre visivel se se fizer scroll
-Alguns scrolls tirados se o analytics estiver a ser visto em ecr„ pequeno e espaÁo melhor aproveitado
+Barra das vari√°veis agora est√° sempre visivel se se fizer scroll
+Alguns scrolls tirados se o analytics estiver a ser visto em ecr√£ pequeno e espa√ßo melhor aproveitado
 
 v1.4.3 (10-05-2019):
 Compatibilidade com o browser Edge: login
 
 v1.4.2 (26-04-2019):
-Graficos "graph" agora tÍm as opÁoes de mostrar pontos, linhas ou barras
-Dropdown do gr·fico gauge j· tem as opÁıes em portuguÍs
+Graficos "graph" agora t√™m as op√ßoes de mostrar pontos, linhas ou barras
+Dropdown do gr√°fico gauge j√° tem as op√ß√µes em portugu√™s
 
 v1.4.1 (12-04-2019):
-Melhoramentos, traduÁoes e novos modificadores de variaveis ${variavel:text} e ${variavel:currentValue}
-Exportar CSV j· nao leva as tags HTML injetadas na query
+Melhoramentos, tradu√ßoes e novos modificadores de variaveis ${variavel:text} e ${variavel:currentValue}
+Exportar CSV j√° nao leva as tags HTML injetadas na query
 Phantomjs no commit (tirado do .gitignore)
-Novo mÈtodo para fazer download direto de imagem com o html2canvas (mais r·pido e d· para plugins)
+Novo m√©todo para fazer download direto de imagem com o html2canvas (mais r√°pido e d√° para plugins)
 
 v1.4.0 (09-04-2019):
 Merge com a versao mais recente do Grafana v6.1
@@ -88,10 +91,10 @@ v1.3.2:
 Username e password ja nao sao guardados no browser
 
 v1.3.1:
-RemoÁ„o do logger para tirar os logs desnecess·rios "update location".
+Remo√ß√£o do logger para tirar os logs desnecess√°rios "update location".
 
 v1.3:
-J· leva uma base de dados criada e limpa.
-Nova p·gina de entrada.
+J√° leva uma base de dados criada e limpa.
+Nova p√°gina de entrada.
 Nova variavel de nome de utilizador. Agora depende que os metodos da api e consultas considerem nome de utilizador.
 

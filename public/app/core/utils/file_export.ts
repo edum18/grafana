@@ -38,13 +38,36 @@ function formatSpecialHeader(useExcelHeader) {
   return useExcelHeader ? `sep=${END_COLUMN}${END_ROW}` : '';
 }
 
+// adicionado // fonte: https://stackoverflow.com/questions/175739/built-in-way-in-javascript-to-check-if-a-string-is-a-valid-number
+function isNumeric(str) {
+  if (typeof str !== 'string') {
+    return false; // we only process strings!
+  }
+  return (
+    !isNaN(str as any) && !isNaN(parseFloat(str)) // use type coercion to parse the _entirety_ of the string (`parseFloat` alone does not do this)...
+  ); // ...and ensure strings of whitespace fail
+}
+
 function formatRow(row, addEndRowDelimiter = true) {
   let text = '';
   for (let i = 0; i < row.length; i += 1) {
     if (isBoolean(row[i]) || isNumber(row[i]) || isNullOrUndefined(row[i])) {
-      text += row[i];
+      if (isNumber(row[i])) {
+        // adicionado o if e else
+        text += row[i].toString().replace('.', ',');
+      } else {
+        text += row[i];
+      }
     } else {
-      text += `${QUOTE}${csvEscaped(htmlUnescaped(htmlDecoded(row[i])))}${QUOTE}`;
+      // se é numero em formato string // adicionado if e else
+      let result = '';
+      if (isNumeric(row[i])) {
+        result = row[i].toString().replace('.', ',');
+      } else {
+        result = row[i];
+      }
+
+      text += `${QUOTE}${csvEscaped(htmlUnescaped(htmlDecoded(result)))}${QUOTE}`; // alterado
     }
 
     if (i < row.length - 1) {
