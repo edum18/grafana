@@ -9,6 +9,7 @@ export class LoginCtrl {
       user: '',
       email: '',
       password: '',
+      center: '',
     };
 
     $scope.command = {};
@@ -148,6 +149,7 @@ export class LoginCtrl {
       // const url = new URL(urlString);
       const user = $scope.getUrlParameter('user'); // url.searchParams.get('user');
       const pass = $scope.getUrlParameter('pass'); // url.searchParams.get('pass');
+      const center = $scope.getUrlParameter('center');
 
       //console.log("admin encoded: " + XORCipher.encode("acceptgrafana", "admin")); // AAcODB4=
       //console.log("admin decoded: " + XORCipher.decode("acceptgrafana", "AAcODB4=")); // admin
@@ -159,11 +161,18 @@ export class LoginCtrl {
         console.log('Grafana: Faltam dados de login. user e pass: ', user, pass);
         $scope.formModel.user = 'NA';
         $scope.formModel.password = 'NA'; // meter dados no form, que é para nao dar erros na console de null
+        $scope.formModel.center = 'NA';
         $scope.dadosEmFalta = true;
       } else {
         // inserir os dados de utilizador no modelo de user tirados do url
         $scope.formModel.user = user;
         $scope.formModel.password = XORCipher.decode('acceptgrafana', pass);
+
+        if (center) {
+          $scope.formModel.center = center;
+        } else {
+          $scope.formModel.center = 'NA';
+        }
 
         $timeout(() => {
           $scope.submit();
@@ -281,10 +290,28 @@ export class LoginCtrl {
 
       backendSrv
         .post('/login', $scope.formModel)
-        .then(result => {
+        .then(async result => {
           $scope.result = result;
 
           window.parent.postMessage('loginSuccess', '*'); // adicionado
+
+          // console.log('$scope.formModel.center', $scope.formModel.center);
+          if ($scope.formModel.center && $scope.formModel.center !== 'NA') {
+            try {
+              const response = await backendSrv.get(`/api/orgs/name/${$scope.formModel.center}`);
+              const organizationId = response.id;
+
+              await backendSrv.post(`/api/user/using/${organizationId}`); // /api/users/${userId}/using/${organizationId}
+            } catch (error) {
+              console.error(error);
+
+              $scope.loggingIn = false;
+              $scope.logando = false; // adicionado
+
+              window.parent.postMessage('loginFail', '*'); // adicionado
+              return;
+            }
+          }
 
           if ($scope.formModel.password !== 'admin' || $scope.ldapEnabled || $scope.authProxyEnabled) {
             $scope.toGrafana();
