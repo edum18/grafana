@@ -311,6 +311,9 @@ export class LoginCtrl {
               window.parent.postMessage('loginFail', '*'); // adicionado
               return;
             }
+          } else {
+            // se nao vier centro no pedido
+            await backendSrv.post(`/api/user/using/1`); // ir para a Main org
           }
 
           if ($scope.formModel.password !== 'admin' || $scope.ldapEnabled || $scope.authProxyEnabled) {

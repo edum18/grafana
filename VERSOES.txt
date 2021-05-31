@@ -1,3 +1,9 @@
+v1.5.1 (31-05-2021):
+Colocada organizaçao por defeito quando o pedido de login nao dá um centro.
+
+v1.5.0 (28-05-2021):
+Implementaçao da possibilidade do Grafana poder usar SQL Server como base de dados.
+
 v1.4.19 (29-04-2021):
 Implementação dos centros.
 

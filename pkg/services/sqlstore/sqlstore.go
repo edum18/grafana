@@ -11,6 +11,7 @@ import (
 	"testing"
 	"time"
 
+	_ "github.com/denisenkom/go-mssqldb"
 	"github.com/go-sql-driver/mysql"
 	"github.com/go-xorm/xorm"
 	"github.com/grafana/grafana/pkg/bus"
@@ -258,6 +259,28 @@ func (ss *SqlStore) buildConnectionString() (string, error) {
 		os.MkdirAll(path.Dir(ss.dbCfg.Path), os.ModePerm)
 		cnnstr = fmt.Sprintf("file:%s?cache=%s&mode=rwc", ss.dbCfg.Path, ss.dbCfg.CacheMode)
 		cnnstr += ss.buildExtraConnectionString('&')
+	case migrator.MSSQL:
+		var host, port = "127.0.0.1", "1433"
+		fields := strings.Split(ss.dbCfg.Host, ":")
+		if len(fields) > 0 && len(strings.TrimSpace(fields[0])) > 0 {
+			host = fields[0]
+		}
+		if len(fields) > 1 && len(strings.TrimSpace(fields[1])) > 0 {
+			port = fields[1]
+		}
+		cnnstr = fmt.Sprintf(`server=%s;port=%s;database=%s`, host, port, ss.dbCfg.Name)
+		if ss.dbCfg.User != "" && ss.dbCfg.Pwd != "" {
+			cnnstr += fmt.Sprintf(";user id=%s;password=%s", ss.dbCfg.User, ss.dbCfg.Pwd)
+		}
+		if ss.dbCfg.SslMode == "true" || ss.dbCfg.SslMode == "none" || ss.dbCfg.SslMode == "false" {
+			if ss.dbCfg.SslMode == "none" {
+				ss.dbCfg.SslMode = "disable" //disable is a bad default for mssql. Need to set to 'none' in order to use mssql driver's "disable" mode
+			}
+			cnnstr += ";encrypt=" + ss.dbCfg.SslMode
+		}
+		// cnnstr += ";charset=utf8mb4_unicode_ci" // TODO acrescentei isto
+
+		fmt.Println(cnnstr)
 	default:
 		return "", fmt.Errorf("Unknown database type: %s", ss.dbCfg.Type)
 	}
