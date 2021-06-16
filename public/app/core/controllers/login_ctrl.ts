@@ -293,15 +293,17 @@ export class LoginCtrl {
         .then(async result => {
           $scope.result = result;
 
-          window.parent.postMessage('loginSuccess', '*'); // adicionado
-
           // console.log('$scope.formModel.center', $scope.formModel.center);
           if ($scope.formModel.center && $scope.formModel.center !== 'NA') {
             try {
-              const response = await backendSrv.get(`/api/orgs/name/${$scope.formModel.center}`);
-              const organizationId = response.id;
-
-              await backendSrv.post(`/api/user/using/${organizationId}`); // /api/users/${userId}/using/${organizationId}
+              const response = await backendSrv.get(`/api/user/orgs`);
+              const foundOrganization = response.find(org => org.name === $scope.formModel.center);
+              if (!!foundOrganization) {
+                await backendSrv.post(`/api/user/using/${foundOrganization.orgId}`); // /api/users/${userId}/using/${organizationId}
+              } else {
+                console.error('Organização com o nome "' + $scope.formModel.center + '" não encontrada.');
+                return;
+              }
             } catch (error) {
               console.error(error);
 
@@ -315,6 +317,8 @@ export class LoginCtrl {
             // se nao vier centro no pedido
             await backendSrv.post(`/api/user/using/1`); // ir para a Main org
           }
+
+          window.parent.postMessage('loginSuccess', '*'); // adicionado
 
           if ($scope.formModel.password !== 'admin' || $scope.ldapEnabled || $scope.authProxyEnabled) {
             $scope.toGrafana();
