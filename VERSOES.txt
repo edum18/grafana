@@ -1,3 +1,6 @@
+v1.5.3 (17-06-2021):
+Adicionadas variaveis de tabela para se obter o nome/titulo da coluna de uma celula: ${__column_text} e ${__column_title}
+
 v1.5.2 (15-06-2021):
 Agora ao fazer login e ao mudar de centro, o utilizador já não precisa de ser admin.
 Agora o evento de login sucesso é emitido depois de mudar de organizaçao/centro.

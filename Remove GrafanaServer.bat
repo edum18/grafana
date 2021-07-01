@@ -1,1 +1,0 @@
-nssm.exe remove GrafanaServer confirm

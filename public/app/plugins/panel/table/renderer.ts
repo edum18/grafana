@@ -268,6 +268,8 @@ export class TableRenderer {
       // Render cell as link
       const scopedVars = this.renderRowVariables(rowIndex);
       scopedVars['__cell'] = { value: value };
+      scopedVars['__column_text'] = { value: column.text }; // adicionado ambas estas 2 linhas
+      scopedVars['__column_title'] = { value: column.title };
 
       // adicionado
       // explicado no graph.ts  porque foi feito o mesmo.
